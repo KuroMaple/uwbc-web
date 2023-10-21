@@ -1,5 +1,5 @@
-import { useState } from "react";
-import Member from "../views/Member";
+/* eslint-disable react/react-in-jsx-scope */
+import Member from '../views/Member'
 
 function App() {
 
@@ -7,7 +7,7 @@ function App() {
     <div className="">
       <Member />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

@@ -16,7 +16,7 @@ const Courts = () => {
         <Court number="8" />
       </div>
     </div>
-  );
+  )
 }
 
 export default Courts

@@ -1,5 +1,5 @@
 import React from 'react'
-import Player from '../Player';
+import Player from '../Player'
 interface Props {
     number: string
 }
@@ -14,7 +14,7 @@ const Court: React.FC<Props> = ({ number }) => {
         <Player />
       </div>
     </div>
-  );
+  )
 }
 
 export default Court

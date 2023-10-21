@@ -1,41 +1,78 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const setColor = (level: number) => {
   switch (level) {
-    case 1:
-      return {backgroundColor: "blue"}
-      break
-    case 2:
-      return {backgroundColor: "purple"}
-      break
-    case 3:
-      return {backgroundColor: "orange"}
-      break
-    case 4:
-      return {backgroundColor: "green"};
-      break
+  case 1:
+    return { backgroundColor: '#85FF2E' }
+    break
+  case 2:
+    return { backgroundColor: '#FEB700' }
+    break
+  case 3:
+    return { backgroundColor: '#FC1FFF' }
+    break
+  case 4:
+    return { backgroundColor: '#FFEF2E' }
+    break
 
-    default:
-      return {backgroundColor: 'white'}
-      break
+  default:
+    return {backgroundColor: 'white'}
+    break
   }
 }
 
-const cardStyles = setColor(3)
+const testNames = ['Josh Jones', 'Bobby Wu', 'Jackie Chan', 'Dwayne the Rock Johnson', 'Jeff Lai']
+const testId = [
+  'A12',
+  'B13',
+  'C09',
+  'D09',
+  'E08',
+]
+
 const Player = () => {
+  const [name, setName] = useState('')
+  const [id, setId] = useState('')
+  const [level, setLevel] = useState(0)
+  
+  const myRandom = (min: number, max: number) => {
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
+  const genPlayer = () => {
+
+    setName(testNames[myRandom(0,4)])
+    setId(testId[myRandom(0, 4)])
+    setLevel(myRandom(1,5))
+  }
+
+  useEffect(() => {
+    genPlayer()
+  }, [])
+  
+
   return (
-    <Box style={{ width: "100%", padding: "5px" }}>
-      <Card style={cardStyles}>
+    <Box
+      sx={{
+        width: '100%',
+        padding: '5px',
+      }}
+    >
+      <Card sx={setColor(level)}>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-            A12
+          <Typography
+            sx={{ fontSize: 14 }}
+            color="text.secondary"
+            gutterBottom
+          >
+            {id}
           </Typography>
-          Bob Jones
+          <p className="overflow-hidden">{name}</p>
         </CardContent>
       </Card>
     </Box>
-  );
+  )
 }
 
 export default Player

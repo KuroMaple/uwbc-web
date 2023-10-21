@@ -6,9 +6,9 @@ import Challenge from '../common/components/Challenge'
 const Member = () => {
   return (
     <div className='flex flex-row justify-evenly m-5 bg-blue-500 h-screen'>
-        <Courts />
-        <Challenge />
-        <Bench />
+      <Courts />
+      <Challenge />
+      <Bench />
 
     </div>
   )
