@@ -1,5 +1,6 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -35,6 +36,9 @@ const Player = () => {
   const [name, setName] = useState('')
   const [id, setId] = useState('')
   const [level, setLevel] = useState(0)
+
+  const dispatch = useDispatch()
+
   
   const myRandom = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1) + min)
