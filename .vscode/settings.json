@@ -3,6 +3,7 @@
   "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
   "editor.formatOnSaveMode": "file",
+  "prettier.semi": false,
   "tailwindCSS.includeLanguages": {
     "plaintext": "html"
   },

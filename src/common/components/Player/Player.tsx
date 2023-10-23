@@ -1,6 +1,6 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import { Positions } from '../../interfaces/IPlayer'
+import IPlayer, { Positions } from '../../interfaces/IPlayer'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -23,44 +23,19 @@ const setColor = (level: number) => {
   }
 }
 
-const testNames = ['Josh Jones', 'Bobby Wu', 'Jackie Chan', 'Dwayne the Rock Johnson', 'Jeff Lai']
-
-
-const generateUniqueId = () => {
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-  const randomLetter = letters[Math.floor(Math.random() * letters.length)]
-
-  // Generate a random number between 1 and 99, and pad it with leading zeros if necessary
-  const randomNumber = Math.floor(Math.random() * 99) + 1
-  const paddedNumber = randomNumber.toString().padStart(2, '0')
-
-  // Combine the random letter and padded number to form the UID
-  const uid = `${randomLetter}${paddedNumber}`
-
-  return uid
+interface Props {
+  player: IPlayer
 }
 
-const Player = () => {
-  const [name, setName] = useState('')
-  const [id, setId] = useState('')
-  const [level, setLevel] = useState(0)
-  const [position, setPosition] = useState<Positions>()
+const Player: React.FC<Props> = ({ player }) => {
+  const [name, setName] = useState(player.name)
+  const [id, setId] = useState(player.id)
+  const [level, setLevel] = useState(player.level)
+  const [position, setPosition] = useState<Positions>(player.position)
 
 
   
-  const myRandom = (min: number, max: number) => {
-    return Math.floor(Math.random() * (max - min + 1) + min)
-  }
 
-  const genPlayer = () => {
-    setName(testNames[myRandom(0,4)])
-    setId(generateUniqueId)
-    setLevel(myRandom(1,5))
-  }
-
-  useEffect(() => {
-    genPlayer()
-  }, [])
   
 
   return (
