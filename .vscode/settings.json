@@ -1,7 +1,8 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "editor.formatOnPaste": true,
   "editor.formatOnSave": true,
+  "javascript.format.insertSemicolons": false,
+  "typescript.format.insertSemicolons": false,
   "editor.formatOnSaveMode": "file",
   "prettier.semi": false,
   "tailwindCSS.includeLanguages": {

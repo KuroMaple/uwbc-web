@@ -21,10 +21,10 @@ export const playersSlice = createSlice({
   name: 'playerArray',
   initialState,
   reducers: {
-    setPos: (state, action: PayloadAction<playerPosAction>) => {
-      const player = state.players.find(player => player.id === action.payload.id)
+    addToChallenge: (state, action) => {
+      const player = state.players.find(player => player.id === action.payload)
       if(player){
-        player.position = action.payload.position
+        player.position = Positions.Challenge
       }
     },
 
@@ -34,6 +34,6 @@ export const playersSlice = createSlice({
   },
 })
 
-export const { setPos, addPlayer } = playersSlice.actions
+export const { addToChallenge, addPlayer } = playersSlice.actions
 
 export default playersSlice.reducer

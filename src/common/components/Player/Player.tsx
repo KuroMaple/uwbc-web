@@ -1,6 +1,8 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
+import { useDrag } from 'react-dnd'
+import { ItemTypes } from '../../interfaces/DraggableTypes'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -33,6 +35,14 @@ const Player: React.FC<Props> = ({ player }) => {
   const [level, setLevel] = useState(player.level)
   const [position, setPosition] = useState<Positions>(player.position)
 
+  // React Drag n Drop Logic
+  // Makes the Player tag Draggable Visually
+  const [{isDragging}, drag] = useDrag(() => ({
+    type: ItemTypes.PLAYER,
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }))
 
   
 
@@ -44,6 +54,7 @@ const Player: React.FC<Props> = ({ player }) => {
         width: '100%',
         padding: '5px',
       }}
+      ref={drag}
     >
       <Card sx={setColor(level)}>
         <CardContent>
