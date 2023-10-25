@@ -39,10 +39,12 @@ const Player: React.FC<Props> = ({ player }) => {
   // Makes the Player tag Draggable Visually
   const [{isDragging}, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
+    item: player,
     collect: monitor => ({
       isDragging: !!monitor.isDragging(),
     }),
   }))
+
 
   
 

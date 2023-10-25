@@ -22,7 +22,7 @@ export const playersSlice = createSlice({
   initialState,
   reducers: {
     addToChallenge: (state, action) => {
-      const player = state.players.find(player => player.id === action.payload)
+      const player = state.players.find(player => player === action.payload)
       if(player){
         player.position = Positions.Challenge
       }
