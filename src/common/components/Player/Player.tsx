@@ -36,25 +36,20 @@ const Player: React.FC<Props> = ({ player }) => {
   const [position, setPosition] = useState<Positions>(player.position)
 
   // React Drag n Drop Logic
-  // Makes the Player tag Draggable Visually
   const [{isDragging}, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
-    item: player,
+    item: {id: id},
     collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
+      isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
     }),
   }))
-
-
-  
-
-  
 
   return (
     <Box
       sx={{
         width: '100%',
         padding: '5px',
+        border: isDragging ? '5px solid pink' : '0px' // Border to confirm dragging status
       }}
       ref={drag}
     >

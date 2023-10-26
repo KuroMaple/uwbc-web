@@ -1,41 +1,37 @@
 import React, { useState } from 'react'
 import { useDrop } from 'react-dnd'
 import { ItemTypes } from '../interfaces/DraggableTypes'
-import { useDispatch, useSelector } from 'react-redux'
-import { addToChallenge } from '../../app/playersSlice'
 import IPlayer, { Positions } from '../interfaces/IPlayer'
-import { RootState } from '../../app/store'
 import Player from './Player/Player'
-import { genPlayer } from './Player/playerGen'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../app/store'
+import { moveToChallenge } from '../../app/playersSlice'
 
 
 const Challenge = () => {
-  //Players that are in Challenge
-  const challengePlayers = useSelector((state: RootState) => state.players.players.filter((player: IPlayer) => player.position === 'challenge'))
-  
-  //Redux updater
+  const challengePlayers = useSelector((state: RootState) => state.players.players.filter((player: IPlayer) => player.position === Positions.Challenge))
   const dispatch = useDispatch()
 
-
-  
-  // Dropping Logic for React DnD
-  const [{  item, isOver}, drop] = useDrop(() => ({
+  //React dnd Recieve player logic
+  const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: () => console.log('Item Dropped in challenge'), // Debugging
-    collect: monitor => ({
-      isOver: !!monitor.isOver(),
-      item: monitor.getItem()
-    }),
-  }), [])
+    drop: (item: any) => dispatch(moveToChallenge(item.id)),
+    collect: (monitor) => ({
+      // Use is over to modify behaviour when user is currently dragging
+      isOver: !!monitor.isOver(), // !! converts value to boolean
 
-
+    }), 
+  }))
   
   return (
-    <div className="flex w-1/3 flex-col place-items-center bg-yellow-600 p-10" 
+    <div 
+    className="flex w-1/3 flex-col place-items-center bg-yellow-600 p-10" 
     ref={drop}>
       <h2>Challenge Queue</h2>
       <div className="flex w-full flex-col">
-
+        {challengePlayers.map((player) => {
+          return <Player key={player.id} player={player}/>
+        })}
       </div>  
     </div>
   )
