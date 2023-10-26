@@ -17,43 +17,25 @@ const Challenge = () => {
   const dispatch = useDispatch()
 
 
-  const [first, setfirst] = useState<IPlayer>()
-  //Updated Dropped player to be in Challenge position
-  const setToChallenge = () => {
-    setfirst(item)
-  }
-
   
-  console.log(first)
   // Dropping Logic for React DnD
   const [{  item, isOver}, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: () => setToChallenge(), // Debugging
+    drop: () => console.log('Item Dropped in challenge'), // Debugging
     collect: monitor => ({
       isOver: !!monitor.isOver(),
       item: monitor.getItem()
     }),
   }), [])
-  
-  dispatch(addToChallenge(item))
 
 
-  // Hardcode values for demo
-  const player1 = genPlayer(Positions.Court1)
-  const player2 = genPlayer(Positions.Court1)
-  const player3 = genPlayer(Positions.Court1)
-  const player4 = genPlayer(Positions.Court1)
   
   return (
     <div className="flex w-1/3 flex-col place-items-center bg-yellow-600 p-10" 
     ref={drop}>
       <h2>Challenge Queue</h2>
       <div className="flex w-full flex-col">
-        {/* Hard coded values for demo */}
-        <Player player={player1}/>
-        <Player player={player2}/>
-        <Player player={player3}/>
-        <Player player={player4}/>
+
       </div>  
     </div>
   )
