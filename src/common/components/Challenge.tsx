@@ -17,14 +17,8 @@ const Challenge = () => {
   const dispatch = useDispatch()
 
 
-  const [first, setfirst] = useState<IPlayer>()
-  //Updated Dropped player to be in Challenge position
-  const setToChallenge = () => {
-    setfirst(item)
-  }
+ 
 
-  
-  console.log(first)
   // Dropping Logic for React DnD
   const [{  item, isOver}, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,

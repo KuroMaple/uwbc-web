@@ -4,8 +4,14 @@ import Bench from '../common/components/Bench'
 import Challenge from '../common/components/Challenge'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
+import { useGetPlayerQuery } from '../services/apis/player'
 
 const Member = () => {
+
+  const {data: getMembers} = useGetPlayerQuery()
+
+  console.log(getMembers)
+
   return (
     <div className='flex flex-row justify-evenly m-5 bg-blue-500 h-screen'>
       <DndProvider backend={HTML5Backend}>
