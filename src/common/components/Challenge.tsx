@@ -5,7 +5,8 @@ import IPlayer, { Positions } from '../interfaces/IPlayer'
 import Player from './Player/Player'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../app/store'
-import { moveToChallenge } from '../../app/playersSlice'
+import { movePlayer } from '../../app/playersSlice'
+
 
 
 const Challenge = () => {
@@ -15,7 +16,12 @@ const Challenge = () => {
   //React dnd Recieve player logic
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: (item: any) => dispatch(moveToChallenge(item.id)),
+    drop: (item: any) => dispatch(movePlayer(
+      {
+        newPosition: Positions.Challenge,
+        movedPlayerId: item.id
+      }
+    )),
     collect: (monitor) => ({
       // Use is over to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean

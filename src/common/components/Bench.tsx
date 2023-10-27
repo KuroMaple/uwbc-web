@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import IPlayer, { Positions } from '../interfaces/IPlayer'
 import { RootState } from '../../app/store'
 import Player from './Player/Player'
-import { addPlayer, moveToBench, moveToChallenge } from '../../app/playersSlice'
+import { addPlayer, movePlayer} from '../../app/playersSlice'
 import { genPlayer } from './Player/playerGen'
 import { useDragDropManager, useDrop } from 'react-dnd'
 import { ItemTypes } from '../interfaces/DraggableTypes'
@@ -16,7 +16,12 @@ const Bench = () => {
   const dispatch = useDispatch()
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: (item: any) => dispatch(moveToBench(item.id)),
+    drop: (item: any) => dispatch(movePlayer(
+      {
+        newPosition: Positions.Bench,
+        movedPlayerId: item.id
+      }
+    )),
     collect: (monitor) => ({
       // Use is over to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean
@@ -42,4 +47,4 @@ const Bench = () => {
   )
 }
 
-export default Bench
+export default React.memo(Bench)

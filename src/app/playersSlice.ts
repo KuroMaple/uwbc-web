@@ -5,7 +5,10 @@ interface PlayersState {
   players: IPlayer[];
 }
 
-
+export type PlayerDropAction = {
+  newPosition: Positions
+  movedPlayerId: string
+}
 
 
 // Define the initial state using that type
@@ -20,25 +23,18 @@ export const playersSlice = createSlice({
     addPlayer: (state, action: PayloadAction<IPlayer>) => {
       state.players.push(action.payload)
     },
-    moveToChallenge: (state, action: PayloadAction<string>) => {
-      //Modify the Player whose id matches to Position.challenge
-      const changedPlayer = state.players.find(player => player.id === action.payload) // The player to change
+    movePlayer: (state, action: PayloadAction<PlayerDropAction>) => {
+      //Find ID match
+      const changedPlayer = state.players.find(player => player.id === action.payload.movedPlayerId) // The player to change
+
       if(changedPlayer){
         // Since object is wrapped in a proxy, doing this somehow mutates it see: https://redux-toolkit.js.org/usage/immer-reducers
-        changedPlayer.position = Positions.Challenge
-      }
-    },
-    moveToBench: (state, action: PayloadAction<string>) => {
-      //Modify the Player whose id matches to Position.challenge
-      const changedPlayer = state.players.find(player => player.id === action.payload) // The player to change
-      if(changedPlayer){
-        // Since object is wrapped in a proxy, doing this somehow mutates it see: https://redux-toolkit.js.org/usage/immer-reducers
-        changedPlayer.position = Positions.Bench
+        changedPlayer.position = action.payload.newPosition
       }
     },
   },
 })
 
-export const { addPlayer, moveToChallenge, moveToBench } = playersSlice.actions
+export const { addPlayer, movePlayer } = playersSlice.actions
 
 export default playersSlice.reducer
