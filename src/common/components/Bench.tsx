@@ -3,14 +3,15 @@ import { useDispatch, useSelector } from 'react-redux'
 import IPlayer, { Positions } from '../interfaces/IPlayer'
 import { RootState } from '../../app/store'
 import Player from './Player/Player'
-import { addPlayer, movePlayer} from '../../app/playersSlice'
+import { addPlayer, movePlayer, selectPlayers, selectPlayersinBench} from '../../app/playersSlice'
 import { genPlayer } from './Player/playerGen'
 import { useDragDropManager, useDrop } from 'react-dnd'
 import { ItemTypes } from '../interfaces/DraggableTypes'
 
 
 const Bench = () => {
-  const benchPlayers = useSelector((state: RootState) => state.players.players.filter((player: IPlayer) => player.position === Positions.Bench))
+  const players = selectPlayers
+  const benchPlayers = selectPlayersinBench(state)
   
 
   const dispatch = useDispatch()

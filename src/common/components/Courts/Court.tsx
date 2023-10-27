@@ -16,20 +16,10 @@ const Court: React.FC<Props> = ({ courtNumber }) => {
   const courtPlayers: IPlayer[] = useSelector((state: RootState) => state.players.players.filter((player: IPlayer) => player.position === courtNumber as Positions))
 
 
-  let droppable = true
-
-  useEffect(() => {
-    if (courtPlayers.length == 4) {
-      droppable = false
-      console.log('No longer dropable')
-    }
-  }, [courtPlayers])
-  
   
   const dispatch = useDispatch()
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    canDrop: () => droppable,
     drop: (item: any, monitor) => {
         dispatch(movePlayer(
           {

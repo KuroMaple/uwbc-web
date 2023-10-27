@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSelector, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import IPlayer, { Positions } from '../common/interfaces/IPlayer'
 
 interface PlayersState {
@@ -38,3 +38,10 @@ export const playersSlice = createSlice({
 export const { addPlayer, movePlayer } = playersSlice.actions
 
 export default playersSlice.reducer
+
+export const selectPlayers = (state: PlayersState) => state.players
+
+
+export const selectPlayersinBench = createSelector([selectPlayers], (players) => {
+  return players.filter((player: IPlayer) => player.position === Positions.Bench)
+})

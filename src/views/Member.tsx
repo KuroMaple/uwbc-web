@@ -9,8 +9,8 @@ const Member = () => {
   return (
     <div className='flex flex-row justify-evenly m-5 bg-blue-500 h-screen'>
       <DndProvider backend={HTML5Backend}>
-        <Courts />
-        <Challenge />
+        {/* <Courts />
+        <Challenge /> */}
         <Bench />
       </DndProvider>
 
