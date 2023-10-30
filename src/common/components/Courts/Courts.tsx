@@ -1,5 +1,4 @@
-import React from 'react';
-import Court from './Court';
+import Court from './Court'
 
 const Courts = () => {
   return (
@@ -16,7 +15,7 @@ const Courts = () => {
         <Court courtNumber="8" /> */}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Courts;
+export default Courts
