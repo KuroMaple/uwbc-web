@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import IPlayer from '../../common/interfaces/IPlayer'
 
 interface BenchState {
@@ -12,7 +12,13 @@ const initialState: BenchState = {
 const benchSlice = createSlice({
   name: 'bench',
   initialState,
-  reducers: {}
+  reducers: {
+    addPlayer:(state, action: PayloadAction<IPlayer>) => {
+      state.players.push(action.payload)
+    },
+  }
 })
+
+export const { addPlayer } = benchSlice.actions
 
 export default benchSlice.reducer

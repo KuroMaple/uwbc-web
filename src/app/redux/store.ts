@@ -1,14 +1,14 @@
-import { configureStore } from '@reduxjs/toolkit';
-// Or from '@reduxjs/toolkit/query/react'
-import { setupListeners } from '@reduxjs/toolkit/query';
-import baseApi from '../../services/apis/baseApi';
-import playersReducer from './courtSlice';
-import benchReducer from './benchSlice';
+import { configureStore } from '@reduxjs/toolkit'
+import { setupListeners } from '@reduxjs/toolkit/query'
+import baseApi from '../../services/apis/baseApi'
+import benchReducer from './benchSlice'
 
 export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
+    // Reducer for RTK query
     [baseApi.reducerPath]: baseApi.reducer,
+    //Reducers for RTK state management
+    bench: benchReducer,
   },
 
   // Adding the api middleware enables caching, invalidation, polling,

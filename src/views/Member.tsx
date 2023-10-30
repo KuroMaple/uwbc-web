@@ -1,9 +1,8 @@
-import React from 'react';
-import Courts from '../common/components/Courts/Courts';
-import Bench from '../common/components/Bench';
-import Challenge from '../common/components/Challenge';
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+import Courts from '../common/components/Courts/Courts'
+import Bench from '../common/components/Bench'
+import Challenge from '../common/components/Challenge'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const Member = () => {
   return (
@@ -14,7 +13,7 @@ const Member = () => {
         <Bench />
       </DndProvider>
     </div>
-  );
-};
+  )
+}
 
-export default Member;
+export default Member
