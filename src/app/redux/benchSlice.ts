@@ -11,5 +11,8 @@ const initialState: BenchState = {
 
 const benchSlice = createSlice({
   name: 'bench',
-  initialState:
+  initialState,
+  reducers: {}
 })
+
+export default benchSlice.reducer
