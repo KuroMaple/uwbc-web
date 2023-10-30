@@ -8,8 +8,8 @@ const Member = () => {
   return (
     <div className="m-5 flex h-screen flex-row justify-evenly bg-blue-500">
       <DndProvider backend={HTML5Backend}>
-        {/* <Courts />
-        <Challenge /> */}
+        {/* <Courts /> */}
+        <Challenge />
         <Bench />
       </DndProvider>
     </div>

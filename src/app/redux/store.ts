@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import baseApi from '../../services/apis/baseApi'
-import benchReducer from './benchSlice'
+import gymReducer from './gymSlice'
 
 export const store = configureStore({
   reducer: {
     // Reducer for RTK query
     [baseApi.reducerPath]: baseApi.reducer,
     //Reducers for RTK state management
-    bench: benchReducer,
+    gym: gymReducer,
   },
 
   // Adding the api middleware enables caching, invalidation, polling,

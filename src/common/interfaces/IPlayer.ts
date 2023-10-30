@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export enum Positions {
   Court1 = '1',
   Court2 = '2',

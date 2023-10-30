@@ -4,7 +4,7 @@ import IPlayer, { Positions } from '../../interfaces/IPlayer';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../app/redux/store';
 import { useDrop } from 'react-dnd';
-import { ItemTypes } from '../../interfaces/DraggableTypes';
+import { ItemTypes } from '../../../app/redux/DndTypes';
 import { movePlayer } from '../../../app/redux/courtSlice';
 
 interface Props {

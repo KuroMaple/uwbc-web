@@ -9,7 +9,6 @@
     "es2021": true
   },
   "extends": [
-    "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:react/recommended",
     "plugin:react/jsx-runtime",
@@ -22,7 +21,7 @@
   },
   "plugins": ["@typescript-eslint", "react"],
   "rules": {
-    "no-unused-vars": "error",
+    "no-unused-vars": "warn",
     "indent": ["error", 2],
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "single"],

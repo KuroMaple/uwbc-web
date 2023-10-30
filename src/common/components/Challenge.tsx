@@ -1,32 +1,29 @@
-import React, { useState } from 'react'
 import { useDrop } from 'react-dnd'
-import { ItemTypes } from '../interfaces/DraggableTypes'
+import { ItemTypes, PlayerDropType } from '../../app/redux/DndTypes'
 import IPlayer, { Positions } from '../interfaces/IPlayer'
 import Player from './Player/Player'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../app/redux/store'
-import { movePlayer } from '../../app/redux/courtSlice'
+import { movePlayerTo } from '../../app/redux/gymSlice'
 
 const Challenge = () => {
-  const challengePlayers = useSelector((state: RootState) =>
-    state.players.players.filter(
-      (player: IPlayer) => player.position === Positions.Challenge,
-    ),
-  )
+  const challengePlayers = useSelector((state: RootState) => state.gym.challengePlayers)
+
   const dispatch = useDispatch()
 
   //React dnd Recieve player logic
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: (item: any) =>
+    drop: (item: PlayerDropType) =>
       dispatch(
-        movePlayer({
-          newPosition: Positions.Challenge,
-          movedPlayerId: item.id,
+        movePlayerTo({
+          source: item.source,
+          target: Positions.Challenge,
+          movedPlayerId: item.movedPlayerId
         }),
       ),
     collect: (monitor) => ({
-      // Use is over to modify behaviour when user is currently dragging
+      // Use isOver to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean
     }),
   }))
@@ -38,8 +35,8 @@ const Challenge = () => {
     >
       <h2>Challenge Queue</h2>
       <div className="flex w-full flex-col">
-        {challengePlayers.map((player) => {
-          return <Player key={player.id} player={player} />
+        {challengePlayers.map((player: IPlayer) => {
+          return <Player key={player.id} player={player} parent={Positions.Challenge}/>
         })}
       </div>
     </div>
