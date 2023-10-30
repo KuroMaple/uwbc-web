@@ -1,51 +1,55 @@
-import React, { memo, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import IPlayer, { Positions } from '../interfaces/IPlayer'
-import { RootState } from '../../app/store'
+import { RootState } from '../../app/redux/store'
 import Player from './Player/Player'
-import { addPlayer, movePlayer, selectPlayers, selectPlayersinBench} from '../../app/playersSlice'
+import {
+    addPlayer,
+    movePlayer,
+    selectPlayers,
+    selectPlayersinBench,
+} from '../../app/redux/courtSlice'
 import { genPlayer } from './Player/playerGen'
 import { useDragDropManager, useDrop } from 'react-dnd'
 import { ItemTypes } from '../interfaces/DraggableTypes'
 
-
 const Bench = () => {
-  const players = selectPlayers
-  const benchPlayers = selectPlayersinBench(state)
-  
+    const players = selectPlayers
+    const benchPlayers = selectPlayersinBench(state)
 
-  const dispatch = useDispatch()
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemTypes.PLAYER,
-    drop: (item: any) => dispatch(movePlayer(
-      {
-        newPosition: Positions.Bench,
-        movedPlayerId: item.id
-      }
-    )),
-    collect: (monitor) => ({
-      // Use is over to modify behaviour when user is currently dragging
-      isOver: !!monitor.isOver(), // !! converts value to boolean
+    const dispatch = useDispatch()
+    const [{ isOver }, drop] = useDrop(() => ({
+        accept: ItemTypes.PLAYER,
+        drop: (item: any) =>
+            dispatch(
+                movePlayer({
+                    newPosition: Positions.Bench,
+                    movedPlayerId: item.id,
+                }),
+            ),
+        collect: (monitor) => ({
+            // Use is over to modify behaviour when user is currently dragging
+            isOver: !!monitor.isOver(), // !! converts value to boolean
+        }),
+    }))
 
-    }), 
-  }))
-
-  return (
-    <div className="flex w-1/3 flex-col place-items-center p-10" ref={drop}>
-      <h1>Bench</h1>
-      <button
-        className="border border-solid border-black p-4"
-        onClick={() => {dispatch(addPlayer(genPlayer(Positions.Bench)))}}
-      >
+    return (
+        <div className="flex w-1/3 flex-col place-items-center p-10" ref={drop}>
+            <h1>Bench</h1>
+            <button
+                className="border border-solid border-black p-4"
+                onClick={() => {
+                    dispatch(addPlayer(genPlayer(Positions.Bench)))
+                }}
+            >
         Add Player
-      </button>
-      <div>
-        {benchPlayers.map((player) => (
-          <Player key={player.id} player={player} />
-        ))}
-      </div>
-    </div>
-  )
+            </button>
+            <div>
+                {benchPlayers.map((player) => (
+                    <Player key={player.id} player={player} />
+                ))}
+            </div>
+        </div>
+    )
 }
 
-export default React.memo(Bench)
+export default Bench
