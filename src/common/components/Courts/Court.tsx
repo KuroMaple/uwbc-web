@@ -35,7 +35,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
   const dispatch = useDispatch()
 
-  const [{ isOver }, drop] = useDrop(() => ({
+  const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
     canDrop: isDroppable,
     drop: (item: PlayerDropType) => {
@@ -50,11 +50,19 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     collect: (monitor) => ({
       // Use isOver to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean
+      canDrop: !!monitor.canDrop()
     }),
   }), [players])
 
+  //Alter court background based on hover
+  let backgroundColor = '#9E9E9E'
+  if (isOver && canDrop) {
+    backgroundColor = '#4CAF50'
+  } else if(isOver && !canDrop) {
+    backgroundColor = '#F44336'
+  }
   return (
-    <div className="relative border border-solid border-black p-4" ref={drop}>
+    <div className="relative border border-solid border-black p-4" style={{ backgroundColor }} ref={drop}>
       <h2 className="absolute left-0 top-0">Court {courtNumber}</h2>
       <div className="grid grid-cols-2 gap-4 p-4">
         {players?.map((player) => (
