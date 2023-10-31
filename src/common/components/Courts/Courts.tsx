@@ -1,3 +1,4 @@
+import { Positions } from '../../interfaces/IPlayer'
 import Court from './Court'
 
 const Courts = () => {
@@ -5,7 +6,7 @@ const Courts = () => {
     <div className="h-full w-full bg-fuchsia-300 p-2">
       <h1 className="font-bold">Courts</h1>
       <div className="grid h-5/6 w-full grid-cols-2 gap-4">
-        <Court courtNumber="1" />
+        <Court courtNumber='1' courtPosition={Positions.Court1} />
         {/* <Court courtNumber="2" />
         <Court courtNumber="3" />
         <Court courtNumber="4" />

@@ -5,14 +5,18 @@ import { PlayerMoveAction } from './DndTypes'
 interface GymState {
   benchPlayers: IPlayer[],
   challengePlayers: IPlayer[],
-  court1: IPlayer[]
+  court1: {
+    players: IPlayer[],
+  }
 
 }
 
 const initialState: GymState = {
   benchPlayers: [],
   challengePlayers: [],
-  court1: []
+  court1: {
+    players: [],
+  }
 }
 
 
@@ -43,8 +47,8 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court1): {
-        movedPlayer = state.court1.find(player => player.id === action.payload.movedPlayerId)!
-        state.court1 = state.court1.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court1.players.find(player => player.id === action.payload.movedPlayerId)!
+        state.court1.players = state.court1.players.filter(player => player.id !== action.payload.movedPlayerId)
         break
       }
       // case Positions.Court2:
@@ -75,7 +79,7 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court1): {
-        state.court1.push(movedPlayer)
+        state.court1.players.push(movedPlayer)
         break
       }
         // case Positions.Court2:
@@ -93,7 +97,6 @@ const gymSlice = createSlice({
         // case Positions.Court8:
         //    'Court 8'
       }
-
     },
   }
 })
