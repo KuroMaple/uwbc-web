@@ -16,8 +16,30 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     switch (courtPosition) {
     case Positions.Court1:
       return state.gym.court1.players
+    case Positions.Court2: {
+      return state.gym.court2.players
     }
-  })
+    case Positions.Court3: {
+      return state.gym.court3.players
+    }
+    case Positions.Court4: {
+      return state.gym.court4.players
+    }
+    case Positions.Court5: {
+      return state.gym.court5.players
+    }
+    case Positions.Court6: {
+      return state.gym.court6.players
+    }
+    case Positions.Court7: {
+      return state.gym.court7.players
+    }
+    case Positions.Court8: {
+      return state.gym.court8.players
+    }
+    }
+    
+  })!
 
 
   const [players, setPlayers] = useState(courtPlayers)
@@ -30,7 +52,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   
   // Calculates whether the court has reached its player limit
   const isDroppable = () => {
-    return players?.length < 4
+    return players.length < 4
   }
 
   const dispatch = useDispatch()
@@ -42,7 +64,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       dispatch(
         movePlayerTo({
           source: item.source,
-          target: courtPosition ?? Positions.Challenge,
+          target: courtPosition,
           movedPlayerId: item.movedPlayerId,
         }),
       )
@@ -65,7 +87,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     <div className="relative border border-solid border-black p-4" style={{ backgroundColor }} ref={drop}>
       <h2 className="absolute left-0 top-0">Court {courtNumber}</h2>
       <div className="grid grid-cols-2 gap-4 p-4">
-        {players?.map((player) => (
+        {players.map((player) => (
           <Player key={player.id} player={player} parent={courtPosition}/>
         ))}
       </div>
