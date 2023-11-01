@@ -45,12 +45,20 @@ const Player: React.FC<Props> = ({ player, parent }) => {
     }),
   }))
 
+  if(isDragging){
+    return <Box 
+      sx={{
+        width: '100%',
+        padding: '5px',
+      }}
+      ref={drag}/>
+  }
+
   return (
     <Box
       sx={{
         width: '100%',
         padding: '5px',
-        border: isDragging ? '5px solid pink' : '0px', // Border to confirm dragging status
       }}
       ref={drag}
     >
