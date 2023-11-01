@@ -3,11 +3,12 @@ import Bench from '../common/components/Bench'
 import Challenge from '../common/components/Challenge'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { useGetPlayerQuery } from '../services/apis/player'
+import { useGetMembersQuery } from '../services/apis/members'
+
 
 const Member = () => {
 
-  const {data: getMembers} = useGetPlayerQuery()
+  const {data: getMembers} = useGetMembersQuery()
 
   console.log(getMembers)
 
