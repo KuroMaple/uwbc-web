@@ -1,19 +1,20 @@
+/* eslint-disable no-unused-vars */
 export enum Positions {
-  Court1 = 'court1',
-  Court2 = 'court2',
-  Court3 = 'court3',
-  Court4 = 'court4',
-  Court5 = 'court5',
-  Court6 = 'court6',
-  Court7 = 'court7',
-  Court8 = 'court8',
+  Court1 = '1',
+  Court2 = '2',
+  Court3 = '3',
+  Court4 = '4',
+  Court5 = '5',
+  Court6 = '6',
+  Court7 = '7',
+  Court8 = '8',
   Challenge = 'challenge',
   Bench = 'bench',
 }
 
 export default interface IPlayer {
-  name: string
-  id: string
-  level: number
-  position: Positions
+  name: string;
+  id: string;
+  level: number;
+  position: Positions;
 }

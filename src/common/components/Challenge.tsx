@@ -1,60 +1,44 @@
-import React, { useState } from 'react'
 import { useDrop } from 'react-dnd'
-import { ItemTypes } from '../interfaces/DraggableTypes'
-import { useDispatch, useSelector } from 'react-redux'
-import { addToChallenge } from '../../app/playersSlice'
+import { ItemTypes, PlayerDropType } from '../../app/redux/DndTypes'
 import IPlayer, { Positions } from '../interfaces/IPlayer'
-import { RootState } from '../../app/store'
 import Player from './Player/Player'
-import { genPlayer } from './Player/playerGen'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../app/redux/store'
+import { movePlayerTo } from '../../app/redux/gymSlice'
 
 const Challenge = () => {
-  //Players that are in Challenge
-  const challengePlayers = useSelector((state: RootState) => state.players.players.filter((player: IPlayer) => player.position === 'challenge'))
-  
-  //Redux updater
+  const challengePlayers = useSelector((state: RootState) => state.gym.challengePlayers)
+
   const dispatch = useDispatch()
 
-
-  const [first, setfirst] = useState<IPlayer>()
-  //Updated Dropped player to be in Challenge position
-  const setToChallenge = () => {
-    setfirst(item)
-  }
-
-  
-  console.log(first)
-  // Dropping Logic for React DnD
-  const [{  item, isOver}, drop] = useDrop(() => ({
+  //React dnd Recieve player logic
+  const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: () => setToChallenge(), // Debugging
-    collect: monitor => ({
-      isOver: !!monitor.isOver(),
-      item: monitor.getItem()
+    drop: (item: PlayerDropType) =>
+      dispatch(
+        movePlayerTo({
+          source: item.source,
+          target: Positions.Challenge,
+          movedPlayerId: item.movedPlayerId
+        }),
+      ),
+    collect: (monitor) => ({
+      // Use isOver to modify behaviour when user is currently dragging
+      isOver: !!monitor.isOver(), // !! converts value to boolean
     }),
-  }), [])
-  
-  dispatch(addToChallenge(item))
+  }))
 
-
-  // Hardcode values for demo
-  const player1 = genPlayer(Positions.Court1)
-  const player2 = genPlayer(Positions.Court1)
-  const player3 = genPlayer(Positions.Court1)
-  const player4 = genPlayer(Positions.Court1)
-  
   return (
-    <div className="flex w-1/3 flex-col place-items-center bg-yellow-600 p-10" 
-    ref={drop}>
+    <div
+      className="flex w-1/3 flex-col place-items-center bg-yellow-600 p-10"
+      ref={drop}
+    >
       <h2>Challenge Queue</h2>
       <div className="flex w-full flex-col">
-        {/* Hard coded values for demo */}
-        <Player player={player1}/>
-        <Player player={player2}/>
-        <Player player={player3}/>
-        <Player player={player4}/>
-      </div>  
+        {challengePlayers.map((player: IPlayer) => {
+          return <Player key={player.id} player={player} parent={Positions.Challenge}/>
+        })}
+      </div>
     </div>
   )
 }
