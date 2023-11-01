@@ -1,8 +1,8 @@
 import { Box, Card, CardContent, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
-import { ItemTypes } from '../../interfaces/DraggableTypes'
+import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -20,35 +20,39 @@ const setColor = (level: number) => {
     break
 
   default:
-    return {backgroundColor: 'white'}
+    return { backgroundColor: 'white' }
     break
   }
 }
 
 interface Props {
   player: IPlayer
+  parent: Positions
 }
 
-const Player: React.FC<Props> = ({ player }) => {
+const Player: React.FC<Props> = ({ player, parent }) => {
   const [name, setName] = useState(player.name)
   const [id, setId] = useState(player.id)
   const [level, setLevel] = useState(player.level)
   const [position, setPosition] = useState<Positions>(player.position)
 
   // React Drag n Drop Logic
-  // Makes the Player tag Draggable Visually
-  const [{isDragging}, drag] = useDrag(() => ({
+  const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
-    item: player,
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
+    item: { movedPlayerId: id, source: parent } as PlayerDropType, // So that when a player is dropped, we can send both the source and target to reducer
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
     }),
   }))
 
-
-  
-
-  
+  if(isDragging){
+    return <Box 
+      sx={{
+        width: '100%',
+        padding: '5px',
+      }}
+      ref={drag}/>
+  }
 
   return (
     <Box
@@ -60,11 +64,7 @@ const Player: React.FC<Props> = ({ player }) => {
     >
       <Card sx={setColor(level)}>
         <CardContent>
-          <Typography
-            sx={{ fontSize: 14 }}
-            color="text.secondary"
-            gutterBottom
-          >
+          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
             {id}
           </Typography>
           <p className="overflow-hidden">{name}</p>

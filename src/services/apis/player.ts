@@ -4,10 +4,10 @@ export const playerApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getPlayer: builder.query <void, void> ({
       query: () => ({
-        url: `/member_sessions`,
+        url: '/member_sessions',
       }),
       providesTags: ['Player'],
-    })
+    }),
   }),
 })
 

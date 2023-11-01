@@ -1,36 +1,47 @@
-import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import IPlayer, { Positions } from '../interfaces/IPlayer'
-import { RootState } from '../../app/store'
+import { RootState } from '../../app/redux/store'
 import Player from './Player/Player'
-import { addPlayer } from '../../app/playersSlice'
 import { genPlayer } from './Player/playerGen'
-import { useDragDropManager } from 'react-dnd'
-
+import { createPlayer, movePlayerTo } from '../../app/redux/gymSlice'
+import { useDrop } from 'react-dnd'
+import { ItemTypes, PlayerDropType } from '../../app/redux/DndTypes'
 
 const Bench = () => {
-  const benchPlayers = useSelector((state: RootState) => state.players.players.filter((player: IPlayer) => player.position === 'bench'))
-  
-
   const dispatch = useDispatch()
-  
-  const addPlayerToRedux = (position: Positions) => {
-    dispatch(addPlayer(genPlayer(position)))
-  }
-  
+  const benchPlayers = useSelector((state: RootState) => state.gym.benchPlayers)
+
+ 
+  const [{ isOver }, drop] = useDrop(() => ({
+    accept: ItemTypes.PLAYER,
+    drop: (item: PlayerDropType) =>
+      dispatch(
+        movePlayerTo({
+          source: item.source,
+          target: Positions.Bench,
+          movedPlayerId: item.movedPlayerId
+        }),
+      ),
+    collect: (monitor) => ({
+      // Use isOver to modify behaviour when user is currently dragging
+      isOver: !!monitor.isOver(), // !! converts value to boolean
+    }),
+  }))
 
   return (
-    <div className="flex w-1/3 flex-col place-items-center p-10">
+    <div className="flex w-1/3 flex-col place-items-center p-10" ref={drop}>
       <h1>Bench</h1>
       <button
         className="border border-solid border-black p-4"
-        onClick={() => addPlayerToRedux(Positions.Bench)}
+        onClick={() => {
+          dispatch(createPlayer(genPlayer(Positions.Bench)))
+        }}
       >
         Add Player
       </button>
       <div>
-        {benchPlayers.map((player) => (
-          <Player key={player.id} player={player} />
+        {benchPlayers.map((player: IPlayer) => (
+          <Player key={player.id} player={player} parent={Positions.Bench}/>
         ))}
       </div>
     </div>
