@@ -1,12 +1,14 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
   tagTypes: ['Player', 'REPLACE'],
-  baseQuery: fetchBaseQuery({
-    baseUrl: 'https://pokeapi.co/api/v2/',
+  baseQuery: fetchBaseQuery({ 
+    baseUrl: 'http://0.0.0.0:8000/api', 
+    
+    
   }),
   endpoints: () => ({}),
-});
+})
 
-export default baseApi;
+export default baseApi

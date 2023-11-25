@@ -14,6 +14,7 @@ const Courts = () => {
         <Court courtNumber="6" courtPosition={Positions.Court6} />
         <Court courtNumber="7" courtPosition={Positions.Court7} />
         <Court courtNumber="8" courtPosition={Positions.Court8} />
+        
       </div>
     </div>
   )
