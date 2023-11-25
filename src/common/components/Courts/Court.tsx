@@ -85,7 +85,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   }
   return (
     <div className='flex flex-row items-center space-x-4 pl-5'>
-      <span className="text-2xl">{courtNumber}</span>
+      <span className="text-5xl font-bold">{courtNumber}</span>
       <div className="rounded-md relative border border-solid border-black h-40 w-80 grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
         {players.map((player) => (
           <Player key={player.id} player={player} parent={courtPosition}/>

@@ -66,14 +66,24 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   return (
     <Box
       ref={drag}
+      sx={{
+        padding: '0px',
+        margin: '0px',
+      }}
     >
       <Card sx={[setColor(level), {
         borderRadius: '20px',
-        height: '60px',
-        width: '155px',
+        height: '50px',
+        width: '125px',
+        padding: '0px',
+        margin: '0px',
       }]}>
-        <CardContent>
-          <Typography sx={{ fontSize: 11, fontWeight: 'bold' }} color="text.secondary" gutterBottom>
+        <CardContent
+          sx={{
+            padding: '0px',
+            margin: '0px',
+          }}>
+          <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
             {id}
           </Typography>
           <Box sx={{
