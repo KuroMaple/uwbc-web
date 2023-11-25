@@ -14,10 +14,11 @@ const PlayerTabs = () => {
   }
   
   return (
-    <Box sx={{ width: '100%', typography: 'body1', background: 'white' }}>
+    <Box sx={{ width: '25%', background: 'gray' }}>
+
       <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
+        <Box sx={{ borderBottom: 1, borderColor: 'divider', background: 'gray' }}>
+          <TabList onChange={handleChange} aria-label="Player">
             <Tab label="Bench" value="1" />
             <Tab label="Challenge" value="2" />
           </TabList>

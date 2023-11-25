@@ -1,32 +1,30 @@
-import { useDispatch } from 'react-redux';
-import IPlayer, { Positions } from '../../interfaces/IPlayer';
-import { addPlayer } from '../../../app/redux/courtSlice';
+import IPlayer, { Positions } from '../../interfaces/IPlayer'
 
 const testNames = [
   'Josh Jones',
   'Bobby Wu',
   'Jackie Chan',
-  'Dwayne the Rock Johnson',
+  'Dwayne The Rock Johnson',
   'Jeff Lai',
-];
+]
 
 const generateUniqueId = () => {
-  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-  const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+  const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+  const randomLetter = letters[Math.floor(Math.random() * letters.length)]
 
   // Generate a random number between 1 and 99, and pad it with leading zeros if necessary
-  const randomNumber = Math.floor(Math.random() * 99) + 1;
-  const paddedNumber = randomNumber.toString().padStart(2, '0');
+  const randomNumber = Math.floor(Math.random() * 99) + 1
+  const paddedNumber = randomNumber.toString().padStart(2, '0')
 
   // Combine the random letter and padded number to form the UID
-  const uid = `${randomLetter}${paddedNumber}`;
+  const uid = `${randomLetter}${paddedNumber}`
 
-  return uid;
-};
+  return uid
+}
 
 const myRandom = (min: number, max: number) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-};
+  return Math.floor(Math.random() * (max - min + 1) + min)
+}
 
 export const genPlayer = (position: Positions) => {
   const newPlayer: IPlayer = {
@@ -34,7 +32,7 @@ export const genPlayer = (position: Positions) => {
     id: generateUniqueId(),
     level: myRandom(1, 5),
     position: position,
-  };
+  }
 
-  return newPlayer;
-};
+  return newPlayer
+}

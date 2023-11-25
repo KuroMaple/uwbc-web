@@ -84,13 +84,10 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     backgroundColor = '#F44336'
   }
   return (
-    <div className="relative border border-solid border-black p-4" style={{ backgroundColor }} ref={drop}>
-      <h2 className="absolute left-0 top-0">Court {courtNumber}</h2>
-      <div className="grid grid-cols-2 gap-4 p-4">
-        {players.map((player) => (
-          <Player key={player.id} player={player} parent={courtPosition}/>
-        ))}
-      </div>
+    <div className="rounded-md relative border border-solid border-black h-40 w-80 grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
+      {players.map((player) => (
+        <Player key={player.id} player={player} parent={courtPosition}/>
+      ))}
     </div>
   )
 }

@@ -30,15 +30,12 @@ const Challenge = () => {
 
   return (
     <div
-      className="flex w-1/3 flex-col place-items-center bg-yellow-600 p-10"
+      className="flex flex-col place-items-center bg-yellow-600 p-10 w-full h-full"
       ref={drop}
     >
-      <h2>Challenge Queue</h2>
-      <div className="flex w-full flex-col">
-        {challengePlayers.map((player: IPlayer) => {
-          return <Player key={player.id} player={player} parent={Positions.Challenge}/>
-        })}
-      </div>
+      {challengePlayers.map((player: IPlayer) => {
+        return <Player key={player.id} player={player} parent={Positions.Challenge}/>
+      })}
     </div>
   )
 }

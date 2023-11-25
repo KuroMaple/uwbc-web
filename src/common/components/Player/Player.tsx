@@ -31,10 +31,19 @@ interface Props {
 }
 
 const Player: React.FC<Props> = ({ player, parent }) => {
+  const shortenNameToFirst = (name: string) => {
+    const nameArr = name.split(' ')
+    return nameArr[0] + ' ' + nameArr[1][0] + '.'
+  }
+
   const [name, setName] = useState(player.name)
   const [id, setId] = useState(player.id)
   const [level, setLevel] = useState(player.level)
   const [position, setPosition] = useState<Positions>(player.position)
+
+
+
+  
 
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -56,18 +65,28 @@ const Player: React.FC<Props> = ({ player, parent }) => {
 
   return (
     <Box
-      sx={{
-        width: '100%',
-        padding: '5px',
-      }}
       ref={drag}
     >
-      <Card sx={setColor(level)}>
+      <Card sx={[setColor(level), {
+        borderRadius: '20px',
+        height: '60px',
+        width: '155px',
+      }]}>
         <CardContent>
-          <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
+          <Typography sx={{ fontSize: 11, fontWeight: 'bold' }} color="text.secondary" gutterBottom>
             {id}
           </Typography>
-          <p className="overflow-hidden">{name}</p>
+          <Box sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            height: '100%',
+          }}>
+            <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
+              {shortenNameToFirst(name)}
+            </Typography>
+          </Box>
+
         </CardContent>
       </Card>
     </Box>

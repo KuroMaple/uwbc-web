@@ -29,8 +29,7 @@ const Bench = () => {
   }))
 
   return (
-    <div className="flex w-1/3 flex-col place-items-center p-10" ref={drop}>
-      <h1>Bench</h1>
+    <div className="flex w-full flex-col place-items-center p-10 bg-yellow-600" ref={drop}>
       <button
         className="border border-solid border-black p-4"
         onClick={() => {
