@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
+import Chip from '../Chip/Chip'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -45,6 +46,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   const [id, setId] = useState(player.id)
   const [level, setLevel] = useState(player.level)
   const [position, setPosition] = useState<Positions>(player.position)
+  const [isMustGoOn, setIsMustGoOn] = useState(true)
 
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -72,15 +74,26 @@ const Player: React.FC<Props> = ({ player, parent }) => {
           width: '100px',
           height: '60px',
           padding: '5px',
+          position: 'relative',
         }
       }
     >
+      {isMustGoOn &&  
+      <Box sx={{
+        position: 'absolute',
+        top: '0px',
+        right: '0px',
+        zIndex: 1,
+      }}>
+        <Chip />
+      </Box> }
       <Paper
         sx={{
           width: '100%',
           height: '100%',
           position: 'relative',
           ...setColor(level),
+          padding: '5px',
         }}>
         <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
           {id}
@@ -91,10 +104,11 @@ const Player: React.FC<Props> = ({ player, parent }) => {
           justifyContent: 'center',
           height: '100%',
         }}>
-          <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
+          <Typography sx={{ fontSize: 13, marginTop: '10px' }} color="text.secondary" gutterBottom>
             {shortenNameToFirst(name)}
           </Typography>
         </Box>
+        
       </Paper>
     </Box>
   )
