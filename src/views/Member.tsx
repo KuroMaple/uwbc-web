@@ -2,7 +2,7 @@ import Courts from '../common/components/Courts/Courts'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { useGetMembersQuery } from '../services/apis/members'
-import PlayerTabs from './PlayerTabs'
+import PlayerTabs from './Tabs/PlayerTabs'
 
 
 const Member = () => {
@@ -12,7 +12,7 @@ const Member = () => {
   console.log(getMembers)
 
   return (
-    <div className="m-5 flex h-screen flex-row justify-evenly bg-blue-500">
+    <div className="m-5 flex h-screen flex-row justify-evenly">
       <DndProvider backend={HTML5Backend}>
         <PlayerTabs />
         <Courts />

@@ -1,4 +1,4 @@
-import { Box, Card, CardContent, Typography } from '@mui/material'
+import { Box, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
@@ -31,7 +31,12 @@ interface Props {
 }
 
 const Player: React.FC<Props> = ({ player, parent }) => {
+  
+  // Shortens the name to first name and first letter of last name if name is too long
   const shortenNameToFirst = (name: string) => {
+    if (name.length < 10) {
+      return name
+    }
     const nameArr = name.split(' ')
     return nameArr[0] + ' ' + nameArr[1][0] + '.'
   }
@@ -40,10 +45,6 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   const [id, setId] = useState(player.id)
   const [level, setLevel] = useState(player.level)
   const [position, setPosition] = useState<Positions>(player.position)
-
-
-
-  
 
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -66,39 +67,35 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   return (
     <Box
       ref={drag}
-      sx={{
-        padding: '0px',
-        margin: '0px',
-      }}
+      sx={
+        {
+          width: '100px',
+          height: '60px',
+          padding: '5px',
+        }
+      }
     >
-      <Card sx={[setColor(level), {
-        borderRadius: '20px',
-        height: '50px',
-        width: '125px',
-        padding: '0px',
-        margin: '0px',
-      }]}>
-        <CardContent
-          sx={{
-            padding: '0px',
-            margin: '0px',
-          }}>
-          <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
-            {id}
+      <Paper
+        sx={{
+          width: '100%',
+          height: '100%',
+          position: 'relative',
+          ...setColor(level),
+        }}>
+        <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
+          {id}
+        </Typography>
+        <Box sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          height: '100%',
+        }}>
+          <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
+            {shortenNameToFirst(name)}
           </Typography>
-          <Box sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            height: '100%',
-          }}>
-            <Typography sx={{ fontSize: 13 }} color="text.secondary" gutterBottom>
-              {shortenNameToFirst(name)}
-            </Typography>
-          </Box>
-
-        </CardContent>
-      </Card>
+        </Box>
+      </Paper>
     </Box>
   )
 }

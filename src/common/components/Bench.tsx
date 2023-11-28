@@ -29,16 +29,16 @@ const Bench = () => {
   }))
 
   return (
-    <div className="flex w-full flex-col place-items-center p-10 bg-yellow-600" ref={drop}>
+    <div className="w-full h-full" ref={drop}>
       <button
-        className="border border-solid border-black p-4"
+        className="border border-solid border-black h-8 w-9 text-xs"
         onClick={() => {
           dispatch(createPlayer(genPlayer(Positions.Bench)))
         }}
       >
         Add Player
       </button>
-      <div>
+      <div className='w-full h-full'>
         {benchPlayers.map((player: IPlayer) => (
           <Player key={player.id} player={player} parent={Positions.Bench}/>
         ))}
