@@ -46,7 +46,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   const [id, setId] = useState(player.id)
   const [level, setLevel] = useState(player.level)
   const [position, setPosition] = useState<Positions>(player.position)
-  const [isMustGoOn, setIsMustGoOn] = useState(true)
+  const [isMustGoOn, setIsMustGoOn] = useState(false)
 
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -77,6 +77,9 @@ const Player: React.FC<Props> = ({ player, parent }) => {
           position: 'relative',
         }
       }
+      onDoubleClick={() => {
+        setIsMustGoOn(!isMustGoOn)
+      }}
     >
       {isMustGoOn &&  
       <Box sx={{
