@@ -13,8 +13,12 @@ const Member = () => {
 
   return (
     <div className="m-5 flex h-screen flex-row justify-evenly">
+      
       <DndProvider backend={HTML5Backend}>
-        <PlayerTabs />
+        <div>
+          <h1 className="font-semibold">UWBC Exec Tool</h1>
+          <PlayerTabs />
+        </div>
         <Courts />
       </DndProvider>
     </div>

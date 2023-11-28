@@ -47,6 +47,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   const [level, setLevel] = useState(player.level)
   const [position, setPosition] = useState<Positions>(player.position)
   const [isMustGoOn, setIsMustGoOn] = useState(false)
+  const [ticks, setTicks] = useState(0)
 
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
@@ -100,6 +101,9 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         }}>
         <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
           {id}
+        </Typography>
+        <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', right: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
+          {ticks}
         </Typography>
         <Box sx={{
           display: 'flex',

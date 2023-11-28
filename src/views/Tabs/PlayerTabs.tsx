@@ -17,7 +17,7 @@ const PlayerTabs = () => {
     backgroundColor: '#FAFAF5',
     padding: '0px',
     width: '100%',
-    height: '352px',
+    height: '332px',
     overflow: 'auto',
     borderBottomLeftRadius: '15px',
     borderBottomRightRadius: '15px',
@@ -40,7 +40,7 @@ const PlayerTabs = () => {
         backgroundColor: '#EAEAEA',
         borderRadius: '25px',
         padding: '10px',
-        height: '420px',
+        height: '400px',
       }}>
       <TabContext value={value}
       >
