@@ -30,7 +30,7 @@ const Challenge = () => {
 
   return (
     <div
-      className="w-full h-full"
+      className="flex flex-col items-center h-full"
       ref={drop}
     >
       {challengePlayers.map((player: IPlayer) => {

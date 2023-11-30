@@ -3,7 +3,7 @@ module.exports = {
   theme: {
     extend: {
       height: {
-        'uwbcH': '420px',
+        'uwbc-laptop': '420px',
       }
     },
   },

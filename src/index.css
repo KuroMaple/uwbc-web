@@ -2,9 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  overflow: hidden;
-}
 
 /* Styling for WebKit browsers such as Google Chrome*/
 ::-webkit-scrollbar {

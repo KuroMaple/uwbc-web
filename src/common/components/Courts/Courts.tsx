@@ -3,7 +3,7 @@ import Court from './Court'
 
 const Courts = () => {
   return (
-    <div className="bg-fuchsia-300 grid grid-cols-2 overflow-scroll h-uwbcH">
+    <div className="bg-fuchsia-300 grid grid-cols-2 w-full justify-items-end">
       <Court courtNumber='1' courtPosition={Positions.Court1} />
       <Court courtNumber="2" courtPosition={Positions.Court2} />
       <Court courtNumber="3" courtPosition={Positions.Court3} />

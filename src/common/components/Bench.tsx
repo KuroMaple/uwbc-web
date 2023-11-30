@@ -29,7 +29,7 @@ const Bench = () => {
   }))
 
   return (
-    <div className="w-full h-full" ref={drop}>
+    <div className="flex flex-col items-center justify-center h-full" ref={drop}>
       <button
         className="border border-solid border-black h-8 w-9 text-xs"
         onClick={() => {
@@ -38,7 +38,7 @@ const Bench = () => {
       >
         Add Player
       </button>
-      <div className='w-full h-full'>
+      <div className='h-full justify-center w-full items-center'>
         {benchPlayers.map((player: IPlayer) => (
           <Player key={player.id} player={player} parent={Positions.Bench}/>
         ))}

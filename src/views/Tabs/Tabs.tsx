@@ -16,8 +16,9 @@ const PlayerTabs = () => {
   const tabPanelStyle = {
     backgroundColor: '#FAFAF5',
     padding: '0px',
+    marginLeft: '0px',
     width: '100%',
-    height: '332px',
+    height: '93%',
     overflow: 'auto',
     borderBottomLeftRadius: '15px',
     borderBottomRightRadius: '15px',
@@ -40,7 +41,7 @@ const PlayerTabs = () => {
         backgroundColor: '#EAEAEA',
         borderRadius: '25px',
         padding: '10px',
-        height: '400px',
+        height: '100%',
       }}>
       <TabContext value={value}
       >

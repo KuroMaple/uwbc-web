@@ -8,21 +8,21 @@ import Chip from '../Chip/Chip'
 const setColor = (level: number) => {
   switch (level) {
   case 1:
-    return { backgroundColor: '#85FF2E' }
-    break
+    return { backgroundColor: '#89EFB8' } // Lime green
+
   case 2:
-    return { backgroundColor: '#FEB700' }
-    break
+    return { backgroundColor: '#EFB889' } // Amber orange
+
   case 3:
-    return { backgroundColor: '#FC1FFF' }
-    break
+    return { backgroundColor: '#EFB8E3' } // Fuschia pink
+
   case 4:
-    return { backgroundColor: '#FFEF2E' }
-    break
+    return { backgroundColor: '#EFEB89' } // Yellow
+
 
   default:
-    return { backgroundColor: 'white' }
-    break
+    return { backgroundColor: 'white' } // White
+
   }
 }
 
@@ -58,6 +58,10 @@ const Player: React.FC<Props> = ({ player, parent }) => {
     }),
   }))
 
+  const isOnCourt = () => {
+    return position !== Positions.Bench && position !== Positions.Challenge
+  }
+
   if(isDragging){
     return <Box 
       sx={{
@@ -72,7 +76,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
       ref={drag}
       sx={
         {
-          width: '100px',
+          width: '160px',
           height: '60px',
           padding: '5px',
           position: 'relative',
@@ -89,7 +93,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         right: '0px',
         zIndex: 1,
       }}>
-        <Chip />
+        <Chip variant='MGO'/>
       </Box> }
       <Paper
         sx={{
@@ -99,10 +103,10 @@ const Player: React.FC<Props> = ({ player, parent }) => {
           ...setColor(level),
           padding: '5px',
         }}>
-        <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
           {id}
         </Typography>
-        <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', right: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
+        <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
           {ticks}
         </Typography>
         <Box sx={{
@@ -111,9 +115,11 @@ const Player: React.FC<Props> = ({ player, parent }) => {
           justifyContent: 'center',
           height: '100%',
         }}>
-          <Typography sx={{ fontSize: 13, marginTop: '10px' }} color="text.secondary" gutterBottom>
+          <Typography sx={{ fontSize: 15, marginTop: '10px' }} color="text.secondary" gutterBottom>
             {shortenNameToFirst(name)}
           </Typography>
+
+          
         </Box>
         
       </Paper>
