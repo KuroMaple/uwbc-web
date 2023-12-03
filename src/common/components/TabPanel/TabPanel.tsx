@@ -6,11 +6,16 @@ import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import Player from '../Player/Player'
 import { movePlayerTo } from '../../../app/redux/gymSlice'
 import Controls from '../PanelControls/Controls'
+import { useState } from 'react'
 
 interface Props {
   variant: Positions
 }
 const TabPanel: React.FC<Props> = ({ variant }) => {
+  //States
+  const [filterByMGO, setFilterByMGO] = useState(false)
+
+
   const dispatch = useDispatch()
   const players = useSelector((state: RootState) => {
     switch (variant) {
@@ -42,13 +47,23 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
     }),
   }))
 
+  const filterMGO = () => {
+    setFilterByMGO(!filterByMGO)
+  }
+
   return (
     <div className="flex flex-col items-center justify-center h-full" ref={drop}>
-      <Controls parent={variant}/>
+      <Controls parent={variant} filterMGO={filterMGO}/>
       <div className='h-TAB-PANEL-RATIO justify-center items-center'>
-        {players.map((player: IPlayer) => (
-          <Player key={player.id} player={player} parent={variant}/>
-        ))}
+        {(filterByMGO && variant === Positions.Bench) ? (
+          players.filter((player: IPlayer) => player.isMustGoOn).map((player: IPlayer) => (
+            <Player key={player.id} player={player} parent={variant}/>
+          ))
+        ) : 
+          (players.map((player: IPlayer) => (
+            <Player key={player.id} player={player} parent={variant}/>
+          )))}
+        
       </div>
     </div>
   )

@@ -33,6 +33,7 @@ export const genPlayer = (position: Positions) => {
     level: myRandom(1, 5),
     position: position,
     ticks: Math.floor(Math.random() * 100) + 1,
+    isMustGoOn: false,
   }
 
   return newPlayer

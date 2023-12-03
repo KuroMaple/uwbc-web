@@ -5,7 +5,7 @@ import { useDrag } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch } from 'react-redux'
-import { movePlayerTo } from '../../../app/redux/gymSlice'
+import { movePlayerTo, updateMGOStatus } from '../../../app/redux/gymSlice'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -41,10 +41,10 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   const [level, setLevel] = useState(player.level)
   const [position, setPosition] = useState<Positions>(player.position)
   const [ticks, setTicks] = useState(player.ticks)
+  const [isMustGoOn, setIsMustGoOn] = useState(player.isMustGoOn)
 
   // Local player properties
   const [onCourt, setOnCourt] = useState(false)
-  const [isMustGoOn, setIsMustGoOn] = useState(false)
 
   // Redux connection
   const dispatch = useDispatch()
@@ -55,7 +55,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
     setLevel(player.level)
     setPosition(player.position) // Setting position in gym explicitly 
     setTicks(player.ticks)
-
+    setIsMustGoOn(player.isMustGoOn)
     setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
     console.log('In useEffect:', player.position) // debugging
   }, [player])
@@ -112,8 +112,14 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         }
       }
       onDoubleClick={() => {
-        setIsMustGoOn(!isMustGoOn)
-        console.log(onCourt)
+        if (position === Positions.Bench) { // MGO status should only be changed if player is on bench
+          dispatch(updateMGOStatus(
+            {
+              playerId: id,
+              newMGOStatus: !isMustGoOn,
+            }))
+          setIsMustGoOn(!isMustGoOn)
+        }
       }}
     >
       {isMustGoOn && !onCourt &&  // If on court, MGO should not be displayed

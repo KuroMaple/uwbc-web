@@ -18,4 +18,5 @@ export default interface IPlayer {
   level: number
   ticks: number
   position: Positions
+  isMustGoOn: boolean
 }

@@ -79,12 +79,13 @@ const gymSlice = createSlice({
       }
     },
     movePlayerTo:(state, action: PayloadAction<PlayerMoveAction>) => {
-      let movedPlayer: IPlayer = { // default value
+      let movedPlayer: IPlayer = { // default values
         name: 'NOT INITIALIZED',
         id: '',
         level: 0,
         position: Positions.Bench,
         ticks: 0,
+        isMustGoOn: false, 
       }
       // remove from source array
       switch (action.payload.source) {
@@ -139,6 +140,9 @@ const gymSlice = createSlice({
         break
       }
       }
+
+      // Reset MGO status
+      movedPlayer.isMustGoOn = false
 
       // Add to target array
       switch (action.payload.target) {
@@ -195,9 +199,17 @@ const gymSlice = createSlice({
       }
       }
     },
+    // MGO players should ONLY be in bench
+    updateMGOStatus:(state, action: PayloadAction<{playerId: string, newMGOStatus: boolean}>) => {
+      state.benchPlayers.forEach(player => {
+        if (player.id === action.payload.playerId) {
+          player.isMustGoOn = action.payload.newMGOStatus
+        }
+      })
+    }
   }
 })
 
-export const { createPlayer, movePlayerTo} = gymSlice.actions
+export const { createPlayer, movePlayerTo, updateMGOStatus} = gymSlice.actions
 
 export default gymSlice.reducer
