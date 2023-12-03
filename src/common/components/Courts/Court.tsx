@@ -43,7 +43,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
 
   const [players, setPlayers] = useState(courtPlayers)
-
+  const [isChallengeCourt, setIsChallengeCourt] = useState(false)
 
 
   useEffect(() => {
@@ -77,15 +77,16 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   }), [players])
 
   //Alter court background based on hover
-  let backgroundColor = '#9E9E9E'
+  let backgroundColor = '#d3d3d3'
   if (isOver && canDrop) {
     backgroundColor = '#4CAF50'
   } else if(isOver && !canDrop) {
     backgroundColor = '#F44336'
   }
   return (
-    <div className='flex flex-row items-center space-x-7 h-full w-2/3 bg-lime-600'>
+    <div className='flex flex-row items-center space-x-7 h-full w-2/3'>
       <div className='flex flex-col items-center'>
+        {isChallengeCourt && <span>Challenge</span>}
         <span>Court</span>
         <span className="text-5xl font-bold">{courtNumber}</span>
       </div>

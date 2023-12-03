@@ -12,7 +12,7 @@ const Exec = () => {
   console.log(getMembers)
 
   return (
-    <div className="flex flex-row justify-evenly h-screen overflow-hidden bg-cyan-400 p-4">
+    <div className="flex flex-row justify-evenly h-screen overflow-hidden p-4">
       
       <DndProvider backend={HTML5Backend}>
         <div className='mb-4'>

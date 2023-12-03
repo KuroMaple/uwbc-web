@@ -141,13 +141,11 @@ const gymSlice = createSlice({
       }
       }
 
-      // Reset MGO status
-      movedPlayer.isMustGoOn = false
-
       // Add to target array
       switch (action.payload.target) {
 
-      case (Positions.Challenge): {
+      case (Positions.Challenge): {       
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Challenge
         state.challengePlayers.push(movedPlayer)
         break
@@ -158,41 +156,49 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court1): {
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Court1
         state.court1.players.push(movedPlayer)
         break
       }
       case (Positions.Court2): {
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Court2
         state.court2.players.push(movedPlayer)
         break
       }
       case (Positions.Court3): {
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Court3
         state.court3.players.push(movedPlayer)
         break
       }
       case (Positions.Court4): {
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Court4
         state.court4.players.push(movedPlayer)
         break
       }
       case (Positions.Court5): {
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Court5
         state.court5.players.push(movedPlayer)
         break
       }
       case (Positions.Court6): {
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Court6
         state.court6.players.push(movedPlayer)
         break
       }
       case (Positions.Court7): {
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Court7
         state.court7.players.push(movedPlayer)
         break
       }
       case (Positions.Court8): {
+        movedPlayer.isMustGoOn = false // Reset MGO status
         movedPlayer.position = Positions.Court8
         state.court8.players.push(movedPlayer)
         break

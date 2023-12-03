@@ -3,7 +3,7 @@ import Court from './Court'
 
 const Courts = () => {
   return (
-    <div className="bg-fuchsia-300 grid grid-cols-2 w-full justify-items-end">
+    <div className="grid grid-cols-2 w-full justify-items-end">
       <Court courtNumber="4" courtPosition={Positions.Court4} />
       <Court courtNumber="8" courtPosition={Positions.Court8} />
       <Court courtNumber="3" courtPosition={Positions.Court3} />
