@@ -38,7 +38,7 @@ const Bench = () => {
       >
         Add Player
       </button>
-      <div className='h-full justify-center w-full items-center'>
+      <div className='h-full justify-center items-center'>
         {benchPlayers.map((player: IPlayer) => (
           <Player key={player.id} player={player} parent={Positions.Bench}/>
         ))}

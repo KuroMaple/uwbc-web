@@ -70,11 +70,12 @@ const gymSlice = createSlice({
       state.benchPlayers.push(action.payload)
     },
     movePlayerTo:(state, action: PayloadAction<PlayerMoveAction>) => {
-      let movedPlayer: IPlayer = {
+      let movedPlayer: IPlayer = { // default value
         name: 'NOT INITIALIZED',
         id: '',
         level: 0,
-        position: Positions.Bench
+        position: Positions.Bench,
+        ticks: 0,
       }
       // remove from source array
       switch (action.payload.source) {
@@ -134,42 +135,52 @@ const gymSlice = createSlice({
       switch (action.payload.target) {
 
       case (Positions.Challenge): {
+        movedPlayer.position = Positions.Challenge
         state.challengePlayers.push(movedPlayer)
         break
       }
       case (Positions.Bench): {
+        movedPlayer.position = Positions.Bench
         state.benchPlayers.push(movedPlayer)
         break
       }
       case (Positions.Court1): {
+        movedPlayer.position = Positions.Court1
         state.court1.players.push(movedPlayer)
         break
       }
       case (Positions.Court2): {
+        movedPlayer.position = Positions.Court2
         state.court2.players.push(movedPlayer)
         break
       }
       case (Positions.Court3): {
+        movedPlayer.position = Positions.Court3
         state.court3.players.push(movedPlayer)
         break
       }
       case (Positions.Court4): {
+        movedPlayer.position = Positions.Court4
         state.court4.players.push(movedPlayer)
         break
       }
       case (Positions.Court5): {
+        movedPlayer.position = Positions.Court5
         state.court5.players.push(movedPlayer)
         break
       }
       case (Positions.Court6): {
+        movedPlayer.position = Positions.Court6
         state.court6.players.push(movedPlayer)
         break
       }
       case (Positions.Court7): {
+        movedPlayer.position = Positions.Court7
         state.court7.players.push(movedPlayer)
         break
       }
       case (Positions.Court8): {
+        movedPlayer.position = Positions.Court8
         state.court8.players.push(movedPlayer)
         break
       }

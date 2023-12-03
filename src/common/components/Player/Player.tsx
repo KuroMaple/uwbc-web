@@ -1,9 +1,11 @@
 import { Box, Paper, Typography } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
+import { useDispatch } from 'react-redux'
+import { movePlayerTo } from '../../../app/redux/gymSlice'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -33,6 +35,40 @@ interface Props {
 
 const Player: React.FC<Props> = ({ player, parent }) => {
   
+  // Externally pulled player properties
+  const [name, setName] = useState(player.name)
+  const [id, setId] = useState(player.id)
+  const [level, setLevel] = useState(player.level)
+  const [position, setPosition] = useState<Positions>(player.position)
+  const [ticks, setTicks] = useState(player.ticks)
+
+  // Local player properties
+  const [onCourt, setOnCourt] = useState(false)
+  const [isMustGoOn, setIsMustGoOn] = useState(false)
+
+  // Redux connection
+  const dispatch = useDispatch()
+  
+  useEffect(() => {
+    setName(player.name)
+    setId(player.id)
+    setLevel(player.level)
+    setPosition(player.position) // Setting position in gym explicitly 
+    setTicks(player.ticks)
+
+    setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
+    console.log('In useEffect:', player.position) // debugging
+  }, [player])
+  
+  // React Drag n Drop Logi
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.PLAYER,
+    item: { movedPlayerId: id, source: parent } as PlayerDropType, // So that when a player is dropped, we can send both the source and target to reducer
+    collect: (monitor) => ({
+      isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
+    }),
+  }))
+
   // Shortens the name to first name and first letter of last name if name is too long
   const shortenNameToFirst = (name: string) => {
     if (name.length < 10) {
@@ -42,31 +78,24 @@ const Player: React.FC<Props> = ({ player, parent }) => {
     return nameArr[0] + ' ' + nameArr[1][0] + '.'
   }
 
-  const [name, setName] = useState(player.name)
-  const [id, setId] = useState(player.id)
-  const [level, setLevel] = useState(player.level)
-  const [position, setPosition] = useState<Positions>(player.position)
-  const [isMustGoOn, setIsMustGoOn] = useState(false)
-  const [ticks, setTicks] = useState(0)
-
-  // React Drag n Drop Logic
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemTypes.PLAYER,
-    item: { movedPlayerId: id, source: parent } as PlayerDropType, // So that when a player is dropped, we can send both the source and target to reducer
-    collect: (monitor) => ({
-      isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
-    }),
-  }))
-
-  const isOnCourt = () => {
-    return position !== Positions.Bench && position !== Positions.Challenge
+  // Removes player from court and places them in bench
+  const removeFromCourt = () => {
+    dispatch(
+      movePlayerTo({
+        source: position,
+        target: Positions.Bench,
+        movedPlayerId: id,
+      })
+    )
   }
-
+  
+  // to remove player from vision when dragging
   if(isDragging){
     return <Box 
       sx={{
         width: '100%',
-        padding: '5px',
+        padding: '0px',
+        margin: '0px',
       }}
       ref={drag}/>
   }
@@ -84,9 +113,10 @@ const Player: React.FC<Props> = ({ player, parent }) => {
       }
       onDoubleClick={() => {
         setIsMustGoOn(!isMustGoOn)
+        console.log(onCourt)
       }}
     >
-      {isMustGoOn &&  
+      {isMustGoOn && !onCourt &&  // If on court, MGO should not be displayed
       <Box sx={{
         position: 'absolute',
         top: '0px',
@@ -95,6 +125,22 @@ const Player: React.FC<Props> = ({ player, parent }) => {
       }}>
         <Chip variant='MGO'/>
       </Box> }
+      {onCourt &&
+      <Box sx={{
+        position: 'absolute',
+        top: '0px',
+        right: '0px',
+        zIndex: 2,
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      }}
+      onClick={() => {
+        removeFromCourt()
+      }}
+      >
+        <Chip variant='On Court'/> 
+      </Box>}
       <Paper
         sx={{
           width: '100%',
@@ -119,7 +165,6 @@ const Player: React.FC<Props> = ({ player, parent }) => {
             {shortenNameToFirst(name)}
           </Typography>
 
-          
         </Box>
         
       </Paper>

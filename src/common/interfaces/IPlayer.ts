@@ -13,8 +13,9 @@ export enum Positions {
 }
 
 export default interface IPlayer {
-  name: string;
-  id: string;
-  level: number;
-  position: Positions;
+  name: string
+  id: string
+  level: number
+  ticks: number
+  position: Positions
 }
