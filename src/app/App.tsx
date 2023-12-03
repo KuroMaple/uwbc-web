@@ -1,12 +1,12 @@
 /* eslint-disable react/react-in-jsx-scope */
-import Member from '../views/Member';
+import Exec from '../views/Exec'
 
 function App() {
   return (
     <div className="">
-      <Member />
+      <Exec />
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

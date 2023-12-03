@@ -5,7 +5,7 @@ import { useGetMembersQuery } from '../services/apis/members'
 import PlayerTabs from './Tabs/Tabs'
 
 
-const Member = () => {
+const Exec = () => {
 
   const {data: getMembers} = useGetMembersQuery()
 
@@ -25,4 +25,4 @@ const Member = () => {
   )
 }
 
-export default Member
+export default Exec

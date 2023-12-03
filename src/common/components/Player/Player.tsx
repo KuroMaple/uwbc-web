@@ -60,7 +60,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
     console.log('In useEffect:', player.position) // debugging
   }, [player])
   
-  // React Drag n Drop Logi
+  // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
     item: { movedPlayerId: id, source: parent } as PlayerDropType, // So that when a player is dropped, we can send both the source and target to reducer

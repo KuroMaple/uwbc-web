@@ -2,9 +2,9 @@ import { Box, Tab } from '@mui/material'
 import { useState } from 'react'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
-import TabPanel from '@mui/lab/TabPanel'
-import Bench from '../../common/components/Bench'
-import Challenge from '../../common/components/Challenge'
+import MUITabPanel from '@mui/lab/TabPanel'
+import TabPanel from '../../common/components/TabPanel/TabPanel'
+import { Positions } from '../../common/interfaces/IPlayer'
 
 const PlayerTabs = () => {
   const [value, setValue] = useState('1')
@@ -54,12 +54,12 @@ const PlayerTabs = () => {
               sx={tabStyle}/>
           </TabList>
         </Box>
-        <TabPanel value="1" sx={tabPanelStyle}>
-          <Bench />
-        </TabPanel>
-        <TabPanel value="2" sx={tabPanelStyle}>
-          <Challenge />
-        </TabPanel>
+        <MUITabPanel value="1" sx={tabPanelStyle}>
+          <TabPanel variant={Positions.Bench}/>
+        </MUITabPanel>
+        <MUITabPanel value="2" sx={tabPanelStyle}>
+          <TabPanel variant={Positions.Challenge}/>
+        </MUITabPanel>
       </TabContext>
     </Box>
   )
