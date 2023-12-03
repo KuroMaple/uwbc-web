@@ -4,6 +4,7 @@ module.exports = {
     extend: {
       height: {
         'uwbc-laptop': '420px',
+        'TAB-PANEL-RATIO': '93%',
       }
     },
   },

@@ -32,6 +32,7 @@ export const genPlayer = (position: Positions) => {
     id: generateUniqueId(),
     level: myRandom(1, 5),
     position: position,
+    ticks: Math.floor(Math.random() * 100) + 1,
   }
 
   return newPlayer

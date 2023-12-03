@@ -67,7 +67,16 @@ const gymSlice = createSlice({
   initialState,
   reducers: {
     createPlayer:(state, action: PayloadAction<IPlayer>) => {
-      state.benchPlayers.push(action.payload)
+      switch (action.payload.position) {
+      case Positions.Challenge: {
+        state.challengePlayers.push(action.payload)
+        break
+      }
+      default: {
+        state.benchPlayers.push(action.payload)
+        break
+      }    
+      }
     },
     movePlayerTo:(state, action: PayloadAction<PlayerMoveAction>) => {
       let movedPlayer: IPlayer = { // default value
