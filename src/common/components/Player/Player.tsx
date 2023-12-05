@@ -6,6 +6,7 @@ import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch } from 'react-redux'
 import { movePlayerTo, updateMGOStatus } from '../../../app/redux/gymSlice'
+import { ChipType } from '../Chip/types'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -42,9 +43,11 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   const [position, setPosition] = useState<Positions>(player.position)
   const [ticks, setTicks] = useState(player.ticks)
   const [isMustGoOn, setIsMustGoOn] = useState(player.isMustGoOn)
+  const [isChallenger, setIsChallenger] = useState(player.isChallenger)
 
   // Local player properties
   const [onCourt, setOnCourt] = useState(false)
+  
 
   // Redux connection
   const dispatch = useDispatch()
@@ -57,7 +60,12 @@ const Player: React.FC<Props> = ({ player, parent }) => {
     setTicks(player.ticks)
     setIsMustGoOn(player.isMustGoOn)
     setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
-    console.log('In useEffect:', player.position) // debugging
+    
+    if(parent === Positions.Challenge){ // TODO: Need to persist player challenge status when player is moved to challenge court
+      setIsChallenger(true)
+    }
+    
+
   }, [player])
   
   // React Drag n Drop Logic
@@ -105,9 +113,9 @@ const Player: React.FC<Props> = ({ player, parent }) => {
       ref={drag}
       sx={
         {
-          width: '160px',
+          minWidth: '120px',
           height: '60px',
-          padding: '5px',
+          padding: '1px',
           position: 'relative',
         }
       }
@@ -122,6 +130,8 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         }
       }}
     >
+
+      {/* Chip JSX Below*/}
       {isMustGoOn && !onCourt &&  // If on court, MGO should not be displayed
       <Box sx={{
         position: 'absolute',
@@ -129,14 +139,36 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         right: '0px',
         zIndex: 1,
       }}>
-        <Chip variant='MGO'/>
+        <Chip variant={ChipType.MGO}/>
       </Box> }
+
+      {isChallenger && !onCourt &&
+        <Box sx={{
+          position: 'absolute',
+          top: '0px',
+          right: '0px',
+          zIndex: 2,
+        }}>
+          <Chip variant={ChipType.CH}/>
+        </Box>}
+      
+      {isChallenger && onCourt &&
+        <Box sx={{
+          position: 'absolute',
+          bottom: '0px',
+          right: '0px',
+          zIndex: 4,
+        }}>
+          <Chip variant={ChipType.CH}/>
+        </Box>
+      }
+      
       {onCourt &&
       <Box sx={{
         position: 'absolute',
         top: '0px',
         right: '0px',
-        zIndex: 2,
+        zIndex: 3,
         '&:hover': {
           cursor: 'pointer',
         },
@@ -145,8 +177,11 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         removeFromCourt()
       }}
       >
-        <Chip variant='On Court'/> 
+        <Chip variant={ChipType.OC}/> 
       </Box>}
+
+
+      {/* Player Tag JSX Below*/}
       <Paper
         sx={{
           width: '100%',

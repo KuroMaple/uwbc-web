@@ -86,6 +86,7 @@ const gymSlice = createSlice({
         position: Positions.Bench,
         ticks: 0,
         isMustGoOn: false, 
+        isChallenger: false,
       }
       // remove from source array
       switch (action.payload.source) {

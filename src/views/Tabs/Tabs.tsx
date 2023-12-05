@@ -42,6 +42,7 @@ const PlayerTabs = () => {
         borderRadius: '25px',
         padding: '10px',
         height: '100%',
+        width: '100%',
       }}>
       <TabContext value={value}
       >

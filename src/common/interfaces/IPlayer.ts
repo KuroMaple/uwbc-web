@@ -19,4 +19,5 @@ export default interface IPlayer {
   ticks: number
   position: Positions
   isMustGoOn: boolean
+  isChallenger: boolean
 }

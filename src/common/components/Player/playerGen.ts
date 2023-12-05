@@ -34,6 +34,7 @@ export const genPlayer = (position: Positions) => {
     position: position,
     ticks: Math.floor(Math.random() * 100) + 1,
     isMustGoOn: false,
+    isChallenger: false,
   }
 
   return newPlayer

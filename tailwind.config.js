@@ -5,6 +5,9 @@ module.exports = {
       height: {
         'uwbc-laptop': '420px',
         'TAB-PANEL-RATIO': '93%',
+      },
+      minWidth: {
+        'court': '77%',
       }
     },
   },

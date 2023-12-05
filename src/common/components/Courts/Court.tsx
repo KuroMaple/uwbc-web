@@ -48,6 +48,9 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
   useEffect(() => {
     setPlayers(courtPlayers)
+    if (courtPlayers.length === 0) {
+      setIsChallengeCourt(false)
+    }
   }, [courtPlayers])
   
   // Calculates whether the court has reached its player limit
@@ -61,6 +64,9 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     accept: ItemTypes.PLAYER,
     canDrop: isDroppable,
     drop: (item: PlayerDropType) => {
+      if (item.source === Positions.Challenge) {
+        setIsChallengeCourt(true)
+      }
       dispatch(
         movePlayerTo({
           source: item.source,
@@ -68,6 +74,8 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
           movedPlayerId: item.movedPlayerId,
         }),
       )
+
+
     },
     collect: (monitor) => ({
       // Use isOver to modify behaviour when user is currently dragging
@@ -84,9 +92,9 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     backgroundColor = '#F44336'
   }
   return (
-    <div className='flex flex-row items-center space-x-7 h-full w-2/3'>
+    <div className='flex flex-row items-center space-x-7 h-full bg-green-600 min-w-court'>
       <div className='flex flex-col items-center'>
-        {isChallengeCourt && <span>Challenge</span>}
+        {isChallengeCourt && <span className='text-sm'>Challenge</span>}
         <span>Court</span>
         <span className="text-5xl font-bold">{courtNumber}</span>
       </div>
