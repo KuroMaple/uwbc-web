@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit'
 import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
 import { PlayerMoveAction } from './DndTypes'
 
@@ -155,6 +155,7 @@ const gymSlice = createSlice({
       }
       case (Positions.Bench): {
         movedPlayer.position = Positions.Bench
+        movedPlayer.isChallenger = false // Reset challenger status
         state.benchPlayers.push(movedPlayer)
         break
       }
@@ -208,6 +209,7 @@ const gymSlice = createSlice({
       }
       }
     },
+
     // MGO players should ONLY be in bench
     updateMGOStatus:(state, action: PayloadAction<{playerId: string, newMGOStatus: boolean}>) => {
       state.benchPlayers.forEach(player => {
@@ -216,6 +218,7 @@ const gymSlice = createSlice({
         }
       })
     },
+
     //Challenge players are set as challenge players when they are moved to/created in the challenge tab
     setChallengerStatus:(state, action: PayloadAction<{playerId: string, newChallengerStatus: boolean}>) => {
       state.challengePlayers.forEach(player => {
@@ -225,6 +228,17 @@ const gymSlice = createSlice({
       })
     }
   }
+})
+
+
+//Redux selectors
+const selectBenchedPlayers = (state: GymState) => state.benchPlayers
+const selectChallengePlayers = (state: GymState) => state.challengePlayers
+const selectCourt4Players = (state: GymState) => state.court4.players
+const selectCourt3Players = (state: GymState) => state.court3.players
+
+export const selectCourt43Players = createSelector([selectCourt4Players, selectCourt3Players], (court4Players, court3Players) => {
+  return [...court4Players, ...court3Players]
 })
 
 export const { createPlayer, movePlayerTo, updateMGOStatus, setChallengerStatus} = gymSlice.actions

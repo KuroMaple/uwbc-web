@@ -52,6 +52,8 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   // Redux connection
   const dispatch = useDispatch()
   
+
+  // Fix this according to this document in future: https://redux.js.org/usage/deriving-data-selectors
   useEffect(() => {
     setName(player.name)
     setId(player.id)
@@ -186,7 +188,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         <Chip variant={ChipType.OC}/> 
       </Box>}
 
-
+      {}
       {/* Player Tag JSX Below*/}
       <Paper
         sx={{

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
-import { movePlayerTo } from '../../../app/redux/gymSlice'
+import { movePlayerTo, selectCourt43Players } from '../../../app/redux/gymSlice'
 import { useEffect, useState } from 'react'
 interface Props {
   courtPosition: Positions
@@ -53,8 +53,14 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     }
   }, [courtPlayers])
   
-  // Calculates whether the court has reached its player limit
-  const isDroppable = () => {
+  // Limit courts to four players max
+  // Only allow one challenger per court
+  const Court43Players = useSelector((state: RootState) => selectCourt43Players(state.gym))
+  
+  const isDroppable = (item: PlayerDropType) => {
+    const parent = item.source
+    const playerId = item.movedPlayerId
+    console.log(Court43Players)
     return players.length < 4
   }
 
@@ -62,7 +68,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
   const [{ isOver, canDrop }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    canDrop: isDroppable,
+    canDrop: (item) => isDroppable(item),
     drop: (item: PlayerDropType) => {
       if (item.source === Positions.Challenge) {
         setIsChallengeCourt(true)
