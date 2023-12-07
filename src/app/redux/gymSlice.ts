@@ -92,7 +92,9 @@ const gymSlice = createSlice({
       switch (action.payload.source) {
       case (Positions.Challenge): {
         movedPlayer = state.challengePlayers.find(player => player.id === action.payload.movedPlayerId)! // asserting that player DEFINETLY exists
+        movedPlayer.isChallenger = true // Since source is Challenge Tab, player is a challenger
         state.challengePlayers = state.challengePlayers.filter(player => player.id !== action.payload.movedPlayerId)
+
         break
       }
       case (Positions.Bench): {
@@ -213,10 +215,18 @@ const gymSlice = createSlice({
           player.isMustGoOn = action.payload.newMGOStatus
         }
       })
+    },
+    //Challenge players are set as challenge players when they are moved to/created in the challenge tab
+    setChallengerStatus:(state, action: PayloadAction<{playerId: string, newChallengerStatus: boolean}>) => {
+      state.challengePlayers.forEach(player => {
+        if (player.id === action.payload.playerId) {
+          player.isChallenger = action.payload.newChallengerStatus
+        }
+      })
     }
   }
 })
 
-export const { createPlayer, movePlayerTo, updateMGOStatus} = gymSlice.actions
+export const { createPlayer, movePlayerTo, updateMGOStatus, setChallengerStatus} = gymSlice.actions
 
 export default gymSlice.reducer

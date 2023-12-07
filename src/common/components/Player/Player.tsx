@@ -5,7 +5,7 @@ import { useDrag } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch } from 'react-redux'
-import { movePlayerTo, updateMGOStatus } from '../../../app/redux/gymSlice'
+import { movePlayerTo, setChallengerStatus, updateMGOStatus } from '../../../app/redux/gymSlice'
 import { ChipType } from '../Chip/types'
 
 const setColor = (level: number) => {
@@ -60,10 +60,16 @@ const Player: React.FC<Props> = ({ player, parent }) => {
     setTicks(player.ticks)
     setIsMustGoOn(player.isMustGoOn)
     setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
-    
-    if(parent === Positions.Challenge){ // TODO: Need to persist player challenge status when player is moved to challenge court
+    setIsChallenger(player.isChallenger)
+
+    if (parent === Positions.Challenge){
+      dispatch(setChallengerStatus({
+        playerId: id,
+        newChallengerStatus: true,
+      }))
       setIsChallenger(true)
     }
+    
     
 
   }, [player])
