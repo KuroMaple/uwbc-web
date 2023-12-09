@@ -47,13 +47,9 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
     }),
   }))
 
-  const filterMGO = () => {
-    setFilterByMGO(!filterByMGO)
-  }
-
   return (
     <div className="flex flex-col items-center justify-center h-full" ref={drop}>
-      <Controls parent={variant} filterMGO={filterMGO}/>
+      <Controls parent={variant} filterByMGO={filterByMGO} setFilterByMGO={setFilterByMGO}/>
       <div className='h-TAB-PANEL-RATIO justify-center items-center'>
         {(filterByMGO && variant === Positions.Bench) ? (
           players.filter((player: IPlayer) => player.isMustGoOn).map((player: IPlayer) => (

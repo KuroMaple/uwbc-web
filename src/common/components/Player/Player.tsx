@@ -32,9 +32,10 @@ const setColor = (level: number) => {
 interface Props {
   player: IPlayer
   parent: Positions
+  isDefender?: boolean
 }
 
-const Player: React.FC<Props> = ({ player, parent }) => {
+const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   
   // Externally pulled player properties
   const [name, setName] = useState(player.name)
@@ -43,17 +44,16 @@ const Player: React.FC<Props> = ({ player, parent }) => {
   const [position, setPosition] = useState<Positions>(player.position)
   const [ticks, setTicks] = useState(player.ticks)
   const [isMustGoOn, setIsMustGoOn] = useState(player.isMustGoOn)
-  const [isChallenger, setIsChallenger] = useState(player.isChallenger)
+  const [isChallenger, setIsChallenger] = useState(player.isChallenger) // Edit courts from more than one device consideration 
 
   // Local player properties
   const [onCourt, setOnCourt] = useState(false)
+  const [isDefenderState, setIsDefenderState] = useState(false)
   
 
   // Redux connection
   const dispatch = useDispatch()
   
-
-  // Fix this according to this document in future: https://redux.js.org/usage/deriving-data-selectors
   useEffect(() => {
     setName(player.name)
     setId(player.id)
@@ -63,6 +63,10 @@ const Player: React.FC<Props> = ({ player, parent }) => {
     setIsMustGoOn(player.isMustGoOn)
     setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
     setIsChallenger(player.isChallenger)
+
+    if(isDefender){ // if the defender state was passed set it
+      setIsDefenderState(isDefender)
+    }
 
     if (parent === Positions.Challenge){
       dispatch(setChallengerStatus({
@@ -123,7 +127,7 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         {
           minWidth: '120px',
           height: '60px',
-          padding: '1px',
+          padding: '3px',
           position: 'relative',
         }
       }
@@ -188,7 +192,17 @@ const Player: React.FC<Props> = ({ player, parent }) => {
         <Chip variant={ChipType.OC}/> 
       </Box>}
 
-      {}
+      {isDefenderState && onCourt &&
+        <Box sx={{
+          position: 'absolute',
+          bottom: '0px',
+          right: '0px',
+          zIndex: 3,
+        }}
+        >
+          <Chip variant={ChipType.DEF}/> 
+        </Box>
+      }
       {/* Player Tag JSX Below*/}
       <Paper
         sx={{

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
-import { movePlayerTo, selectCourt43Players } from '../../../app/redux/gymSlice'
+import { movePlayerTo } from '../../../app/redux/gymSlice'
 import { useEffect, useState } from 'react'
 interface Props {
   courtPosition: Positions
@@ -44,6 +44,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
   const [players, setPlayers] = useState(courtPlayers)
   const [isChallengeCourt, setIsChallengeCourt] = useState(false)
+  const [isDefender, setIsDefender] = useState(false) // Defender prop for non challenger court players
 
 
   useEffect(() => {
@@ -55,13 +56,17 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   
   // Limit courts to four players max
   // Only allow one challenger per court
-  const Court43Players = useSelector((state: RootState) => selectCourt43Players(state.gym))
-  
+
   const isDroppable = (item: PlayerDropType) => {
     const parent = item.source
-    const playerId = item.movedPlayerId
-    console.log(Court43Players)
-    return players.length < 4
+    if (players.length === 0) {
+      setIsDefender(false) // Court is empty so defender status is reset
+      return true
+    }
+    if (parent === Positions.Challenge) {// If a player is moved from the challenge court, all subsequent players must be defenders
+      setIsDefender(true)
+    }
+    return players.length < 4 && parent !== Positions.Challenge
   }
 
   const dispatch = useDispatch()
@@ -107,7 +112,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       
       <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
         {players.map((player) => (
-          <Player key={player.id} player={player} parent={courtPosition}/>
+          <Player key={player.id} player={player} parent={courtPosition} isDefender={isDefender}/>
         ))}
       </div>
     </div>

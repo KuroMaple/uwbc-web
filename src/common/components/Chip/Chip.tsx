@@ -51,7 +51,7 @@ const Chip: React.FC<Props> = ({ variant }) => {
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'top',
-        paddingBottom: '2px',
+        paddingBottom: '0px',
         '& .MuiChip-label': {
           padding: 0,  // Remove padding for the label
         },
@@ -63,13 +63,12 @@ const Chip: React.FC<Props> = ({ variant }) => {
       <MUIChip label="DEF" sx={{
         color: 'white',
         backgroundColor: '#3498db',
-        width: '30px',
-        height: '30px',
+        width: '25px',
+        height: '20px',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        textAlign: 'top',
-        paddingBottom: '2px',
+        fontSize: '10px',
         '& .MuiChip-label': {
           padding: 0,  // Remove padding for the label
         },

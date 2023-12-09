@@ -9,10 +9,11 @@ import TuneIcon from '@mui/icons-material/Tune'
 
 interface Props {
   parent: Positions
-  filterMGO: () => void
+  filterByMGO: boolean
+  setFilterByMGO: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Controls: React.FC<Props> = ({ parent, filterMGO }) => {
+const Controls: React.FC<Props> = ({ parent, filterByMGO, setFilterByMGO }) => {
 
   const dispatch = useDispatch()
   
@@ -27,7 +28,10 @@ const Controls: React.FC<Props> = ({ parent, filterMGO }) => {
       </IconButton>
       <IconButton
         title='Filter by MGO'
-        onClick={filterMGO}>
+        onClick={() => setFilterByMGO(!filterByMGO)}
+        sx={{
+          backgroundColor: filterByMGO ? 'lightblue' : 'inherit',
+        }}>
         <TuneIcon/>
       </IconButton>
       

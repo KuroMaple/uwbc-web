@@ -233,7 +233,7 @@ const gymSlice = createSlice({
 
 //Redux selectors
 const selectBenchedPlayers = (state: GymState) => state.benchPlayers
-const selectChallengePlayers = (state: GymState) => state.challengePlayers
+export const selectChallengePlayers = (state: GymState) => state.challengePlayers
 const selectCourt4Players = (state: GymState) => state.court4.players
 const selectCourt3Players = (state: GymState) => state.court3.players
 
