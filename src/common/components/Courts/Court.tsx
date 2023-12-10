@@ -47,28 +47,27 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   // Pulling from redux store
   const isChallengeCourt = useSelector((state: RootState) => {
     switch (courtPosition) {
-    // case Positions.Court1:
-    //   return state.gym.court1.isChallenge
-    // case Positions.Court2:
-    //   return state.gym.court2.isChallenge
-    // case Positions.Court3:
-    //   return state.gym.court3.isChallenge
+    case Positions.Court1:
+      return state.gym.court1.isChallenge
+    case Positions.Court2:
+      return state.gym.court2.isChallenge
+    case Positions.Court3:
+      return state.gym.court3.isChallenge
     case Positions.Court4:
       return state.gym.court4.isChallenge
-    // case Positions.Court5:
-    //   return state.gym.court5.isChallenge
-    // case Positions.Court6:
-    //   return state.gym.court6.isChallenge
-    // case Positions.Court7:
-    //   return state.gym.court7.isChallenge
-    // case Positions.Court8:
-    //   return state.gym.court8.isChallenge
+    case Positions.Court5:
+      return state.gym.court5.isChallenge
+    case Positions.Court6:
+      return state.gym.court6.isChallenge
+    case Positions.Court7:
+      return state.gym.court7.isChallenge
+    case Positions.Court8:
+      return state.gym.court8.isChallenge
     default:
       return false // Set a default value if courtPosition is not handled
     }
   })
   
-  const [isDefender, setIsDefender] = useState(false) // Defender prop for non challenger court players
 
   useEffect(() => {
     setPlayers(courtPlayers)
@@ -127,7 +126,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       
       <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
         {players.map((player) => (
-          <Player key={player.id} player={player} parent={courtPosition} isDefender={isDefender}/>
+          <Player key={player.id} player={player} parent={courtPosition} isDefender={isChallengeCourt}/>
         ))}
       </div>
     </div>

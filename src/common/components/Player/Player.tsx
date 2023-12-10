@@ -48,7 +48,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
 
   // Local player properties
   const [onCourt, setOnCourt] = useState(false)
-  const [isDefenderState, setIsDefenderState] = useState(false)
+
   
 
   // Redux connection
@@ -63,10 +63,6 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
     setIsMustGoOn(player.isMustGoOn)
     setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
     setIsChallenger(player.isChallenger)
-
-    if(isDefender){ // if the defender state was passed set it
-      setIsDefenderState(isDefender)
-    }
 
     if (parent === Positions.Challenge){
       dispatch(setChallengerStatus({
@@ -180,7 +176,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
       {isChallenger && onCourt &&
         <Box sx={{
           position: 'absolute',
-          bottom: '0px',
+          bottom: '0px', // altering bottom instead of top to avoid overlap with X button
           right: '0px',
           zIndex: 4,
         }}>
@@ -207,7 +203,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
         <Chip variant={ChipType.OC}/> 
       </Box>}
 
-      {isDefenderState && onCourt &&
+      {isDefender && onCourt && !isChallenger && // Necessary to prevent overlap with CH chip, as IsDefender is set to true for challenge court
         <Box sx={{
           position: 'absolute',
           bottom: '0px',
@@ -218,6 +214,8 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           <Chip variant={ChipType.DEF}/> 
         </Box>
       }
+
+
       {/* Player Tag JSX Below*/}
       <Paper
         sx={{
