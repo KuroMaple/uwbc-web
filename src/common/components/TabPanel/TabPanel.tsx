@@ -5,7 +5,7 @@ import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import Player from '../Player/Player'
 import { movePlayerTo } from '../../../app/redux/gymSlice'
-import Controls from '../PanelControls/Controls'
+import Controls from '../TabPanelControls/Controls'
 import { useState } from 'react'
 
 interface Props {

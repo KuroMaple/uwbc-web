@@ -282,9 +282,36 @@ const gymSlice = createSlice({
       }
       }
     },
+    resetAllCourts:(state) => {
+      state.benchPlayers = [...state.benchPlayers, ...state.court1.players, ...state.court2.players, 
+        ...state.court3.players, ...state.court4.players, ...state.court5.players, ...state.court6.players, 
+        ...state.court7.players, ...state.court8.players]
+      state.benchPlayers.forEach(player => {
+        //reset all player on bench
+        player.position = Positions.Bench
+        player.isMustGoOn = false
+        player.isChallenger = false
+      })
+      state.court1.players = []
+      state.court1.isChallenge = false
+      state.court2.players = []
+      state.court2.isChallenge = false
+      state.court3.players = []
+      state.court3.isChallenge = false
+      state.court4.players = []
+      state.court4.isChallenge = false
+      state.court5.players = []
+      state.court5.isChallenge = false
+      state.court6.players = []
+      state.court6.isChallenge = false
+      state.court7.players = []
+      state.court7.isChallenge = false
+      state.court8.players = []
+      state.court8.isChallenge = false
+    },
   }
 })
 
-export const { createPlayer, movePlayerTo, updateMGOStatus, setChallengerStatus, setCourtChallenge} = gymSlice.actions
+export const { createPlayer, movePlayerTo, updateMGOStatus, setChallengerStatus, setCourtChallenge, resetAllCourts} = gymSlice.actions
 
 export default gymSlice.reducer
