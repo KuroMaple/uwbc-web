@@ -166,6 +166,8 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
       {isChallenger && !onCourt &&
         <Box sx={{
           position: 'absolute',
+          height: '25px',
+          width: '30px',
           top: '0px',
           right: '0px',
           zIndex: 2,
@@ -176,6 +178,8 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
       {isChallenger && onCourt &&
         <Box sx={{
           position: 'absolute',
+          height: '25px',
+          width: '30px',
           bottom: '0px', // altering bottom instead of top to avoid overlap with X button
           right: '0px',
           zIndex: 4,
@@ -206,6 +210,8 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
       {isDefender && onCourt && !isChallenger && // Necessary to prevent overlap with CH chip, as IsDefender is set to true for challenge court
         <Box sx={{
           position: 'absolute',
+          width: '25px',
+          height: '20px',
           bottom: '0px',
           right: '0px',
           zIndex: 3,

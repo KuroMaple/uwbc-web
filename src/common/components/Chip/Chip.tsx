@@ -49,8 +49,8 @@ const Chip: React.FC<Props> = ({ variant }) => {
       <MUIChip label="CH" sx={{
         color: 'white',
         backgroundColor: '#FF6969',
-        width: '30px',
-        height: '25px',
+        width: '100%',
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -67,8 +67,8 @@ const Chip: React.FC<Props> = ({ variant }) => {
       <MUIChip label="DEF" sx={{
         color: 'white',
         backgroundColor: '#3498db',
-        width: '25px',
-        height: '20px',
+        width: '100%',
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -84,8 +84,8 @@ const Chip: React.FC<Props> = ({ variant }) => {
       <MUIChip label="BR" sx={{
         color: 'white',
         backgroundColor: '#ffb347',
-        width: '30px',
-        height: '30px',
+        width: '100%', // parent height width should be 30px
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',

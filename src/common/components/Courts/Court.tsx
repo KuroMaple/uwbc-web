@@ -5,14 +5,18 @@ import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
 import { movePlayerTo, setCourtChallenge } from '../../../app/redux/gymSlice'
-import { useEffect, useState } from 'react'
+import { Box } from '@mui/material'
+import Chip from '../Chip/Chip'
+import { ChipType } from '../Chip/types'
 interface Props {
   courtPosition: Positions
   courtNumber: string
 }
 const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
-  const courtPlayers = useSelector((state: RootState) =>{
+  const dispatch = useDispatch()
+
+  const players = useSelector((state: RootState) =>{
     switch (courtPosition) {
     case Positions.Court1:
       return state.gym.court1.players
@@ -41,9 +45,6 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     
   })!
 
-
-  const [players, setPlayers] = useState(courtPlayers)
-
   // Pulling from redux store
   const isChallengeCourt = useSelector((state: RootState) => {
     switch (courtPosition) {
@@ -68,11 +69,6 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     }
   })
   
-
-  useEffect(() => {
-    setPlayers(courtPlayers)
-  }, [courtPlayers])
-  
   // Limit courts to four players max
   // Only allow one challenger per court
 
@@ -82,7 +78,20 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
             (players.length < 4 && parent !== Positions.Challenge)
   }
 
-  const dispatch = useDispatch()
+  const removeAllPlayers = () => {
+    players.forEach((player) => {
+      dispatch(movePlayerTo({
+        source: courtPosition,
+        target: Positions.Bench,
+        movedPlayerId: player.id,
+      }))
+    })
+    // Reset the challenge status of the court
+    dispatch(setCourtChallenge({
+      courtNumber: parseInt(courtPosition),
+      isChallenge: false,
+    }))
+  }
 
   const [{ isOver, canDrop}, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
@@ -117,7 +126,26 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     backgroundColor = '#F44336'
   }
   return (
-    <div className='flex flex-row items-center space-x-7 h-full bg-green-600 min-w-court relative'>
+    <div className='flex flex-row items-center space-x-7 h-full bg-green-600 min-w-court relative pr-3'>
+      { players.length > 0  && // remove all players X button
+      <Box sx={{
+        position: 'absolute',
+        height: '30px',
+        width: '30px',
+        top: '0px',
+        right: '0px',
+        zIndex: 3,
+        '&:hover': {
+          cursor: 'pointer',
+        },
+        '& > *': {
+          fontSize: '20px', // Adjust font size of child chip
+        },
+      }}
+      onClick={removeAllPlayers}
+      >
+        <Chip variant={ChipType.OC}/> 
+      </Box>}
       <div className='flex flex-col items-center'>
         {isChallengeCourt && <span className='text-sm'>Challenge</span>}
         <span>Court</span>
@@ -126,7 +154,9 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       
       <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
         {players.map((player) => (
-          <Player key={player.id} player={player} parent={courtPosition} isDefender={isChallengeCourt}/>
+          <Player key={player.id} player={player} parent={courtPosition} isDefender={isChallengeCourt}/> /* isDefender is set to true for challenge court, 
+                                                                                                    since there is explict check for challenger player chips
+                                                                                                     when setting defender chips*/
         ))}
       </div>
     </div>
