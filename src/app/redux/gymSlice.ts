@@ -1,4 +1,4 @@
-import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
 import { PlayerMoveAction } from './DndTypes'
 
@@ -6,27 +6,35 @@ interface GymState {
   benchPlayers: IPlayer[],
   challengePlayers: IPlayer[],
   court1: {
+    isChallenge: boolean,
     players: IPlayer[],
   }
   court2: {
+    isChallenge: boolean,
     players: IPlayer[],
   },
   court3: {
+    isChallenge: boolean,
     players: IPlayer[],
   },
   court4: {
+    isChallenge: boolean,
     players: IPlayer[],
   },
   court5: {
+    isChallenge: boolean,
     players: IPlayer[],
   },
   court6: {
+    isChallenge: boolean,
     players: IPlayer[],
   },
   court7: {
+    isChallenge: boolean,
     players: IPlayer[],
   },
   court8: {
+    isChallenge: boolean,
     players: IPlayer[],
   },
 
@@ -36,27 +44,35 @@ const initialState: GymState = {
   benchPlayers: [],
   challengePlayers: [],
   court1: {
+    isChallenge: false,
     players: [],
   },
   court2: {
+    isChallenge: false,
     players: [],
   },
   court3: {
+    isChallenge: false,
     players: [],
   },
   court4: {
+    isChallenge: false,
     players: [],
   },
   court5: {
+    isChallenge: false,
     players: [],
   },
   court6: {
+    isChallenge: false,
     players: [],
   },
   court7: {
+    isChallenge: false,
     players: [],
   },
   court8: {
+    isChallenge: false,
     players: [],
   },
 }
@@ -226,21 +242,49 @@ const gymSlice = createSlice({
           player.isChallenger = action.payload.newChallengerStatus
         }
       })
-    }
+    },
+    setCourtChallenge:(state, action: PayloadAction<{courtNumber: number, isChallenge: boolean}>) => {
+      switch (action.payload.courtNumber) {
+      case 1: {
+        state.court1.isChallenge = action.payload.isChallenge
+        break
+      }
+      case 2: {
+        state.court2.isChallenge = action.payload.isChallenge
+        break
+      }
+      case 3: {
+        state.court3.isChallenge = action.payload.isChallenge
+        break
+      }
+      case 4: {
+        state.court4.isChallenge = action.payload.isChallenge
+        break
+      }
+      case 5: {
+        state.court5.isChallenge = action.payload.isChallenge
+        break
+      }
+      case 6: {
+        state.court6.isChallenge = action.payload.isChallenge
+        break
+      }
+      case 7: {
+        state.court7.isChallenge = action.payload.isChallenge
+        break
+      }
+      case 8: {
+        state.court8.isChallenge = action.payload.isChallenge
+        break
+      }
+      default: {
+        break
+      }
+      }
+    },
   }
 })
 
-
-//Redux selectors
-const selectBenchedPlayers = (state: GymState) => state.benchPlayers
-export const selectChallengePlayers = (state: GymState) => state.challengePlayers
-const selectCourt4Players = (state: GymState) => state.court4.players
-const selectCourt3Players = (state: GymState) => state.court3.players
-
-export const selectCourt43Players = createSelector([selectCourt4Players, selectCourt3Players], (court4Players, court3Players) => {
-  return [...court4Players, ...court3Players]
-})
-
-export const { createPlayer, movePlayerTo, updateMGOStatus, setChallengerStatus} = gymSlice.actions
+export const { createPlayer, movePlayerTo, updateMGOStatus, setChallengerStatus, setCourtChallenge} = gymSlice.actions
 
 export default gymSlice.reducer

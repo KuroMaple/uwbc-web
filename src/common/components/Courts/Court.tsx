@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
-import { movePlayerTo } from '../../../app/redux/gymSlice'
+import { movePlayerTo, setCourtChallenge } from '../../../app/redux/gymSlice'
 import { useEffect, useState } from 'react'
 interface Props {
   courtPosition: Positions
@@ -43,15 +43,35 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
 
   const [players, setPlayers] = useState(courtPlayers)
-  const [isChallengeCourt, setIsChallengeCourt] = useState(false)
-  const [isDefender, setIsDefender] = useState(false) // Defender prop for non challenger court players
 
+  // Pulling from redux store
+  const isChallengeCourt = useSelector((state: RootState) => {
+    switch (courtPosition) {
+    // case Positions.Court1:
+    //   return state.gym.court1.isChallenge
+    // case Positions.Court2:
+    //   return state.gym.court2.isChallenge
+    // case Positions.Court3:
+    //   return state.gym.court3.isChallenge
+    case Positions.Court4:
+      return state.gym.court4.isChallenge
+    // case Positions.Court5:
+    //   return state.gym.court5.isChallenge
+    // case Positions.Court6:
+    //   return state.gym.court6.isChallenge
+    // case Positions.Court7:
+    //   return state.gym.court7.isChallenge
+    // case Positions.Court8:
+    //   return state.gym.court8.isChallenge
+    default:
+      return false // Set a default value if courtPosition is not handled
+    }
+  })
+  
+  const [isDefender, setIsDefender] = useState(false) // Defender prop for non challenger court players
 
   useEffect(() => {
     setPlayers(courtPlayers)
-    if (courtPlayers.length === 0) {
-      setIsChallengeCourt(false)
-    }
   }, [courtPlayers])
   
   // Limit courts to four players max
@@ -59,24 +79,21 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
   const isDroppable = (item: PlayerDropType) => {
     const parent = item.source
-    if (players.length === 0) {
-      setIsDefender(false) // Court is empty so defender status is reset
-      return true
-    }
-    if (parent === Positions.Challenge) {// If a player is moved from the challenge court, all subsequent players must be defenders
-      setIsDefender(true)
-    }
-    return players.length < 4 && parent !== Positions.Challenge
+    return (parent === Positions.Challenge && players.length === 0) || 
+            (players.length < 4 && parent !== Positions.Challenge)
   }
 
   const dispatch = useDispatch()
 
-  const [{ isOver, canDrop }, drop] = useDrop(() => ({
+  const [{ isOver, canDrop}, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
     canDrop: (item) => isDroppable(item),
     drop: (item: PlayerDropType) => {
       if (item.source === Positions.Challenge) {
-        setIsChallengeCourt(true)
+        dispatch(setCourtChallenge({
+          courtNumber: parseInt(courtPosition),
+          isChallenge: true,
+        }))
       }
       dispatch(
         movePlayerTo({
@@ -85,13 +102,11 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
           movedPlayerId: item.movedPlayerId,
         }),
       )
-
-
     },
     collect: (monitor) => ({
       // Use isOver to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean
-      canDrop: !!monitor.canDrop()
+      canDrop: !!monitor.canDrop(),
     }),
   }), [players])
 
@@ -103,7 +118,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     backgroundColor = '#F44336'
   }
   return (
-    <div className='flex flex-row items-center space-x-7 h-full bg-green-600 min-w-court'>
+    <div className='flex flex-row items-center space-x-7 h-full bg-green-600 min-w-court relative'>
       <div className='flex flex-col items-center'>
         {isChallengeCourt && <span className='text-sm'>Challenge</span>}
         <span>Court</span>

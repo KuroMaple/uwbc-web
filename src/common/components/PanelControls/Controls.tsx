@@ -30,7 +30,7 @@ const Controls: React.FC<Props> = ({ parent, filterByMGO, setFilterByMGO }) => {
         title='Filter by MGO'
         onClick={() => setFilterByMGO(!filterByMGO)}
         sx={{
-          backgroundColor: filterByMGO ? 'lightblue' : 'inherit',
+          backgroundColor: filterByMGO ? '#27C376' : 'inherit',
         }}>
         <TuneIcon/>
       </IconButton>

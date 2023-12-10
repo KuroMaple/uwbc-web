@@ -5,7 +5,7 @@ import { useDrag } from 'react-dnd'
 import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch } from 'react-redux'
-import { movePlayerTo, setChallengerStatus, updateMGOStatus } from '../../../app/redux/gymSlice'
+import { movePlayerTo, setChallengerStatus, setCourtChallenge, updateMGOStatus } from '../../../app/redux/gymSlice'
 import { ChipType } from '../Chip/types'
 
 const setColor = (level: number) => {
@@ -73,7 +73,6 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
         playerId: id,
         newChallengerStatus: true,
       }))
-      setIsChallenger(true)
     }
     
     
@@ -100,6 +99,18 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
 
   // Removes player from court and places them in bench
   const removeFromCourt = () => {
+    if (isChallenger) {
+      dispatch(setChallengerStatus({
+        playerId: id,
+        newChallengerStatus: false,
+      }))
+      //Reset the challenge status of the court
+      dispatch(setCourtChallenge({
+        courtNumber: parseInt(position),
+        isChallenge: false,
+      }))
+
+    }
     dispatch(
       movePlayerTo({
         source: position,
@@ -150,6 +161,8 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
         top: '0px',
         right: '0px',
         zIndex: 1,
+        width: '20px',
+        height: '20px',
       }}>
         <Chip variant={ChipType.MGO}/>
       </Box> }
@@ -178,6 +191,8 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
       {onCourt &&
       <Box sx={{
         position: 'absolute',
+        height: '17px',
+        width: '17px',
         top: '0px',
         right: '0px',
         zIndex: 3,

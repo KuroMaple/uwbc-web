@@ -10,8 +10,8 @@ const Chip: React.FC<Props> = ({ variant }) => {
       <MUIChip label="M" sx={{
         color: 'white',
         backgroundColor: '#0FA958',
-        width: '20px',
-        height: '20px',
+        width: '100%',
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -26,8 +26,8 @@ const Chip: React.FC<Props> = ({ variant }) => {
       <MUIChip label="x" sx={{
         color: 'white',
         backgroundColor: '#808080',
-        width: '17px',
-        height: '17px',
+        width: '100%',
+        height: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
@@ -35,6 +35,10 @@ const Chip: React.FC<Props> = ({ variant }) => {
         paddingBottom: '2px',
         '& .MuiChip-label': {
           padding: 0,  // Remove padding for the label
+        },
+        transition: 'transform 0.1s ease-in-out', // Add a transition for smooth effect
+        '&:hover': {
+          transform: 'scale(1.2)', // Enlarge the button on hover
         },
       }}/>
     )
