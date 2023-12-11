@@ -1,53 +1,61 @@
 import { useEffect, useState } from 'react'
-
+import useSound from 'use-sound'
+import timerUp from '../../../assets/timerUp.mp3'
 
 interface Props {
   minutes: number
   seconds: number
-  isRunning: boolean
 }
 
-const TimerView: React.FC<Props> = ({ minutes, seconds, isRunning }) => {
+const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
 
-  const [zero, setZero] = useState(false)
+  const [isZero, setIsZero] = useState(false)
+  const [play] = useSound(timerUp)
 
-  //Alter court background based on time left
-  // let backgroundColor = 'steelblue'
-  // if (minutes < 13 && minutes > 3) {
-  //   backgroundColor = '#4CAF50'
-  // }
-  // else if (minutes <= 3 ) {
-  //   backgroundColor = '#FFEB3B'
-  // }
-
-  // if(!zero) {
-  //   backgroundColor = '#F44336'
-  // }
 
 
   useEffect(() => {
     if (minutes === 0 && seconds === 0) {
-      setZero(true)
+      
+      let count = 0
 
-      // Flash effect for 1 second
-      const timeout = setTimeout(() => {
-        setZero(false)
-      }, 10000)
-
-      return () => clearTimeout(timeout)
+      const flashEffect = () => {
+        
+        setIsZero(true)
+        
+        // Flash effect for 500 milliseconds
+        setTimeout(() => {
+          setIsZero(false)
+          count++
+          
+          if (count === 30) { // 30 flashes
+            clearInterval(interval)
+          }
+        }, 500)
+      }
+      
+      
+      const interval = setInterval(flashEffect, 1000) // Repeat every second
+  
+      return () => {
+        play() // play sound effect
+        clearInterval(interval)
+      }
     }
+    
   }, [minutes, seconds])
+
+
   return (
     <div style={{
       fontSize: '50px',
-      backgroundColor: zero ? 'red' : 'steelblue',
+      backgroundColor: isZero ? '#F44336' : '',
       height: '15%',
       width: '130px',
       borderRadius: '10px',
       display: 'flex',
       justifyContent: 'center',
       alignItems: 'center',
-      padding: '5px',
       transition: 'background-color 0.5s ease',
     }}>
       <span>{minutes.toString().padStart(2, '0')}</span>:<span>{seconds.toString().padStart(2, '0')}</span>

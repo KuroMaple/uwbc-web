@@ -21,7 +21,6 @@ const Exec = () => {
   time.setSeconds(time.getSeconds() + 10) // 13 minutes timer = 780s
 
   const {
-    isRunning,
     seconds,
     minutes,
     start,
@@ -38,7 +37,7 @@ const Exec = () => {
       
       <DndProvider backend={HTML5Backend}>
         <div className='flex flex-row w-screen'>
-          <div className='mb-4 flex-col bg-blue-50'>
+          <div className='mb-4 flex-col '>
             <h1 className="font-semibold text-center">UWBC Exec Tool</h1>
             <PlayerTabs />
           </div>
@@ -47,7 +46,7 @@ const Exec = () => {
         
         <div
           className='flex flex-col w-28 h-72 justify-between items-center ml-3'>
-          <TimerView minutes={minutes} seconds={seconds} isRunning={isRunning}/>
+          <TimerView minutes={minutes} seconds={seconds} />
           <MasterControls TimerActions={{start, pause, resume, restart}}/>
           
         </div>
