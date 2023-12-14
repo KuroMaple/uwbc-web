@@ -2,6 +2,7 @@ import { IconButton, Stack } from '@mui/material'
 import PlayArrowIcon from '@mui/icons-material/PlayArrow'
 import PauseIcon from '@mui/icons-material/Pause'
 import StopIcon from '@mui/icons-material/Stop'
+import { memo } from 'react'
 
 const IconButtonStyle = {
   fontSize: 60,
@@ -24,16 +25,14 @@ const IconButtonStyle = {
 } 
 
 interface Props {
-  TimerActions: {
-    start: () => void
-    pause: () => void
-    resume: () => void
-    restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void
-  }
+  start: () => void
+  pause: () => void
+  restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void
+  isRunning: boolean
 }
 
 
-const TimerControls: React.FC<Props> = ({TimerActions}) => {
+const TimerControls: React.FC<Props> = ({ start, pause, restart, isRunning }) => {
 
 
   return (
@@ -45,22 +44,24 @@ const TimerControls: React.FC<Props> = ({TimerActions}) => {
         marginTop: '10px',
       }}
     >
-      <IconButton
-        sx={IconButtonStyle}
-        onClick={TimerActions.start}>
-        <PlayArrowIcon />
-      </IconButton>
-      <IconButton
-        sx={IconButtonStyle}
-        onClick={TimerActions.pause}>
-        <PauseIcon />
-      </IconButton>
+      {isRunning ? (
+        <IconButton
+          sx={IconButtonStyle}
+          onClick={pause}>
+          <PauseIcon />
+        </IconButton>) : (
+        <IconButton
+          sx={IconButtonStyle}
+          onClick={start}>
+          <PlayArrowIcon />
+        </IconButton>)}
+      
       <IconButton
         sx={IconButtonStyle}
         onClick={() => { // Restart 13 min timer
           const time = new Date()
           time.setSeconds(time.getSeconds() + 780) // 13 minutes timer
-          TimerActions.restart(time)
+          restart(time)
         }}>
         <StopIcon />
       </IconButton>
@@ -68,4 +69,4 @@ const TimerControls: React.FC<Props> = ({TimerActions}) => {
   )
 }
 
-export default TimerControls
+export default memo(TimerControls)

@@ -8,7 +8,10 @@ module.exports = {
       },
       minWidth: {
         'court': '77%',
-      }
+      },
+      width: {
+        'main-content': '90%',
+      },
     },
   },
   plugins: [],

@@ -1,5 +1,5 @@
 import { Box, Tab } from '@mui/material'
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import MUITabPanel from '@mui/lab/TabPanel'
@@ -66,4 +66,4 @@ const PlayerTabs = () => {
   )
 }
 
-export default PlayerTabs
+export default memo(PlayerTabs)

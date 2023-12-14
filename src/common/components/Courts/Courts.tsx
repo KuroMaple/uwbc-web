@@ -1,5 +1,6 @@
 import { Positions } from '../../interfaces/IPlayer'
 import Court from './Court'
+import { memo } from 'react'
 
 const Courts = () => {
   return (
@@ -16,4 +17,4 @@ const Courts = () => {
   )
 }
 
-export default Courts
+export default memo(Courts)

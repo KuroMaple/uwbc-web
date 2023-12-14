@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react'
-import useSound from 'use-sound'
-import timerUp from '../../../assets/timerUp.mp3'
 
 interface Props {
   minutes: number
@@ -10,7 +8,7 @@ interface Props {
 const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
 
   const [isZero, setIsZero] = useState(false)
-  const [play] = useSound(timerUp)
+
 
 
 
@@ -28,7 +26,7 @@ const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
           setIsZero(false)
           count++
           
-          if (count === 30) { // 30 flashes
+          if (count === 50) { // 30 flashes
             clearInterval(interval)
           }
         }, 500)
@@ -38,7 +36,6 @@ const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
       const interval = setInterval(flashEffect, 1000) // Repeat every second
   
       return () => {
-        play() // play sound effect
         clearInterval(interval)
       }
     }
@@ -51,7 +48,7 @@ const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
       fontSize: '50px',
       backgroundColor: isZero ? '#F44336' : '',
       height: '15%',
-      width: '130px',
+      width: '100%',
       borderRadius: '10px',
       display: 'flex',
       justifyContent: 'center',

@@ -4,17 +4,16 @@ import { Stack } from '@mui/material'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import { resetAllCourts } from '../../../app/redux/gymSlice'
 import TimerControls from '../../../common/components/Timer/TimerControls'
+import { memo } from 'react'
 
 interface Props {
-  TimerActions: {
-    start: () => void
-    pause: () => void
-    resume: () => void
-    restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void
-  }
+  start: () => void
+  pause: () => void
+  restart: (newExpiryTimestamp: Date, autoStart?: boolean | undefined) => void
+  isRunning: boolean
 }
 
-const MasterControls: React.FC<Props> = ({ TimerActions }) => {
+const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) => {
 
   const dispatch = useDispatch()
 
@@ -30,7 +29,7 @@ const MasterControls: React.FC<Props> = ({ TimerActions }) => {
         marginLeft: '10px',
         borderRadius: '10px',
         padding: '5px',
-        height: '70%',
+        height: 'fit-content',
       }}>
 
       <IconButton
@@ -58,11 +57,11 @@ const MasterControls: React.FC<Props> = ({ TimerActions }) => {
         
       </IconButton>
 
-      <TimerControls TimerActions={TimerActions}/>
+      <TimerControls start={start} pause={pause} restart={restart} isRunning={isRunning} />
       
       
     </Stack>
   )
 }
 
-export default MasterControls
+export default memo(MasterControls)
