@@ -8,7 +8,6 @@ const IconButtonStyle = {
   fontSize: 60,
   backgroundColor: 'white',
   borderRadius: '50%', // Add a border-radius for a circular shape
-  padding: '5px', // Add some padding for spacing
   transition: 'transform 0.3s ease-in-out, background-color 0.3s ease-in-out', // Add a transition for a smooth effect
 
   '&:hover': {
@@ -20,7 +19,6 @@ const IconButtonStyle = {
     transform: 'scale(0.9)', // Adjust the scale factor for the click effect
     backgroundColor: '#ccc', // Change background color on click
   },
-  marginBottom: '7px',
 
 } 
 
@@ -39,9 +37,12 @@ const TimerControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =>
     <Stack 
       direction='column'
       sx={{
-        bgcolor: 'blue',
         padding: '5px',
         marginTop: '10px',
+        backgroundColor: 'lightblue',
+        borderRadius: '10px',
+        alignItems: 'center',
+        justifyContent: 'center',
       }}
     >
       {isRunning ? (

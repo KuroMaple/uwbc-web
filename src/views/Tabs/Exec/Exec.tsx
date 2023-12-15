@@ -45,7 +45,12 @@ const Exec = () => {
         
         <div
           className='flex flex-col justify-between items-center ml-3 w-48'>
-          <MasterControls start={start} pause={pause} restart={restart} isRunning={isRunning} />
+          <div
+            className='flex flex-row w-full justify-end'
+          >
+            <MasterControls start={start} pause={pause} restart={restart} isRunning={isRunning} />
+          </div>
+          
           <TimerView minutes={minutes} seconds={seconds} />
         </div>
         
