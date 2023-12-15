@@ -1,18 +1,22 @@
-import { Box, Tab } from '@mui/material'
+import { Box} from '@mui/material'
 import { useState, memo } from 'react'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import MUITabPanel from '@mui/lab/TabPanel'
-import TabPanel from '../../common/components/TabPanel/TabPanel'
-import { Positions } from '../../common/interfaces/IPlayer'
+import TabPanel from '../../../../common/components/TabPanel/TabPanel'
+import { Positions } from '../../../../common/interfaces/IPlayer'
+import PlayerTab from './PlayerTab'
 
 const PlayerTabs = () => {
   const [value, setValue] = useState('1')
+  
+
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
   }
-
+  
+  
   const tabPanelStyle = {
     backgroundColor: '#FAFAF5',
     padding: '0px',
@@ -22,16 +26,6 @@ const PlayerTabs = () => {
     overflow: 'auto',
     borderBottomLeftRadius: '15px',
     borderBottomRightRadius: '15px',
-  }
-
-  const tabStyle = {
-    '&.Mui-selected': {
-      backgroundColor: 'white',
-      color: 'black',
-    },
-    borderTopLeftRadius: '15px',
-    borderTopRightRadius: '15px',
-    textTransform: 'none',
   }
 
   
@@ -49,10 +43,16 @@ const PlayerTabs = () => {
         <Box>
           <TabList onChange={handleChange} aria-label="Player"
           >
-            <Tab label="Bench" value="1"
-              sx={tabStyle}/>
-            <Tab label="Challenge" value="2" 
-              sx={tabStyle}/>
+            <PlayerTab
+              setValue={setValue} 
+              label="Bench" 
+              value="1"
+            />
+            <PlayerTab
+              setValue={setValue}
+              label="Challenge" 
+              value="2" 
+            />
           </TabList>
         </Box>
         <MUITabPanel value="1" sx={tabPanelStyle}>

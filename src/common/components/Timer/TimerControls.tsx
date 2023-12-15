@@ -6,6 +6,7 @@ import { memo } from 'react'
 
 const IconButtonStyle = {
   fontSize: 60,
+  padding: '5px', // Add some padding for spacing
   backgroundColor: 'white',
   borderRadius: '50%', // Add a border-radius for a circular shape
   transition: 'transform 0.3s ease-in-out, background-color 0.3s ease-in-out', // Add a transition for a smooth effect
@@ -36,13 +37,14 @@ const TimerControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =>
   return (
     <Stack 
       direction='column'
+      spacing={2}
       sx={{
         padding: '5px',
         marginTop: '10px',
         backgroundColor: 'lightblue',
         borderRadius: '10px',
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'between',
       }}
     >
       {isRunning ? (

@@ -24,6 +24,7 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
   return (
     <Stack 
       direction='column'
+      spacing={2}
       sx={{
         bgcolor: 'fuchsia',
         marginLeft: '10px',
