@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
-import { PlayerMoveAction } from './DndTypes'
+import { DnDMoveAction } from './DndTypes'
 
 interface GymState {
   benchPlayers: IPlayer[],
@@ -94,7 +94,7 @@ const gymSlice = createSlice({
       }    
       }
     },
-    movePlayerTo:(state, action: PayloadAction<PlayerMoveAction>) => {
+    movePlayerTo:(state, action: PayloadAction<DnDMoveAction>) => {
       let movedPlayer: IPlayer = { // default values
         name: 'NOT INITIALIZED',
         id: '',
@@ -107,55 +107,55 @@ const gymSlice = createSlice({
       // remove from source array
       switch (action.payload.source) {
       case (Positions.Challenge): {
-        movedPlayer = state.challengePlayers.find(player => player.id === action.payload.movedPlayerId)! // asserting that player DEFINETLY exists
+        movedPlayer = state.challengePlayers.find(player => player.id === action.payload.itemId)! // asserting that player DEFINETLY exists
         movedPlayer.isChallenger = true // Since source is Challenge Tab, player is a challenger
-        state.challengePlayers = state.challengePlayers.filter(player => player.id !== action.payload.movedPlayerId)
+        state.challengePlayers = state.challengePlayers.filter(player => player.id !== action.payload.itemId)
 
         break
       }
       case (Positions.Bench): {
-        movedPlayer = state.benchPlayers.find(player => player.id === action.payload.movedPlayerId)!
-        state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.benchPlayers.find(player => player.id === action.payload.itemId)!
+        state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload.itemId)
         break
       }
       case (Positions.Court1): {
-        movedPlayer = state.court1.players.find(player => player.id === action.payload.movedPlayerId)!
-        state.court1.players = state.court1.players.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court1.players.find(player => player.id === action.payload.itemId)!
+        state.court1.players = state.court1.players.filter(player => player.id !== action.payload.itemId)
         break
       }
       case Positions.Court2: {
-        movedPlayer = state.court2.players.find(player => player.id === action.payload.movedPlayerId)!
-        state.court2.players = state.court2.players.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court2.players.find(player => player.id === action.payload.itemId)!
+        state.court2.players = state.court2.players.filter(player => player.id !== action.payload.itemId)
         break
       }
       case Positions.Court3: {
-        movedPlayer = state.court3.players.find(player => player.id === action.payload.movedPlayerId)!
-        state.court3.players = state.court3.players.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court3.players.find(player => player.id === action.payload.itemId)!
+        state.court3.players = state.court3.players.filter(player => player.id !== action.payload.itemId)
         break
       }
       case Positions.Court4: {
-        movedPlayer = state.court4.players.find(player => player.id === action.payload.movedPlayerId)!
-        state.court4.players = state.court4.players.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court4.players.find(player => player.id === action.payload.itemId)!
+        state.court4.players = state.court4.players.filter(player => player.id !== action.payload.itemId)
         break
       }
       case Positions.Court5: {
-        movedPlayer = state.court5.players.find(player => player.id === action.payload.movedPlayerId)!
-        state.court5.players = state.court5.players.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court5.players.find(player => player.id === action.payload.itemId)!
+        state.court5.players = state.court5.players.filter(player => player.id !== action.payload.itemId)
         break
       }
       case Positions.Court6: {
-        movedPlayer = state.court6.players.find(player => player.id === action.payload.movedPlayerId)!
-        state.court6.players = state.court6.players.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court6.players.find(player => player.id === action.payload.itemId)!
+        state.court6.players = state.court6.players.filter(player => player.id !== action.payload.itemId)
         break
       }
       case Positions.Court7: {
-        movedPlayer = state.court7.players.find(player => player.id === action.payload.movedPlayerId)!
-        state.court7.players = state.court7.players.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court7.players.find(player => player.id === action.payload.itemId)!
+        state.court7.players = state.court7.players.filter(player => player.id !== action.payload.itemId)
         break
       }
       case Positions.Court8: {
-        movedPlayer = state.court8.players.find(player => player.id === action.payload.movedPlayerId)!
-        state.court8.players = state.court8.players.filter(player => player.id !== action.payload.movedPlayerId)
+        movedPlayer = state.court8.players.find(player => player.id === action.payload.itemId)!
+        state.court8.players = state.court8.players.filter(player => player.id !== action.payload.itemId)
         break
       }
       }

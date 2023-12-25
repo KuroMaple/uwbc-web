@@ -5,14 +5,14 @@ export const ItemTypes = {
   PLAYER: 'player',
 }
 
-//Type used to move a player from one slice to another
-export type PlayerMoveAction = {
-  source: Positions, // Where the player is being moved from
-  target: Positions, // Where the player is being moved to
-  movedPlayerId: string // The relevant player id
+//Type used to represent a drag and drop action
+export type DnDMoveAction = {
+  source: Positions, // Where the item is being moved from
+  target: Positions, // Where the item is being moved to
+  itemId: string // The relevant item id
 }
 
-export type PlayerDropType = {
-  source: Positions, // Where the player is being moved from
-  movedPlayerId: string // The relevant player id
+export type itemDropType = {
+  source: Positions, // Where the item is being moved from
+  itemId: string // The relevant item id
 }

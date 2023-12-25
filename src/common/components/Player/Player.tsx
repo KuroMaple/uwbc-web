@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
-import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
+import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch } from 'react-redux'
 import { movePlayerTo, setChallengerStatus, setCourtChallenge, updateMGOStatus } from '../../../app/redux/gymSlice'
@@ -78,7 +78,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
-    item: { movedPlayerId: id, source: parent } as PlayerDropType, // So that when a player is dropped, we can send both the source and target to reducer
+    item: { itemId: id, source: parent } as itemDropType, // So that when a player is dropped, we can send both the source and target to reducer
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
     }),
@@ -111,7 +111,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
       movePlayerTo({
         source: position,
         target: Positions.Bench,
-        movedPlayerId: id,
+        itemId: id,
       })
     )
   }

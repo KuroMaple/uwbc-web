@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
-import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
+import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import Player from '../Player/Player'
 import { movePlayerTo } from '../../../app/redux/gymSlice'
@@ -33,12 +33,12 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
  
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: (item: PlayerDropType) =>
+    drop: (item: itemDropType) =>
       dispatch(
         movePlayerTo({
           source: item.source,
           target: variant, 
-          movedPlayerId: item.movedPlayerId
+          itemId: item.itemId
         }),
       ),
     collect: (monitor) => ({

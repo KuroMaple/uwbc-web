@@ -3,7 +3,7 @@ import MUITab from '@mui/material/Tab'
 import { TabProps } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
-import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
+import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import { movePlayerTo } from '../../../app/redux/gymSlice'
 import { Positions } from '../../../common/interfaces/IPlayer'
 
@@ -19,20 +19,20 @@ const PlayerTab: React.FC<PlayerTabProps> = ({setValue, ...props}) => {
   // Drag and Drop logic
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: (item: PlayerDropType) => handleDrop(item),
+    drop: (item: itemDropType) => handleDrop(item),
     collect: (monitor) => ({
       // Use isOver to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean
     }),
   }))
 
-  const handleDrop = (item: PlayerDropType) => {
+  const handleDrop = (item: itemDropType) => {
     if (item.source === Positions.Bench) {
       dispatch(
         movePlayerTo({
           source: item.source,
           target: Positions.Challenge, 
-          movedPlayerId: item.movedPlayerId
+          itemId: item.itemId
         }),
       )
       setValue('2')
@@ -43,7 +43,7 @@ const PlayerTab: React.FC<PlayerTabProps> = ({setValue, ...props}) => {
         movePlayerTo({
           source: item.source,
           target: Positions.Bench, 
-          movedPlayerId: item.movedPlayerId
+          itemId: item.itemId
         }),
       )
       setValue('1')

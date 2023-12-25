@@ -7,6 +7,7 @@ import {
   Link
 } from 'react-router-dom' 
 import { Member } from '../views/Member/Member'
+import Open from '../views/Open /Open'
 
 function App() {
   return (
@@ -30,7 +31,7 @@ function App() {
           </div>} />
         <Route path='/exec' element={<Exec />} />
         <Route path='/members' element={<Member />}/>
-        <Route path='/open' element={<div>Nothing here yet</div>}/>
+        <Route path='/open' element={<Open />}/>
       </Routes>
 
     </Router>

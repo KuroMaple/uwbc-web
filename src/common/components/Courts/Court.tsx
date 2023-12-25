@@ -3,7 +3,7 @@ import { Positions } from '../../interfaces/IPlayer'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
-import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
+import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import { movePlayerTo, setCourtChallenge } from '../../../app/redux/gymSlice'
 import { Box } from '@mui/material'
 import Chip from '../Chip/Chip'
@@ -72,7 +72,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   // Limit courts to four players max
   // Only allow one challenger per court
 
-  const isDroppable = (item: PlayerDropType) => {
+  const isDroppable = (item: itemDropType) => {
     const parent = item.source
     return (parent === Positions.Challenge && players.length === 0) || 
             (players.length < 4 && parent !== Positions.Challenge)
@@ -83,7 +83,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       dispatch(movePlayerTo({
         source: courtPosition,
         target: Positions.Bench,
-        movedPlayerId: player.id,
+        itemId: player.id,
       }))
     })
     // Reset the challenge status of the court
@@ -96,7 +96,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   const [{ isOver, canDrop}, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
     canDrop: (item) => isDroppable(item),
-    drop: (item: PlayerDropType) => {
+    drop: (item: itemDropType) => {
       if (item.source === Positions.Challenge) {
         dispatch(setCourtChallenge({
           courtNumber: parseInt(courtPosition),
@@ -107,7 +107,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
         movePlayerTo({
           source: item.source,
           target: courtPosition,
-          movedPlayerId: item.movedPlayerId,
+          itemId: item.itemId,
         }),
       )
     },
