@@ -126,7 +126,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     backgroundColor = '#F44336'
   }
   return (
-    <div className='flex flex-row items-center space-x-7 h-full bg-green-600 min-w-court relative pr-3'>
+    <div className='flex flex-row items-center space-x-7 h-full min-w-court relative pr-3'>
       { players.length > 0  && // remove all players X button
       <Box sx={{
         position: 'absolute',

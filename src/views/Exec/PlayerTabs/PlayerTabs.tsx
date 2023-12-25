@@ -3,8 +3,8 @@ import { useState, memo } from 'react'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import MUITabPanel from '@mui/lab/TabPanel'
-import TabPanel from '../../../../common/components/TabPanel/TabPanel'
-import { Positions } from '../../../../common/interfaces/IPlayer'
+import TabPanel from '../../../common/components/TabPanel/TabPanel'
+import { Positions } from '../../../common/interfaces/IPlayer'
 import PlayerTab from './PlayerTab'
 
 const PlayerTabs = () => {

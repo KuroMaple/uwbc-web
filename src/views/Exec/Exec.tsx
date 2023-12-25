@@ -1,11 +1,11 @@
-import Courts from '../../../common/components/Courts/Courts'
+import Courts from '../../common/components/Courts/Courts'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 // import { useGetMembersQuery } from '../../../services/apis/members'
 import PlayerTabs from './PlayerTabs/PlayerTabs'
 import MasterControls from './MasterControl'
 import { useTimer } from 'react-timer-hook'
-import TimerView from '../../../common/components/Timer/TimerView'
+import TimerView from '../../common/components/Timer/TimerView'
 
 
 

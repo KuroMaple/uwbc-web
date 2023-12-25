@@ -3,9 +3,9 @@ import MUITab from '@mui/material/Tab'
 import { TabProps } from '@mui/material'
 import { useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
-import { ItemTypes, PlayerDropType } from '../../../../app/redux/DndTypes'
-import { movePlayerTo } from '../../../../app/redux/gymSlice'
-import { Positions } from '../../../../common/interfaces/IPlayer'
+import { ItemTypes, PlayerDropType } from '../../../app/redux/DndTypes'
+import { movePlayerTo } from '../../../app/redux/gymSlice'
+import { Positions } from '../../../common/interfaces/IPlayer'
 
 interface PlayerTabProps extends TabProps {
   setValue: React.Dispatch<React.SetStateAction<string>>

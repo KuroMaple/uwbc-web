@@ -2,8 +2,8 @@ import { useDispatch } from 'react-redux'
 import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
-import { resetAllCourts } from '../../../app/redux/gymSlice'
-import TimerControls from '../../../common/components/Timer/TimerControls'
+import { resetAllCourts } from '../../app/redux/gymSlice'
+import TimerControls from '../../common/components/Timer/TimerControls'
 import { memo } from 'react'
 
 interface Props {
