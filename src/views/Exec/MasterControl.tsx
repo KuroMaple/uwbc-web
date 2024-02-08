@@ -34,6 +34,7 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
       }}>
 
       <IconButton
+        className='reset-courts'
         onClick={resetCourts}
         sx={{
           fontSize: 60,

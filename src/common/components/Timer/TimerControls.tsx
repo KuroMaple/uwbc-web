@@ -36,6 +36,7 @@ const TimerControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =>
 
   return (
     <Stack 
+      className='timer-controls'
       direction='column'
       spacing={2}
       sx={{

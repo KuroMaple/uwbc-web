@@ -48,7 +48,7 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
   }))
 
   return (
-    <div className="flex flex-col items-center justify-center h-full" ref={drop}>
+    <div id='bench-players-tab' className="flex flex-col items-center justify-center h-full" ref={drop}>
       <Controls parent={variant} filterByMGO={filterByMGO} setFilterByMGO={setFilterByMGO}/>
       <div className='h-TAB-PANEL-RATIO justify-center items-center'>
         {(filterByMGO && variant === Positions.Bench) ? (

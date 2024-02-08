@@ -9,7 +9,7 @@ const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
 
   const [isZero, setIsZero] = useState(false)
 
-
+  
 
 
   useEffect(() => {
@@ -44,17 +44,19 @@ const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
 
 
   return (
-    <div style={{
-      fontSize: '50px',
-      backgroundColor: isZero ? '#F44336' : '',
-      height: '15%',
-      width: '100%',
-      borderRadius: '10px',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      transition: 'background-color 0.5s ease',
-    }}>
+    <div
+      className='timer-view' 
+      style={{
+        fontSize: '50px',
+        backgroundColor: isZero ? '#F44336' : '',
+        height: '15%',
+        width: '100%',
+        borderRadius: '10px',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        transition: 'background-color 0.5s ease',
+      }}>
       <span>{minutes.toString().padStart(2, '0')}</span>:<span>{seconds.toString().padStart(2, '0')}</span>
     </div>
   )

@@ -14,7 +14,7 @@ function App() {
     <Router>
       <Routes>
         <Route path='/' element={
-          <div>   
+          /*<div>   
             <nav>
               <ul>
                 <li>
@@ -28,7 +28,7 @@ function App() {
                 </li>
               </ul>
             </nav>
-          </div>} />
+        </div>*/ <Exec />} />
         <Route path='/exec' element={<Exec />} />
         <Route path='/members' element={<Member />}/>
         <Route path='/open' element={<Open />}/>

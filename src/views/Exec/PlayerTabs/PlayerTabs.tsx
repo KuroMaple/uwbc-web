@@ -49,6 +49,7 @@ const PlayerTabs = () => {
               value="1"
             />
             <PlayerTab
+              className='player-drop-space-challenge'
               setValue={setValue}
               label="Challenge" 
               value="2" 
