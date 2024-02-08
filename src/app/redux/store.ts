@@ -1,14 +1,16 @@
 import { configureStore } from '@reduxjs/toolkit'
-// Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from '@reduxjs/toolkit/query'
-import baseApi from '../services/apis/baseApi'
-import playersReducer from './playersSlice'
+import baseApi from '../../services/apis/baseApi'
+import gymReducer from './gymSlice'
+import openTournamentReducer from './openTournamentSlice'
 
 export const store = configureStore({
   reducer: {
-    // Add the generated reducer as a specific top-level slice
+    // Reducer for RTK query
     [baseApi.reducerPath]: baseApi.reducer,
-    players: playersReducer,
+    //Reducer for courts and player info
+    gym: gymReducer,
+    openTournament: openTournamentReducer,
   },
 
   // Adding the api middleware enables caching, invalidation, polling,

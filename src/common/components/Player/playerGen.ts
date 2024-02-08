@@ -1,12 +1,10 @@
-import { useDispatch } from 'react-redux'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
-import { addPlayer } from '../../../app/playersSlice'
 
 const testNames = [
   'Josh Jones',
   'Bobby Wu',
   'Jackie Chan',
-  'Dwayne the Rock Johnson',
+  'Dwayne The Rock Johnson',
   'Jeff Lai',
 ]
 
@@ -34,9 +32,10 @@ export const genPlayer = (position: Positions) => {
     id: generateUniqueId(),
     level: myRandom(1, 5),
     position: position,
+    ticks: Math.floor(Math.random() * 100) + 1,
+    isMustGoOn: false,
+    isChallenger: false,
   }
-  
+
   return newPlayer
 }
-
-
