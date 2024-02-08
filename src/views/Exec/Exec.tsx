@@ -67,7 +67,7 @@ const Exec = () => {
 
   // To offset initial renderings that mess up steps enabled value
   useEffect(() => {
-    if (renderCount < 2) {
+    if (renderCount < 1) {
       setStepsEnabled(true)
       setRenderCount(renderCount + 1)
     }
