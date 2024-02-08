@@ -48,7 +48,7 @@ const Open = () => {
           createInitialTeams(openPlayers)
         )
       } catch (error) {
-        console.error('Error fetching data:', error.message)
+        // console.error('Error fetching data:', error.message)
       }
     }
     fetchSheetData()

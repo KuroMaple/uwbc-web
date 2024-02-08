@@ -32,6 +32,6 @@ export const fetchSheetData = async () => {
 
     return openPlayers
   } catch (error) {
-    console.error('Error fetching data:', error.message)
+    // console.error('Error fetching data:', error.message)
   }
 }
