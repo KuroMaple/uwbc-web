@@ -4,7 +4,7 @@
     "useDefineForClassFields": true,
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "allowJs": false,
-    "skipLibCheck": false,
+    "skipLibCheck": true, // This is being done to avoid build errors in intro-js-react npm file. Will remove after uploading to demo site
     "esModuleInterop": false,
     "allowSyntheticDefaultImports": true,
     "strict": true,
