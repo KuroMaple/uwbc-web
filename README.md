@@ -1,4 +1,4 @@
-# UWBC Badminton App Front end
+# UWBC Web App
 This Project was made on Mac with React TypeScript
 
 # What's this?
