@@ -79,7 +79,8 @@ const Chip: React.FC<Props> = ({ variant }) => {
       }}/>
     )
   }
-  else if (variant === ChipType.BR) {
+  // variant === ChipType.BR
+  else {
     return (
       <MUIChip label="BR" sx={{
         color: 'white',
