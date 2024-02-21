@@ -5,7 +5,7 @@ import { useDrag } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch } from 'react-redux'
-import { movePlayerTo, setChallengerStatus, setCourtChallenge, updateMGOStatus } from '../../../app/redux/gymSlice'
+import { movePlayerTo, setCourtChallenge,} from '../../../app/redux/gymSlice'
 import { ChipType } from '../Chip/types'
 
 const setColor = (level: number) => {
@@ -30,21 +30,20 @@ const setColor = (level: number) => {
 }
 
 interface Props {
-  player: IPlayer
+  player: IPlayer 
   parent: Positions
-  isDefender?: boolean
+  isDefender?: boolean // Redlic, replace later
 }
 
 const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   
   // Externally pulled player properties
-  const [name, setName] = useState(player.name)
-  const [id, setId] = useState(player.id)
-  const [level, setLevel] = useState(player.level)
+  const [name, setName] = useState(player.member_name)
+  const [id, setId] = useState(player.member)
+  const [level, setLevel] = useState(player.member_level)
   const [position, setPosition] = useState<Positions>(player.position)
-  const [ticks, setTicks] = useState(player.ticks)
-  const [isMustGoOn, setIsMustGoOn] = useState(player.isMustGoOn)
-  const [isChallenger, setIsChallenger] = useState(player.isChallenger) // Edit courts from more than one device consideration 
+  const [isMustGoOn, setIsMustGoOn] = useState(player.is_MGO)
+  const [isChallenger, setIsChallenger] = useState(player.is_challenging) // Edit courts from more than one device consideration 
 
   // Local player properties
   const [onCourt, setOnCourt] = useState(false)
@@ -55,21 +54,20 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   const dispatch = useDispatch()
   
   useEffect(() => {
-    setName(player.name)
-    setId(player.id)
-    setLevel(player.level)
+    setName(player.member_name)
+    setId(player.member)
+    setLevel(player.member_level)
     setPosition(player.position) // Setting position in gym explicitly 
-    setTicks(player.ticks)
-    setIsMustGoOn(player.isMustGoOn)
+    setIsMustGoOn(player.is_MGO)
     setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
-    setIsChallenger(player.isChallenger)
+    setIsChallenger(player.is_challenging)
 
-    if (parent === Positions.Challenge){
-      dispatch(setChallengerStatus({
-        playerId: id,
-        newChallengerStatus: true,
-      }))
-    }
+    // if (parent === Positions.Challenge){
+    //   dispatch(setChallengerStatus({
+    //     playerId: id,
+    //     newChallengerStatus: true,
+    //   }))
+    // }
     
     
 
@@ -234,9 +232,9 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
         <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
           {id}
         </Typography>
-        <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
+        {/* <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
           {ticks}
-        </Typography>
+        </Typography> */}
         <Box sx={{
           display: 'flex',
           alignItems: 'center',

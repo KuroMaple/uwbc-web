@@ -1,14 +1,14 @@
+import { IMember } from '../interfaces/IMember'
 import baseApi from './baseApi'
 
 export const membersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getMembers: builder.query <void, void> ({
-      query: () => ({
-        url: '/members',
-      }),
+    getMember: builder.query <IMember, string> ({
+      query: (email) => `members/?email=${email}`,
       providesTags: ['Player'],
     }),
+    
   }),
 })
 
-export const { useGetMembersQuery } = membersApi
+export const { useGetMemberQuery } = membersApi

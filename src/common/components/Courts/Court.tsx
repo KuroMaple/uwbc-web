@@ -1,5 +1,5 @@
 import Player from '../Player/Player'
-import { Positions } from '../../interfaces/IPlayer'
+import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
@@ -8,11 +8,15 @@ import { movePlayerTo, setCourtChallenge } from '../../../app/redux/gymSlice'
 import { Box } from '@mui/material'
 import Chip from '../Chip/Chip'
 import { ChipType } from '../Chip/types'
+import { useEffect, useState } from 'react'
+import { useGetMemberQuery } from '../../../services/apis/members'
 interface Props {
   courtPosition: Positions
   courtNumber: string
 }
 const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
+
+  const [playerTags, setPlayerTags] = useState<IPlayer[]>([])
 
   const dispatch = useDispatch()
 
@@ -20,50 +24,57 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     switch (courtPosition) {
     case Positions.Court1:
       return state.gym.court1.players
-    case Positions.Court2: {
-      return state.gym.court2.players
-    }
-    case Positions.Court3: {
-      return state.gym.court3.players
-    }
-    case Positions.Court4: {
-      return state.gym.court4.players
-    }
-    case Positions.Court5: {
-      return state.gym.court5.players
-    }
-    case Positions.Court6: {
-      return state.gym.court6.players
-    }
-    case Positions.Court7: {
-      return state.gym.court7.players
-    }
-    case Positions.Court8: {
-      return state.gym.court8.players
-    }
+    // case Positions.Court2: {
+    //   return state.gym.court2.players
+    // }
+    // case Positions.Court3: {
+    //   return state.gym.court3.players
+    // }
+    // case Positions.Court4: {
+    //   return state.gym.court4.players
+    // }
+    // case Positions.Court5: {
+    //   return state.gym.court5.players
+    // }
+    // case Positions.Court6: {
+    //   return state.gym.court6.players
+    // }
+    // case Positions.Court7: {
+    //   return state.gym.court7.players
+    // }
+    // case Positions.Court8: {
+    //   return state.gym.court8.players
+    // }
     }
     
   })!
+
+  // useEffect(() => {
+  //   players.forEach(playerId => {
+      
+  //   })
+  // }, [players])
+  
 
   // Pulling from redux store
   const isChallengeCourt = useSelector((state: RootState) => {
     switch (courtPosition) {
     case Positions.Court1:
       return state.gym.court1.isChallenge
-    case Positions.Court2:
-      return state.gym.court2.isChallenge
-    case Positions.Court3:
-      return state.gym.court3.isChallenge
-    case Positions.Court4:
-      return state.gym.court4.isChallenge
-    case Positions.Court5:
-      return state.gym.court5.isChallenge
-    case Positions.Court6:
-      return state.gym.court6.isChallenge
-    case Positions.Court7:
-      return state.gym.court7.isChallenge
-    case Positions.Court8:
-      return state.gym.court8.isChallenge
+    // case Positions.Court2:
+    //   return state.gym.court2.isChallenge
+    // case Positions.Court3:
+    //   return state.gym.court3.isChallenge
+    // case Positions.Court4:
+    //   return state.gym.court4.isChallenge
+    // case Positions.Court5:
+    //   return state.gym.court5.isChallenge
+    // case Positions.Court6:
+    //   return state.gym.court6.isChallenge
+    // case Positions.Court7:
+    //   return state.gym.court7.isChallenge
+    // case Positions.Court8:
+    //   return state.gym.court8.isChallenge
     default:
       return false // Set a default value if courtPosition is not handled
     }
@@ -79,11 +90,11 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   }
 
   const removeAllPlayers = () => {
-    players.forEach((player) => {
+    players.forEach((playerId) => {
       dispatch(movePlayerTo({
         source: courtPosition,
         target: Positions.Bench,
-        itemId: player.id,
+        itemId: playerId,
       }))
     })
     // Reset the challenge status of the court
@@ -153,7 +164,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       </div>
       
       <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
-        {players.map((player) => (
+        {playerTags.map((player) => (
           <Player key={player.id} player={player} parent={courtPosition} isDefender={isChallengeCourt}/> /* isDefender is set to true for challenge court, 
                                                                                                     since there is explict check for challenger player chips
                                                                                                      when setting defender chips*/

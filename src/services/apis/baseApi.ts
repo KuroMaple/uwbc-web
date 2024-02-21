@@ -2,11 +2,9 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
 export const baseApi = createApi({
   reducerPath: 'baseApi',
-  tagTypes: ['Player', 'REPLACE'],
+  tagTypes: ['Player', 'Session', 'Players'],
   baseQuery: fetchBaseQuery({ 
-    baseUrl: 'http://0.0.0.0:8000/api', 
-    
-    
+    baseUrl: 'http://127.0.0.1:8000/api/', 
   }),
   endpoints: () => ({}),
 })

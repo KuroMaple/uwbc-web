@@ -13,11 +13,13 @@ import 'intro.js/introjs.css'
 
 
 const Exec = () => {
-  // // API logic
+  // API logic
+
   // const {data: getMembers} = useGetMembersQuery()
   // console.log(getMembers)
   
-  const [stepsEnabled, setStepsEnabled] = useState(true)
+  /* in Dev, true makes enabled false, in prod true will function as expcted*/
+  const [stepsEnabled, setStepsEnabled] = useState(false) // Set to true when need tutorial
   const [currentStep, setCurrentStep] = useState(0)
   const [renderCount, setRenderCount] = useState(0)
   const steps = [ 
@@ -68,7 +70,7 @@ const Exec = () => {
   // To offset initial renderings that mess up steps enabled value
   useEffect(() => {
     if (renderCount < 1) {
-      setStepsEnabled(true)
+      setStepsEnabled(false)
       setRenderCount(renderCount + 1)
     }
   }, [stepsEnabled])
@@ -106,7 +108,7 @@ const Exec = () => {
             <h1 className="font-semibold text-center">UWBC Exec Tool</h1>
             <PlayerTabs />
           </div>
-          <Courts />
+          {/* <Courts /> */}
         </div>
         
         <div
@@ -114,10 +116,10 @@ const Exec = () => {
           <div
             className='flex flex-row w-full justify-end'
           >
-            <MasterControls start={start} pause={pause} restart={restart} isRunning={isRunning} />
+            {/* <MasterControls start={start} pause={pause} restart={restart} isRunning={isRunning} /> */}
           </div>
           
-          <TimerView minutes={minutes} seconds={seconds} />
+          {/* <TimerView minutes={minutes} seconds={seconds} /> */}
         </div>
         
       </DndProvider>

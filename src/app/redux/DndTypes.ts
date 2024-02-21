@@ -12,6 +12,11 @@ export type DnDMoveAction = {
   itemId: string // The relevant item id
 }
 
+export type CreatePlayerAction = {
+  id: string
+  position: Positions
+}
+
 export type itemDropType = {
   source: Positions, // Where the item is being moved from
   itemId: string // The relevant item id
