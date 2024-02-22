@@ -12,7 +12,11 @@ export const sessionApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Session'],
     }),
+    getCurrentSession: builder.query<Partial<ISession>, void>({
+      query: () => 'sessions/get_current_session/',
+      providesTags: ['Session'],
+    }),
   }),
 })
 
-export const { useCreateSessionMutation } = sessionApi
+export const { useCreateSessionMutation, useGetCurrentSessionQuery } = sessionApi

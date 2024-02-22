@@ -1,5 +1,5 @@
 export default interface ISession {
-  sessionId: string
+  sessionId: number
   term: number
   members: string[]
   creationSuccess: boolean

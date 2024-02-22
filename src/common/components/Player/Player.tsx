@@ -4,9 +4,11 @@ import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { movePlayerTo, setCourtChallenge,} from '../../../app/redux/gymSlice'
 import { ChipType } from '../Chip/types'
+import { useSetChallengerStatusMutation } from '../../../services/apis/players'
+import { RootState } from '../../../app/redux/store'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -37,6 +39,9 @@ interface Props {
 
 const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   
+  // API logic
+  const [setChallengerStatus, result] = useSetChallengerStatusMutation()
+
   // Externally pulled player properties
   const [name, setName] = useState(player.member_name)
   const [id, setId] = useState(player.member)
@@ -48,10 +53,11 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   // Local player properties
   const [onCourt, setOnCourt] = useState(false)
 
+
   
 
   // Redux connection
-  const dispatch = useDispatch()
+  const session = useSelector((state: RootState) => state.gym.sessionId)
   
   useEffect(() => {
     setName(player.member_name)
@@ -62,21 +68,17 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
     setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
     setIsChallenger(player.is_challenging)
 
-    // if (parent === Positions.Challenge){
-    //   dispatch(setChallengerStatus({
-    //     playerId: id,
-    //     newChallengerStatus: true,
-    //   }))
-    // }
-    
-    
+    // Not sure if this is neccesary
+    if (parent === Positions.Challenge){
+      setChallengerStatus({member: id, is_challenging: true, session: session})
+    }
 
   }, [player])
   
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
-    item: { itemId: id, source: parent } as itemDropType, // So that when a player is dropped, we can send both the source and target to reducer
+    item: { itemId: id.toLocaleString(), source: parent } as itemDropType, // So that when a player is dropped, we can send both the source and target to reducer
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
     }),
@@ -92,27 +94,27 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   }
 
   // Removes player from court and places them in bench
-  const removeFromCourt = () => {
-    if (isChallenger) {
-      dispatch(setChallengerStatus({
-        playerId: id,
-        newChallengerStatus: false,
-      }))
-      //Reset the challenge status of the court
-      dispatch(setCourtChallenge({
-        courtNumber: parseInt(position),
-        isChallenge: false,
-      }))
+  // const removeFromCourt = () => {
+  //   if (isChallenger) {
+  //     dispatch(setChallengerStatus({
+  //       playerId: id,
+  //       newChallengerStatus: false,
+  //     }))
+  //     //Reset the challenge status of the court
+  //     dispatch(setCourtChallenge({
+  //       courtNumber: parseInt(position),
+  //       isChallenge: false,
+  //     }))
 
-    }
-    dispatch(
-      movePlayerTo({
-        source: position,
-        target: Positions.Bench,
-        itemId: id,
-      })
-    )
-  }
+  //   }
+  //   dispatch(
+  //     movePlayerTo({
+  //       source: position,
+  //       target: Positions.Bench,
+  //       itemId: id,
+  //     })
+  //   )
+  // }
   
   // to remove player from vision when dragging
   if(isDragging){
@@ -136,16 +138,16 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           position: 'relative',
         }
       }
-      onDoubleClick={() => {
-        if (position === Positions.Bench) { // MGO status should only be changed if player is on bench
-          dispatch(updateMGOStatus(
-            {
-              playerId: id,
-              newMGOStatus: !isMustGoOn,
-            }))
-          setIsMustGoOn(!isMustGoOn)
-        }
-      }}
+      // onDoubleClick={() => {
+      //   if (position === Positions.Bench) { // MGO status should only be changed if player is on bench
+      //     dispatch(updateMGOStatus(
+      //       {
+      //         playerId: id,
+      //         newMGOStatus: !isMustGoOn,
+      //       }))
+      //     setIsMustGoOn(!isMustGoOn)
+      //   }
+      // }}
     >
 
       {/* Chip JSX Below*/}
@@ -198,9 +200,9 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           cursor: 'pointer',
         },
       }}
-      onClick={() => {
-        removeFromCourt()
-      }}
+      // onClick={() => {
+      //   removeFromCourt()
+      // }}
       >
         <Chip variant={ChipType.OC}/> 
       </Box>}

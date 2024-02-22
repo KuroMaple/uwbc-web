@@ -20,11 +20,8 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
     data: players,
   } = useGetPlayersBySessionPositionQuery({
     session: session,
-    position: Positions.Bench,
+    position: variant,
   })
-
-  console.log(session) // debugging
-  console.log(players) // debugging
 
   const dispatch = useDispatch()
 

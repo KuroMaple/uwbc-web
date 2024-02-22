@@ -9,16 +9,25 @@ import TimerView from '../../common/components/Timer/TimerView'
 import { useEffect, useState } from 'react'
 import { Steps } from 'intro.js-react'
 import 'intro.js/introjs.css'
+import { useGetCurrentSessionQuery } from '../../services/apis/session'
+import { setSessionId } from '../../app/redux/gymSlice'
+import { useDispatch } from 'react-redux'
 
 
 
 const Exec = () => {
   // API logic
+  const {data: currentSession} = useGetCurrentSessionQuery()
 
-  // const {data: getMembers} = useGetMembersQuery()
-  // console.log(getMembers)
-  
-  /* in Dev, true makes enabled false, in prod true will function as expcted*/
+  // update redux store with current session id
+  const dispatch = useDispatch()
+  useEffect(() => {
+    if (currentSession) {
+      dispatch(setSessionId(currentSession.sessionId ?? -1))
+    }
+  }, [currentSession])
+
+  // Tutorial logic
   const [stepsEnabled, setStepsEnabled] = useState(false) // Set to true when need tutorial
   const [currentStep, setCurrentStep] = useState(0)
   const [renderCount, setRenderCount] = useState(0)

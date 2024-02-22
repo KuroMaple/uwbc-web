@@ -48,20 +48,20 @@ const PlayerTabs = () => {
               label="Bench" 
               value="1"
             />
-            {/* <PlayerTab
+            <PlayerTab
               className='player-drop-space-challenge'
               setValue={setValue}
               label="Challenge" 
               value="2" 
-            /> */}
+            />
           </TabList>
         </Box>
         <MUITabPanel value="1" sx={tabPanelStyle}>
           <TabPanel variant={Positions.Bench}/>
         </MUITabPanel>
-        {/* <MUITabPanel value="2" sx={tabPanelStyle}>
+        <MUITabPanel value="2" sx={tabPanelStyle}>
           <TabPanel variant={Positions.Challenge}/>
-        </MUITabPanel> */}
+        </MUITabPanel>
       </TabContext>
     </Box>
   )
