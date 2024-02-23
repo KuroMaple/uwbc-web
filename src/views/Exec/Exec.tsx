@@ -10,8 +10,10 @@ import { useEffect, useState } from 'react'
 import { Steps } from 'intro.js-react'
 import 'intro.js/introjs.css'
 import { useGetCurrentSessionQuery } from '../../services/apis/session'
-import { setSessionId } from '../../app/redux/gymSlice'
-import { useDispatch } from 'react-redux'
+import { setModalOpen, setSessionId } from '../../app/redux/gymSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { RootState } from '../../app/redux/store'
+import SearchModal from '../../common/components/SearchModal/SearchModal'
 
 
 
@@ -26,6 +28,7 @@ const Exec = () => {
       dispatch(setSessionId(currentSession.sessionId ?? -1))
     }
   }, [currentSession])
+
 
   // Tutorial logic
   const [stepsEnabled, setStepsEnabled] = useState(false) // Set to true when need tutorial
@@ -104,6 +107,7 @@ const Exec = () => {
   
   return (
     <div className="flex flex-row h-screen p-2">
+      <SearchModal />
       <Steps
         enabled={stepsEnabled}
         steps={steps}

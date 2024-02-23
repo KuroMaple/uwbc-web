@@ -4,6 +4,7 @@ import { CreatePlayerAction, DnDMoveAction } from './DndTypes'
 
 interface GymState {
   sessionId: number,
+  addPlayerModalOpen: boolean,
   benchPlayers: string[],
   challengePlayers: string[],
   court1: {
@@ -43,6 +44,7 @@ interface GymState {
 
 const initialState: GymState = {
   sessionId: 0,
+  addPlayerModalOpen: false,
   benchPlayers: [],
   challengePlayers: [],
   court1: {
@@ -84,6 +86,9 @@ const gymSlice = createSlice({
   name: 'gym',
   initialState,
   reducers: {
+    setModalOpen:(state, action: PayloadAction<boolean>) => {
+      state.addPlayerModalOpen = action.payload
+    },
     setSessionId:(state, action: PayloadAction<number>) => {
       state.sessionId = action.payload
     },
@@ -222,23 +227,6 @@ const gymSlice = createSlice({
       }
     },
 
-    // MGO players should ONLY be in bench
-    // updateMGOStatus:(state, action: PayloadAction<{playerId: string, newMGOStatus: boolean}>) => {
-    //   state.benchPlayers.forEach(player => {
-    //     if (player.id === action.payload.playerId) {
-    //       player.isMustGoOn = action.payload.newMGOStatus
-    //     }
-    //   })
-    // },
-
-    //Challenge players are set as challenge players when they are moved to/created in the challenge tab
-    // setChallengerStatus:(state, action: PayloadAction<{playerId: string, newChallengerStatus: boolean}>) => {
-    //   state.challengePlayers.forEach(player => {
-    //     if (player.id === action.payload.playerId) {
-    //       player.isChallenger = action.payload.newChallengerStatus
-    //     }
-    //   })
-    // },
     setCourtChallenge:(state, action: PayloadAction<{courtNumber: number, isChallenge: boolean}>) => {
       switch (action.payload.courtNumber) {
       case 1: {
@@ -308,6 +296,6 @@ const gymSlice = createSlice({
   }
 })
 
-export const { setSessionId, createPlayer, movePlayerTo, /*updateMGOStatus, setChallengerStatus,*/ setCourtChallenge, resetAllCourts} = gymSlice.actions
+export const { setSessionId, createPlayer, movePlayerTo, setCourtChallenge, resetAllCourts, setModalOpen} = gymSlice.actions
 
 export default gymSlice.reducer

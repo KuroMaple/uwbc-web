@@ -7,7 +7,7 @@ import Chip from '../Chip/Chip'
 import { useDispatch, useSelector } from 'react-redux'
 import { movePlayerTo, setCourtChallenge,} from '../../../app/redux/gymSlice'
 import { ChipType } from '../Chip/types'
-import { useSetChallengerStatusMutation } from '../../../services/apis/players'
+import { useSetChallengerStatusMutation, useSetMGOstatusMutation } from '../../../services/apis/players'
 import { RootState } from '../../../app/redux/store'
 
 const setColor = (level: number) => {
@@ -41,6 +41,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   
   // API logic
   const [setChallengerStatus, result] = useSetChallengerStatusMutation()
+  const [setMGOStatus, resultMGO] = useSetMGOstatusMutation()
 
   // Externally pulled player properties
   const [name, setName] = useState(player.member_name)
@@ -138,16 +139,12 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           position: 'relative',
         }
       }
-      // onDoubleClick={() => {
-      //   if (position === Positions.Bench) { // MGO status should only be changed if player is on bench
-      //     dispatch(updateMGOStatus(
-      //       {
-      //         playerId: id,
-      //         newMGOStatus: !isMustGoOn,
-      //       }))
-      //     setIsMustGoOn(!isMustGoOn)
-      //   }
-      // }}
+      onDoubleClick={() => {
+        if (position === Positions.Bench) { // MGO status should only be changed if player is on bench
+          setMGOStatus({member: id, is_MGO: !isMustGoOn, session: session})
+          setIsMustGoOn(!isMustGoOn)
+        }
+      }}
     >
 
       {/* Chip JSX Below*/}

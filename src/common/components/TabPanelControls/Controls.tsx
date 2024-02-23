@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { createPlayer } from '../../../app/redux/gymSlice'
+import { createPlayer, setModalOpen } from '../../../app/redux/gymSlice'
 import { genPlayer } from '../Player/playerGen'
 import { Positions } from '../../interfaces/IPlayer'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
@@ -14,25 +14,17 @@ interface Props {
   setFilterByMGO: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-
-// Tutorial Logic
-
-
-
-
 const Controls: React.FC<Props> = ({ parent, filterByMGO, setFilterByMGO }) => {
 
- 
-    
   const dispatch = useDispatch()
+  const handleModalOpen = () => dispatch(setModalOpen(true))
+    
   
   return (
     
     <Stack direction='row'>
       <IconButton
-        onClick={() => {
-          dispatch(createPlayer(genPlayer(parent)))
-        }}
+        onClick={handleModalOpen}
         title='Add Player'
         id='add-player'>
         <AddToPhotosIcon/>

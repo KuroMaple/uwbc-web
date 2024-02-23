@@ -1,5 +1,6 @@
 import IPlayer from '../../common/interfaces/IPlayer'
 import IChallengeRequest from '../interfaces/IChallengeRequest'
+import IMGORequest from '../interfaces/IMGORequest'
 import IPlayerRequest from '../interfaces/IPlayerRequest'
 import IPlayers from '../interfaces/IPlayers'
 import baseApi from './baseApi'
@@ -18,7 +19,15 @@ export const playersApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Players'],
     }),
+    setMGOstatus: builder.mutation <IPlayer, IMGORequest> ({
+      query: (request) => ({
+        url: 'member_sessions/set_mgo_status/',
+        method: 'PATCH',
+        body: request,
+      }),
+      invalidatesTags: ['Players'],
+    }),
   }),
 })
 
-export const { useGetPlayersBySessionPositionQuery, useSetChallengerStatusMutation } = playersApi
+export const { useGetPlayersBySessionPositionQuery, useSetChallengerStatusMutation, useSetMGOstatusMutation } = playersApi
