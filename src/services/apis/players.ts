@@ -1,4 +1,6 @@
 import IPlayer from '../../common/interfaces/IPlayer'
+import IAddPlayerRequest from '../interfaces/IAddPlayerRequest'
+import IAddPlayerResponse from '../interfaces/IAddPlayerResponse'
 import IChallengeRequest from '../interfaces/IChallengeRequest'
 import IMGORequest from '../interfaces/IMGORequest'
 import IPlayerRequest from '../interfaces/IPlayerRequest'
@@ -7,6 +9,15 @@ import baseApi from './baseApi'
 
 export const playersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    addPlayerToSession: builder.mutation <IAddPlayerResponse, IAddPlayerRequest> ({
+      query: (request) => ({
+        url: 'member_sessions/add_players_to_session/',
+        method: 'POST',
+        body: request,
+      }),
+      invalidatesTags: ['Players'],
+    
+    }),
     getAllPlayersInSession: builder.query <IPlayers, number> ({
       query: (session) => `member_sessions/get_all_players/?session=${session}`,
       providesTags: ['Players'],
@@ -34,4 +45,4 @@ export const playersApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useGetPlayersBySessionPositionQuery, useSetChallengerStatusMutation, useSetMGOstatusMutation } = playersApi
+export const { useGetPlayersBySessionPositionQuery, useSetChallengerStatusMutation, useSetMGOstatusMutation, useAddPlayerToSessionMutation } = playersApi

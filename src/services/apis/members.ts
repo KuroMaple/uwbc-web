@@ -11,7 +11,6 @@ export const membersApi = baseApi.injectEndpoints({
       query: () => 'members/get_active_members/',
       providesTags: ['Members'],
     }),
-    
   }),
 })
 

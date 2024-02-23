@@ -8,6 +8,7 @@ import { useGetActiveMembersQuery } from '../../../services/apis/members'
 import Autocomplete from '@mui/material/Autocomplete'
 import IAutoCompleteOption from '../../interfaces/IAutoCompleteOption'
 import { IMember } from '../../../services/interfaces/IMember'
+import { useAddPlayerToSessionMutation } from '../../../services/apis/players'
 
 
 const style = {
@@ -51,14 +52,14 @@ const SearchModal = () => {
     }
   }, [memberList])
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value)
-  }
+  //API call 
+  const [addPlayer, result] = useAddPlayerToSessionMutation()
 
-  const addPlayerToSession = () => {
+  const addPlayerToSession = (label: IAutoCompleteOption) => {
     // API call to add player to session
-    
-
+    const email = label.label.split(' ')[2]
+    const payload = addPlayer({session: sessionID, email: email})
+    console.log('payload: ', payload)
     handleModalClose()
   }
 
@@ -77,10 +78,9 @@ const SearchModal = () => {
             id="combo-box-demo"
             options={playerList}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Member Name" />
-            }
+            renderInput={(params) => <TextField {...params} label="Member Name" />}
+            onChange={(event, value) => addPlayerToSession(value)}
           />
-          <Button onClick={handleModalClose}>Add</Button>
         </Box>
       </Modal>
     </div>
