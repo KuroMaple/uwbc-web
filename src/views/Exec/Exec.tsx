@@ -29,6 +29,8 @@ const Exec = () => {
     }
   }, [currentSession])
 
+  // Pull modal info from redux
+  const modalOpen = useSelector((state: RootState) => state.gym.addPlayerModalOpen)
 
   // Tutorial logic
   const [stepsEnabled, setStepsEnabled] = useState(false) // Set to true when need tutorial
@@ -107,7 +109,7 @@ const Exec = () => {
   
   return (
     <div className="flex flex-row h-screen p-2">
-      <SearchModal />
+      {modalOpen && <SearchModal />}
       <Steps
         enabled={stepsEnabled}
         steps={steps}

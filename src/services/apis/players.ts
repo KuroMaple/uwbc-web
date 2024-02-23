@@ -7,6 +7,10 @@ import baseApi from './baseApi'
 
 export const playersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getAllPlayersInSession: builder.query <IPlayers, number> ({
+      query: (session) => `member_sessions/get_all_players/?session=${session}`,
+      providesTags: ['Players'],
+    }),
     getPlayersBySessionPosition: builder.query <IPlayers, IPlayerRequest> ({
       query: (request) => `member_sessions/get_players_by_position/?session=${request.session}&position=${request.position}`,
       providesTags: ['Players'],

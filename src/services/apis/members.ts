@@ -5,10 +5,14 @@ export const membersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getMember: builder.query <IMember, string> ({
       query: (email) => `members/?email=${email}`,
-      providesTags: ['Player'],
+      providesTags: ['Member'],
+    }),
+    getActiveMembers: builder.query <IMember[], void> ({
+      query: () => 'members/get_active_members/',
+      providesTags: ['Members'],
     }),
     
   }),
 })
 
-export const { useGetMemberQuery } = membersApi
+export const { useGetMemberQuery, useGetActiveMembersQuery } = membersApi
