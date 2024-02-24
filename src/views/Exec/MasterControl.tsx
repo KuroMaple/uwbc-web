@@ -1,10 +1,11 @@
-import { useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
-import { resetAllCourts } from '../../app/redux/gymSlice'
 import TimerControls from '../../common/components/Timer/TimerControls'
 import { memo } from 'react'
+import { useResetAllCourtsMutation } from '../../services/apis/players'
+import { RootState } from '../../app/redux/store'
 
 interface Props {
   start: () => void
@@ -15,13 +16,9 @@ interface Props {
 
 const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) => {
 
-  const dispatch = useDispatch()
+  const session = useSelector((state: RootState) => state.gym.sessionId)
+  const [resetAllCourts] = useResetAllCourtsMutation()
 
-
-  // TODO: Convert to API call 
-  const resetCourts = () => {
-    dispatch(resetAllCourts())
-  }
   
   return (
     <Stack 
@@ -37,7 +34,7 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
 
       <IconButton
         className='reset-courts'
-        onClick={resetCourts}
+        onClick={() => resetAllCourts({session: session})}
         sx={{
           fontSize: 60,
           backgroundColor: 'white',

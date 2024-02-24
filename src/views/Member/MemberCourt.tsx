@@ -1,8 +1,10 @@
 import { useSelector } from 'react-redux'
-import { Positions } from '../../common/interfaces/IPlayer'
+import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
 import { RootState } from '../../app/redux/store'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import MemberPlayer from './MemberPlayer'
+import { useGetPlayersBySessionPositionQuery } from '../../services/apis/players'
+import { useGetCurrentSessionQuery } from '../../services/apis/session'
 
 
 interface Props {
@@ -34,86 +36,44 @@ const MemberCourt: React.FC <Props> = ({ position }) => {
     }
   }
 
-  const [courtNumber, setCourtNumber] = useState(setNumber)
+  const {data: session} = useGetCurrentSessionQuery()
+  const [courtNumber] = useState(setNumber)
 
-  const players = [
-    {
-      id: 'A1',
-      name: 'Player 1',
-      level: 1,
-      ticks: 0,
-      position: position,
-      isMustGoOn: false,
-      isChallenger: false,
-    },
-    {
-      id: 'B2',
-      name: 'Player 2',
-      level: 2,
-      ticks: 0,
-      position: position,
-      isMustGoOn: false,
-      isChallenger: false,
-    },
-    {
-      id: 'C3',
-      name: 'Player 3',
-      level: 3,
-      ticks: 0,
-      position: position,
-      isMustGoOn: false,
-      isChallenger: false,
-    },
-    {
-      id: 'D4',
-      name: 'Player 4',
-      level: 4,
-      ticks: 0,
-      position: position,
-      isMustGoOn: false,
-      isChallenger: false,
-    },
-  ]
-
-
-  // Pulling from redux store
-  const isChallengeCourt = useSelector((state: RootState) => {
-    switch (position) {
-    case Positions.Court1:
-      return state.gym.court1.isChallenge
-    case Positions.Court2:
-      return state.gym.court2.isChallenge
-    case Positions.Court3:
-      return state.gym.court3.isChallenge
-    case Positions.Court4:
-      return state.gym.court4.isChallenge
-    case Positions.Court5:
-      return state.gym.court5.isChallenge
-    case Positions.Court6:
-      return state.gym.court6.isChallenge
-    case Positions.Court7:
-      return state.gym.court7.isChallenge
-    case Positions.Court8:
-      return state.gym.court8.isChallenge
-    default:
-      return false // Set a default value if courtPosition is not handled
-    }
+  const {data: playersData} = useGetPlayersBySessionPositionQuery({
+    session: session?.sessionId ?? 0,
+    position: position,
   })
+  const [players, setPlayers] = useState<IPlayer[]>([])
+  console.log(playersData)
+  useEffect(() => {
+    setPlayers(playersData?.players ?? [])
+  }, [playersData])
+  
+
+  // Determine if court is a challenge court
+  const isChallengeCourt = () => {
+    for (let i = 0; i < players.length; i++) { // Potential bug since not doing "react" way
+      if (players[i].is_challenging) {
+        return true
+      }
+    }
+    return false
+  }
 
   return (
     <div
-      className=''
+      className='flex flex-col items-center'
     >
 
       <div className='flex flex-col items-center'>
-        {isChallengeCourt && <span className='text-sm'>Challenge</span>}
+        {isChallengeCourt() && <span className='text-sm'>Challenge</span>}
         <span>Court</span>
         <span className="text-3xl font-bold">{courtNumber}</span>
       </div>
 
       <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2">
         {players.map((player) => (
-          <MemberPlayer key={player.id} player={player} isDefender={isChallengeCourt}/> /* isDefender is set to true for challenge court, 
+          <MemberPlayer key={player.member} player={player} isDefender={isChallengeCourt()}/> /* isDefender is set to true for challenge court, 
                                                                                                     since there is explict check for challenger player chips
                                                                                                      when setting defender chips*/
         ))}

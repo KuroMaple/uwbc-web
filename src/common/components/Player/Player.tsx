@@ -6,7 +6,7 @@ import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useSelector } from 'react-redux'
 import { ChipType } from '../Chip/types'
-import { useSetChallengerStatusMutation, useSetMGOstatusMutation } from '../../../services/apis/players'
+import { useChangePlayerPositionMutation, useSetChallengerStatusMutation, useSetMGOstatusMutation } from '../../../services/apis/players'
 import { RootState } from '../../../app/redux/store'
 
 const setColor = (level: number) => {
@@ -39,8 +39,9 @@ interface Props {
 const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   
   // API logic
-  const [setChallengerStatus, result] = useSetChallengerStatusMutation()
-  const [setMGOStatus, resultMGO] = useSetMGOstatusMutation()
+  const [setChallengerStatus] = useSetChallengerStatusMutation()
+  const [setMGOStatus] = useSetMGOstatusMutation()
+  const [movePlayer] = useChangePlayerPositionMutation()
 
   // Externally pulled player properties
   const [name, setName] = useState(player.member_name)
@@ -94,27 +95,13 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   }
 
   // Removes player from court and places them in bench
-  // const removeFromCourt = () => {
-  //   if (isChallenger) {
-  //     dispatch(setChallengerStatus({
-  //       playerId: id,
-  //       newChallengerStatus: false,
-  //     }))
-  //     //Reset the challenge status of the court
-  //     dispatch(setCourtChallenge({
-  //       courtNumber: parseInt(position),
-  //       isChallenge: false,
-  //     }))
-
-  //   }
-  //   dispatch(
-  //     movePlayerTo({
-  //       source: position,
-  //       target: Positions.Bench,
-  //       itemId: id,
-  //     })
-  //   )
-  // }
+  const removeFromCourt = () => {
+    movePlayer({
+      member: id,
+      session: session,
+      position: Positions.Bench,
+    })
+  }
   
   // to remove player from vision when dragging
   if(isDragging){
@@ -196,9 +183,9 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           cursor: 'pointer',
         },
       }}
-      // onClick={() => {
-      //   removeFromCourt()
-      // }}
+      onClick={() => {
+        removeFromCourt()
+      }}
       >
         <Chip variant={ChipType.OC}/> 
       </Box>}

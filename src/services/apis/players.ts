@@ -6,6 +6,7 @@ import IMGORequest from '../interfaces/IMGORequest'
 import IPlayerRequest from '../interfaces/IPlayerRequest'
 import IPlayers from '../interfaces/IPlayers'
 import IPositionRequest from '../interfaces/IPositionRequest'
+import ISessionId from '../interfaces/ISessionId'
 import baseApi from './baseApi'
 
 export const playersApi = baseApi.injectEndpoints({
@@ -51,8 +52,16 @@ export const playersApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Players'],
     }),
+    resetAllCourts: builder.mutation <IAddPlayerResponse, ISessionId> ({
+      query: (request) => ({
+        url: 'member_sessions/move_all_court_players_to_bench/',
+        method: 'PATCH',
+        body: request,
+      }),
+      invalidatesTags: ['Players'],
+    }),
   }),
 })
 
 export const { useGetPlayersBySessionPositionQuery, useSetChallengerStatusMutation, useSetMGOstatusMutation, 
-  useAddPlayerToSessionMutation, useChangePlayerPositionMutation } = playersApi
+  useAddPlayerToSessionMutation, useChangePlayerPositionMutation, useResetAllCourtsMutation } = playersApi

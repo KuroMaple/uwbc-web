@@ -2,7 +2,7 @@ import { Box, Paper, Typography } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import Chip from '../../common/components/Chip/Chip'
 import { ChipType } from '../../common/components/Chip/types'
-import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
+import IPlayer from '../../common/interfaces/IPlayer'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -33,21 +33,17 @@ interface Props {
 const Player: React.FC<Props> = ({ player, isDefender }) => {
   
   // Externally pulled player properties
-  const [name, setName] = useState(player.name)
-  const [id, setId] = useState(player.id)
-  const [level, setLevel] = useState(player.level)
-  const [position, setPosition] = useState<Positions>(player.position)
-  const [ticks, setTicks] = useState(player.ticks)
-  const [isChallenger, setIsChallenger] = useState(player.isChallenger) // Edit courts from more than one device consideration 
+  const [name, setName] = useState(player.member_name)
+  const [id, setId] = useState(player.member)
+  const [level, setLevel] = useState(player.member_level)
+  const [isChallenger, setIsChallenger] = useState(player.is_challenging)
 
   
   useEffect(() => {
-    setName(player.name)
-    setId(player.id)
-    setLevel(player.level)
-    setPosition(player.position) // Setting position in gym explicitly 
-    setTicks(player.ticks)
-    setIsChallenger(player.isChallenger)
+    setName(player.member_name)
+    setId(player.member)
+    setLevel(player.member_level)
+    setIsChallenger(player.is_challenging)
   }, [player])
   
   // Shortens the name to first name and first letter of last name if name is too long
@@ -113,9 +109,9 @@ const Player: React.FC<Props> = ({ player, isDefender }) => {
         <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
           {id}
         </Typography>
-        <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
+        {/* <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
           {ticks}
-        </Typography>
+        </Typography> */}
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
