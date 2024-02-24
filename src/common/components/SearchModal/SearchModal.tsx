@@ -1,14 +1,12 @@
-import { Box, Button, TextField, Typography } from '@mui/material'
+import { Box, TextField, Typography } from '@mui/material'
 import Modal from '@mui/material/Modal'
-import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalOpen } from '../../../app/redux/gymSlice'
 import { RootState } from '../../../app/redux/store'
-import { useGetActiveMembersQuery } from '../../../services/apis/members'
 import Autocomplete from '@mui/material/Autocomplete'
 import IAutoCompleteOption from '../../interfaces/IAutoCompleteOption'
-import { IMember } from '../../../services/interfaces/IMember'
 import { useAddPlayerToSessionMutation } from '../../../services/apis/players'
+import { useGetActiveMembersNotInSessionQuery } from '../../../services/apis/members'
 
 
 const style = {
@@ -27,40 +25,29 @@ const style = {
 
 const SearchModal = () => {
   
+  // Redux operations
   const dispatch = useDispatch()
   const modalOpen = useSelector((state: RootState) => state.gym.addPlayerModalOpen)
   const handleModalClose = () => dispatch(setModalOpen(false))
+  const sessionID = useSelector((state: RootState) => state.gym.sessionId) // Current Session id is stored globally
 
-  const sessionID = useSelector((state: RootState) => state.gym.sessionId)
-  const [playerList, setPlayerList] = useState<IAutoCompleteOption[]>([])
 
-  const {data: memberList} = useGetActiveMembersQuery()
+  const {data: playerOptions} = useGetActiveMembersNotInSessionQuery() // API call to get all active members not in session
 
-  const transformResponse = (members: IMember[]) => {
-    const modifiedMembers = members.map((member) => {
-      return {
-        label: member.first_name + ' ' + member.last_name + ' ' + member.email,
-      }
-    })
-    console.log('modifiedMembers: ', modifiedMembers)
-    setPlayerList(modifiedMembers)
-  }
-
-  useEffect(() => {
-    if (playerList.length === 0){
-      transformResponse(memberList ?? [])
-    }
-  }, [memberList])
 
   //API call 
   const [addPlayer, result] = useAddPlayerToSessionMutation()
 
-  const addPlayerToSession = (label: IAutoCompleteOption) => {
-    // API call to add player to session
-    const email = label.label.split(' ')[2]
-    const payload = addPlayer({session: sessionID, email: email})
-    console.log('payload: ', payload)
-    handleModalClose()
+  const addPlayerToSession = (label: IAutoCompleteOption | null) => {
+
+    if (label !== null){
+      const email = label.label.split(' ')[2]
+      addPlayer({session: sessionID, email: email}) // API call to add player to session
+      handleModalClose()
+    }
+    else {
+      console.log('ERROR: No player selected')
+    }
   }
 
   return (
@@ -76,7 +63,7 @@ const SearchModal = () => {
           <Autocomplete
             disablePortal
             id="combo-box-demo"
-            options={playerList}
+            options={playerOptions ?? []}
             sx={{ width: 300 }}
             renderInput={(params) => <TextField {...params} label="Member Name" />}
             onChange={(event, value) => addPlayerToSession(value)}
