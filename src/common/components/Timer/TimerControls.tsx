@@ -65,7 +65,7 @@ const TimerControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =>
         onClick={() => { // Restart 13 min timer
           const time = new Date()
           time.setSeconds(time.getSeconds() + 780) // 13 minutes timer
-          restart(time)
+          restart(time, false)
         }}>
         <StopIcon />
       </IconButton>

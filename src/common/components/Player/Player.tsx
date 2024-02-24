@@ -4,8 +4,7 @@ import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
-import { useDispatch, useSelector } from 'react-redux'
-import { movePlayerTo, setCourtChallenge,} from '../../../app/redux/gymSlice'
+import { useSelector } from 'react-redux'
 import { ChipType } from '../Chip/types'
 import { useSetChallengerStatusMutation, useSetMGOstatusMutation } from '../../../services/apis/players'
 import { RootState } from '../../../app/redux/store'
@@ -79,7 +78,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
-    item: { itemId: id.toLocaleString(), source: parent } as itemDropType, // So that when a player is dropped, we can send both the source and target to reducer
+    item: { itemId: id, session: session, source: parent } as itemDropType, // So that when a player is dropped, we can send both the source and target to reducer
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
     }),

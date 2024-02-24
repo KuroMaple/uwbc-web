@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react'
 import { Steps } from 'intro.js-react'
 import 'intro.js/introjs.css'
 import { useGetCurrentSessionQuery } from '../../services/apis/session'
-import { setModalOpen, setSessionId } from '../../app/redux/gymSlice'
+import { setSessionId } from '../../app/redux/gymSlice'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../app/redux/store'
 import SearchModal from '../../common/components/SearchModal/SearchModal'
@@ -123,7 +123,7 @@ const Exec = () => {
             <h1 className="font-semibold text-center">UWBC Exec Tool</h1>
             <PlayerTabs />
           </div>
-          {/* <Courts /> */}
+          <Courts />
         </div>
         
         <div
@@ -131,10 +131,10 @@ const Exec = () => {
           <div
             className='flex flex-row w-full justify-end'
           >
-            {/* <MasterControls start={start} pause={pause} restart={restart} isRunning={isRunning} /> */}
+            <MasterControls start={start} pause={pause} restart={restart} isRunning={isRunning} />
           </div>
           
-          {/* <TimerView minutes={minutes} seconds={seconds} /> */}
+          <TimerView minutes={minutes} seconds={seconds} />
         </div>
         
       </DndProvider>

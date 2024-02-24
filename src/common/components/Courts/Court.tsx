@@ -1,15 +1,14 @@
 import Player from '../Player/Player'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
-import { movePlayerTo, setCourtChallenge } from '../../../app/redux/gymSlice'
 import { Box } from '@mui/material'
 import Chip from '../Chip/Chip'
 import { ChipType } from '../Chip/types'
 import { useEffect, useState } from 'react'
-import { useGetMemberQuery } from '../../../services/apis/members'
+import { useChangePlayerPositionMutation, useGetPlayersBySessionPositionQuery } from '../../../services/apis/players'
 interface Props {
   courtPosition: Positions
   courtNumber: string
@@ -18,116 +17,71 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
   const [playerTags, setPlayerTags] = useState<IPlayer[]>([])
 
-  const dispatch = useDispatch()
+  // Pull current session from redux store
+  const session = useSelector((state: RootState) => state.gym.sessionId)
 
-  const players = useSelector((state: RootState) =>{
-    switch (courtPosition) {
-    case Positions.Court1:
-      return state.gym.court1.players
-    // case Positions.Court2: {
-    //   return state.gym.court2.players
-    // }
-    // case Positions.Court3: {
-    //   return state.gym.court3.players
-    // }
-    // case Positions.Court4: {
-    //   return state.gym.court4.players
-    // }
-    // case Positions.Court5: {
-    //   return state.gym.court5.players
-    // }
-    // case Positions.Court6: {
-    //   return state.gym.court6.players
-    // }
-    // case Positions.Court7: {
-    //   return state.gym.court7.players
-    // }
-    // case Positions.Court8: {
-    //   return state.gym.court8.players
-    // }
-    }
-    
-  })!
+  // Pull players on court from API
+  const {
+    data: playersData,
+  } = useGetPlayersBySessionPositionQuery({
+    session: session ?? 0,
+    position: courtPosition,
+  })
 
-  // useEffect(() => {
-  //   players.forEach(playerId => {
-      
-  //   })
-  // }, [players])
+  // store players on court in local state
+  useEffect(() => {
+    setPlayerTags(playersData?.players ?? [])
+  }, [playersData])
+
+  // To add or remove players on court
+  const [movePlayer] = useChangePlayerPositionMutation()
   
 
-  // Pulling from redux store
-  const isChallengeCourt = useSelector((state: RootState) => {
-    switch (courtPosition) {
-    case Positions.Court1:
-      return state.gym.court1.isChallenge
-    // case Positions.Court2:
-    //   return state.gym.court2.isChallenge
-    // case Positions.Court3:
-    //   return state.gym.court3.isChallenge
-    // case Positions.Court4:
-    //   return state.gym.court4.isChallenge
-    // case Positions.Court5:
-    //   return state.gym.court5.isChallenge
-    // case Positions.Court6:
-    //   return state.gym.court6.isChallenge
-    // case Positions.Court7:
-    //   return state.gym.court7.isChallenge
-    // case Positions.Court8:
-    //   return state.gym.court8.isChallenge
-    default:
-      return false // Set a default value if courtPosition is not handled
+  // Determine if court is a challenge court
+  const isChallengeCourt = () => {
+    for (let i = 0; i < playerTags.length; i++) { // Potential bug since not doing "react" way
+      if (playerTags[i].is_challenging) {
+        return true
+      }
     }
-  })
+    return false
+  }
   
   // Limit courts to four players max
   // Only allow one challenger per court
 
   const isDroppable = (item: itemDropType) => {
     const parent = item.source
-    return (parent === Positions.Challenge && players.length === 0) || 
-            (players.length < 4 && parent !== Positions.Challenge)
+    return (parent === Positions.Challenge && playerTags.length === 0) || 
+            (playerTags.length < 4 && parent !== Positions.Challenge)
   }
 
   const removeAllPlayers = () => {
-    players.forEach((playerId) => {
-      dispatch(movePlayerTo({
-        source: courtPosition,
-        target: Positions.Bench,
-        itemId: playerId,
-      }))
+    playerTags.forEach((player) => {
+      movePlayer({
+        member: player.member,
+        session: session ?? 0,
+        position: Positions.Bench,
+      })
     })
-    // Reset the challenge status of the court
-    dispatch(setCourtChallenge({
-      courtNumber: parseInt(courtPosition),
-      isChallenge: false,
-    }))
   }
 
   const [{ isOver, canDrop}, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
     canDrop: (item) => isDroppable(item),
     drop: (item: itemDropType) => {
-      if (item.source === Positions.Challenge) {
-        dispatch(setCourtChallenge({
-          courtNumber: parseInt(courtPosition),
-          isChallenge: true,
-        }))
-      }
-      dispatch(
-        movePlayerTo({
-          source: item.source,
-          target: courtPosition,
-          itemId: item.itemId,
-        }),
-      )
+      movePlayer({
+        member: item.itemId,
+        session: item.session,
+        position: courtPosition,
+      })
     },
     collect: (monitor) => ({
       // Use isOver to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean
       canDrop: !!monitor.canDrop(),
     }),
-  }), [players])
+  }), [playerTags]) // Memoization happening here?
 
   //Alter court background based on hover
   let backgroundColor = '#d3d3d3'
@@ -138,7 +92,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   }
   return (
     <div className='flex flex-row items-center space-x-7 h-full min-w-court relative pr-3'>
-      { players.length > 0  && // remove all players X button
+      { playerTags.length > 0  && // remove all players X button
       <Box sx={{
         position: 'absolute',
         height: '30px',
@@ -158,14 +112,14 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
         <Chip variant={ChipType.OC}/> 
       </Box>}
       <div className='flex flex-col items-center'>
-        {isChallengeCourt && <span className='text-sm'>Challenge</span>}
+        {isChallengeCourt() && <span className='text-sm'>Challenge</span>}
         <span>Court</span>
         <span className="text-5xl font-bold">{courtNumber}</span>
       </div>
       
       <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
         {playerTags.map((player) => (
-          <Player key={player.id} player={player} parent={courtPosition} isDefender={isChallengeCourt}/> /* isDefender is set to true for challenge court, 
+          <Player key={player.member} player={player} parent={courtPosition} isDefender={isChallengeCourt()}/> /* isDefender is set to true for challenge court, 
                                                                                                     since there is explict check for challenger player chips
                                                                                                      when setting defender chips*/
         ))}

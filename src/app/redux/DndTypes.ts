@@ -19,5 +19,6 @@ export type CreatePlayerAction = {
 
 export type itemDropType = {
   source: Positions, // Where the item is being moved from
-  itemId: string // The relevant item id
+  itemId: number // The relevant item id
+  session: number // The relevant session id
 }

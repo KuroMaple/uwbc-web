@@ -1,11 +1,11 @@
 import React from 'react'
 import MUITab from '@mui/material/Tab'
 import { TabProps } from '@mui/material'
-import { useDispatch } from 'react-redux'
 import { useDrop } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
-import { movePlayerTo } from '../../../app/redux/gymSlice'
 import { Positions } from '../../../common/interfaces/IPlayer'
+import { useChangePlayerPositionMutation } from '../../../services/apis/players'
+
 
 interface PlayerTabProps extends TabProps {
   setValue: React.Dispatch<React.SetStateAction<string>>
@@ -14,38 +14,36 @@ interface PlayerTabProps extends TabProps {
 
 const PlayerTab: React.FC<PlayerTabProps> = ({setValue, ...props}) => {
 
-  const dispatch = useDispatch()
-  
+  const [movePlayer] = useChangePlayerPositionMutation()
+
   // Drag and Drop logic
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
-    drop: (item: itemDropType) => handleDrop(item),
+    drop: (item: itemDropType,) => handleDrop(item),
     collect: (monitor) => ({
       // Use isOver to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean
     }),
   }))
 
+
+  // TODO: Convert to API call
   const handleDrop = (item: itemDropType) => {
     if (item.source === Positions.Bench) {
-      dispatch(
-        movePlayerTo({
-          source: item.source,
-          target: Positions.Challenge, 
-          itemId: item.itemId
-        }),
-      )
+      movePlayer({
+        member: item.itemId,
+        session: item.session,
+        position: Positions.Challenge, 
+      })
       setValue('2')
  
     }
     else { // Challenge to Bench Move
-      dispatch(
-        movePlayerTo({
-          source: item.source,
-          target: Positions.Bench, 
-          itemId: item.itemId
-        }),
-      )
+      movePlayer({
+        member: item.itemId,
+        session: item.session,
+        position: Positions.Bench, 
+      })
       setValue('1')
     }
   }

@@ -17,6 +17,8 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
 
   const dispatch = useDispatch()
 
+
+  // TODO: Convert to API call 
   const resetCourts = () => {
     dispatch(resetAllCourts())
   }

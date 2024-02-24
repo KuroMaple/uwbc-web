@@ -5,6 +5,7 @@ import IChallengeRequest from '../interfaces/IChallengeRequest'
 import IMGORequest from '../interfaces/IMGORequest'
 import IPlayerRequest from '../interfaces/IPlayerRequest'
 import IPlayers from '../interfaces/IPlayers'
+import IPositionRequest from '../interfaces/IPositionRequest'
 import baseApi from './baseApi'
 
 export const playersApi = baseApi.injectEndpoints({
@@ -42,7 +43,16 @@ export const playersApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ['Players'],
     }),
+    changePlayerPosition: builder.mutation <IPlayer, IPositionRequest> ({
+      query: (request) => ({
+        url: 'member_sessions/change_player_position/',
+        method: 'PATCH',
+        body: request,
+      }),
+      invalidatesTags: ['Players'],
+    }),
   }),
 })
 
-export const { useGetPlayersBySessionPositionQuery, useSetChallengerStatusMutation, useSetMGOstatusMutation, useAddPlayerToSessionMutation } = playersApi
+export const { useGetPlayersBySessionPositionQuery, useSetChallengerStatusMutation, useSetMGOstatusMutation, 
+  useAddPlayerToSessionMutation, useChangePlayerPositionMutation } = playersApi
