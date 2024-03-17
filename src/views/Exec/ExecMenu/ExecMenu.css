@@ -1,0 +1,70 @@
+:root {
+  --primary-color: #727272;
+  --secondary-color: #f7f7f7;
+  --button-hover-color: #7373dd;
+  --button-focus-color: #f6f62c;
+}
+
+body {
+  position: relative;
+}
+
+.container__bg-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.container {
+  height: 100vh;
+  width: 100%;
+  min-width:100%; /* this gets rid of a white bar on the right side of the screen */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 33.3%;
+  margin-top: 2rem;
+  margin-bottom: 1.25rem;
+}
+
+.menu__item {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  width: 100%;
+  padding: 0.5rem 0;
+  margin-bottom: 0.75rem;
+  text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.8); /* Makes the text 3-dimensional and much clearer to read*/
+  font-size: 2rem;
+  letter-spacing: 0.03em;
+  border: 2px solid rgba(0, 0, 0, 1);
+  box-shadow: inset 3px 3px 0 rgba(255, 255, 255, 0.5), /* Gives a Minecraft feel to the buttons*/
+              inset -3px -3px 0 rgba(0, 0, 0, 0.5);
+  cursor: pointer;       
+  border-radius: 0.50rem;    
+}
+
+.menu__item:hover {
+  background: var(--button-hover-color);
+}
+
+.menu__item:active { /* Makes the button look like it's being pressed down */
+  box-shadow: inset -3px -3px 0 rgba(255, 255, 255, 0.5), /* Gives a Minecraft feel to the buttons*/
+              inset 3px 3px 0 rgba(0, 0, 0, 0.5);
+}
+
+.menu__item:focus {
+  color: var(--button-focus-color);
+  outline: none;
+}

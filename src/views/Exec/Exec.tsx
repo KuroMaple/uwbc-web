@@ -20,7 +20,7 @@ import SearchModal from '../../common/components/SearchModal/SearchModal'
 const Exec = () => {
   // API logic
   const {data: currentSession} = useGetCurrentSessionQuery()
-
+  console.log('Current session: ', currentSession) //debugging
   // update redux store with current session id
   const dispatch = useDispatch()
   useEffect(() => {

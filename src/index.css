@@ -3,6 +3,7 @@
 @tailwind utilities;
 
 
+
 /* Styling for WebKit browsers such as Google Chrome*/
 ::-webkit-scrollbar {
   width: 7px; /* Adjust the width as needed */
@@ -13,3 +14,4 @@
   background-color: #ccc; /* Color of the scrollbar thumb */
   border-radius: 6px; /* Adjust the border-radius as needed */
 }
+
