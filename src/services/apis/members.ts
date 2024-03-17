@@ -8,8 +8,8 @@ export const membersApi = baseApi.injectEndpoints({
       query: (email) => `members/?email=${email}`,
       providesTags: ['Member'],
     }),
-    getActiveMembersNotInSession: builder.query <IAutoCompleteOption[], void> ({
-      query: () => 'members/get_active_members_not_in_session/',
+    getActiveMembersNotInSession: builder.query <IAutoCompleteOption[], number> ({
+      query: (sessionId) => `members/get_active_members_not_in_session/?session=${sessionId}`,
       providesTags: ['Members'],
       transformResponse: (members: IMember[]) => {
         return members.map((member) => {

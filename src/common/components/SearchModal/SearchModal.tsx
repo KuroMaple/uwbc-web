@@ -32,7 +32,7 @@ const SearchModal = () => {
   const sessionID = useSelector((state: RootState) => state.gym.sessionId) // Current Session id is stored globally
 
 
-  const {data: playerOptions} = useGetActiveMembersNotInSessionQuery() // API call to get all active members not in session
+  const {data: playerOptions} = useGetActiveMembersNotInSessionQuery(sessionID) // API call to get all active members not in session
 
 
   //API call 
