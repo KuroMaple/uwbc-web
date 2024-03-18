@@ -6,7 +6,7 @@ import {
   Route,
 } from 'react-router-dom' 
 import { Member } from '../views/Member/Member'
-import Open from '../views/Open /Open'
+import Open from '../views/Open/Open'
 import ExecMenu from '../views/Exec/ExecMenu/ExecMenu'
 import './App.css'
 function App() {
