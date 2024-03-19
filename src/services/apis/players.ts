@@ -17,7 +17,7 @@ export const playersApi = baseApi.injectEndpoints({
         method: 'POST',
         body: request,
       }),
-      invalidatesTags: ['Players'],
+      invalidatesTags: ['Players', 'Members'],
     
     }),
     getAllPlayersInSession: builder.query <IPlayers, number> ({

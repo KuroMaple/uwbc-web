@@ -16,5 +16,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["./src"]
+  "include": ["./src"],
+  "exclude": ["src/common/components/Player/playerGen.ts"] // Exclude playerGen.ts from compilation
 }

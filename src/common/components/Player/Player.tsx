@@ -51,6 +51,8 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
   const [isMustGoOn, setIsMustGoOn] = useState(player.is_MGO)
   const [isChallenger, setIsChallenger] = useState(player.is_challenging) // Edit courts from more than one device consideration 
 
+  //const [ticks, setTicks] = useState(0) // TODO
+
   // Local player properties
   const [onCourt, setOnCourt] = useState(false)
 
@@ -214,8 +216,8 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           ...setColor(level),
           padding: '5px',
         }}>
-        <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
-          {id}
+        <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
+          M{id}
         </Typography>
         {/* <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
           {ticks}

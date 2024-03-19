@@ -1,10 +1,11 @@
+import ICreateSessionResponse from '../interfaces/ICreateSessionResponse'
 import ISession from '../interfaces/ISession'
 import baseApi from './baseApi'
 
 
 export const sessionApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    createSession: builder.mutation<Partial<ISession>, Partial<ISession>>({
+    createSession: builder.mutation<ICreateSessionResponse, Partial<ISession>>({
       query: (body) => ({
         url: 'sessions/',
         method: 'POST',

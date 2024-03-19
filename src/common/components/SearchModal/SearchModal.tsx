@@ -7,6 +7,8 @@ import Autocomplete from '@mui/material/Autocomplete'
 import IAutoCompleteOption from '../../interfaces/IAutoCompleteOption'
 import { useAddPlayerToSessionMutation } from '../../../services/apis/players'
 import { useGetActiveMembersNotInSessionQuery } from '../../../services/apis/members'
+import { useState } from 'react'
+
 
 
 const style = {
@@ -25,6 +27,9 @@ const style = {
 
 const SearchModal = () => {
   
+  // state
+  const [inputState, setInputState] = useState<IAutoCompleteOption | null>(null) 
+  const [TextFieldState, setTextFieldState] = useState('')
   // Redux operations
   const dispatch = useDispatch()
   const modalOpen = useSelector((state: RootState) => state.gym.addPlayerModalOpen)
@@ -36,7 +41,7 @@ const SearchModal = () => {
 
 
   //API call 
-  const [addPlayer, result] = useAddPlayerToSessionMutation()
+  const [addPlayer] = useAddPlayerToSessionMutation()
 
   const addPlayerToSession = (label: IAutoCompleteOption | null) => {
 
@@ -65,8 +70,30 @@ const SearchModal = () => {
             id="combo-box-demo"
             options={playerOptions ?? []}
             sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Member Name" />}
-            onChange={(event, value) => addPlayerToSession(value)}
+            renderInput={(params) => 
+              <TextField 
+                {...params} 
+                label="Member Name" 
+                value={TextFieldState}
+                onChange={(event) => {
+                  setTextFieldState(event.target.value)
+                }}
+              />}
+
+            value={inputState}
+            onChange={(event, value) => {
+              addPlayerToSession(value)
+              event.preventDefault()
+              setTextFieldState('')
+              setInputState(null)
+            }}
+
+            onSelect= { () => {
+              setTextFieldState('')
+              setInputState(null)            
+            }}
+
+            
           />
         </Box>
       </Modal>
