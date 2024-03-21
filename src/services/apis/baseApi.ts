@@ -4,7 +4,7 @@ export const baseApi = createApi({
   reducerPath: 'baseApi',
   tagTypes: ['Player', 'Session', 'Players', 'Member', 'Members'],
   baseQuery: fetchBaseQuery({ 
-    baseUrl: 'http://127.0.0.1:8000/api/', 
+    baseUrl: 'http://127.0.0.1:8888/testsite/api/', 
   }),
   endpoints: () => ({}),
 })

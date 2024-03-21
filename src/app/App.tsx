@@ -14,16 +14,16 @@ function App() {
     <>
       <Router>
         <Routes>
-          <Route path='/' element={<ExecMenu />} />
-          <Route path='/exec' element={<Exec />} />
-          <Route path='/members' element={<Member />}/>
-          <Route path='/open' element={
+          <Route path='/testsite/live_session/' element={<ExecMenu />} />
+          <Route path='/testsite/live_session/exec' element={<Exec />} />
+          <Route path='/testsite/live_session/members' element={<Member />}/>
+          <Route path='/testsite/live_session/open' element={
             <div className="flex justify-center items-center h-screen bg-gray-100">
               <div className="max-w-lg p-8 bg-white rounded-lg shadow-md">
                 <h1 className="text-3xl font-bold mb-4">This page is under construction</h1>
                 <p className="text-gray-700">
                   Tournament mode coming soon. Please click&nbsp;
-                  <Link to={'/'}
+                  <Link to={'/testsite/live_session/'}
                     className='text-blue-500 hover:text-blue-700 cursor-pointer underline'>
                     here
                   </Link> 

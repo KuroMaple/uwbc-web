@@ -23,14 +23,14 @@ const ExecMenu = () => {
     const sessionId = responseData.data.sessionId
     // console.log('session Id for redux: ', sessionId) // debugging
     dispatch(setSessionId(sessionId))// Setting Session id in redux
-    navigate('/exec')
+    navigate('/testsite/live_session/exec')
   }
 
   const toMemberView = () => {
-    navigate('/members')
+    navigate('/testsite/live_session/members')
   }
   const toTournamentMode = () => {
-    navigate('/open')
+    navigate('/testsite/live_session/open')
   }
   return (
     <div className='container'>
