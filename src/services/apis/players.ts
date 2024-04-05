@@ -31,7 +31,7 @@ export const playersApi = baseApi.injectEndpoints({
     setChallengerStatus: builder.mutation <IPlayer, IChallengeRequest> ({
       query: (request) => ({
         url: 'member_sessions/set_challenger_status/',
-        method: 'PATCH',
+        method: 'POST',
         body: request,
       }),
       invalidatesTags: ['Players'],
@@ -39,7 +39,7 @@ export const playersApi = baseApi.injectEndpoints({
     setMGOstatus: builder.mutation <IPlayer, IMGORequest> ({
       query: (request) => ({
         url: 'member_sessions/set_mgo_status/',
-        method: 'PATCH',
+        method: 'POST',
         body: request,
       }),
       invalidatesTags: ['Players'],
@@ -47,7 +47,7 @@ export const playersApi = baseApi.injectEndpoints({
     changePlayerPosition: builder.mutation <IPlayer, IPositionRequest> ({
       query: (request) => ({
         url: 'member_sessions/change_player_position/',
-        method: 'PATCH',
+        method: 'POST',
         body: request,
       }),
       invalidatesTags: ['Players'],
@@ -55,7 +55,7 @@ export const playersApi = baseApi.injectEndpoints({
     resetAllCourts: builder.mutation <IAddPlayerResponse, ISessionId> ({
       query: (request) => ({
         url: 'member_sessions/move_all_court_players_to_bench/',
-        method: 'PATCH',
+        method: 'POST',
         body: request,
       }),
       invalidatesTags: ['Players'],
