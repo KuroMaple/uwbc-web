@@ -17,9 +17,10 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
   const { data: session } = useGetCurrentSessionQuery()
 
   const[playersState, setPlayersState] = useState<IPlayer[]>([])
+
   const {
     data: players,
-  } = useGetPlayersBySessionPositionQuery({
+  } = useGetPlayersBySessionPositionQuery({ // Get players via redux here instead of query
     session: session?.sessionId ?? 0,
     position: variant,
   })

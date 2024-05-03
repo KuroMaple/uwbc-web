@@ -21,7 +21,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   const session = useSelector((state: RootState) => state.gym.sessionId)
 
   // Pull players on court from API
-  const {
+  const { // Replace with Redux
     data: playersData,
   } = useGetPlayersBySessionPositionQuery({
     session: session ?? 0,

@@ -3,7 +3,6 @@ import IAddPlayerRequest from '../interfaces/IAddPlayerRequest'
 import IAddPlayerResponse from '../interfaces/IAddPlayerResponse'
 import IChallengeRequest from '../interfaces/IChallengeRequest'
 import IMGORequest from '../interfaces/IMGORequest'
-import IPlayerRequest from '../interfaces/IPlayerRequest'
 import IPlayers from '../interfaces/IPlayers'
 import IPositionRequest from '../interfaces/IPositionRequest'
 import ISessionId from '../interfaces/ISessionId'
@@ -24,10 +23,10 @@ export const playersApi = baseApi.injectEndpoints({
       query: (session) => `member_sessions/get_all_players/?session=${session}`,
       providesTags: ['Players'],
     }),
-    getPlayersBySessionPosition: builder.query <IPlayers, IPlayerRequest> ({
-      query: (request) => `member_sessions/get_players_by_position/?session=${request.session}&position=${request.position}`,
-      providesTags: ['Players'],
-    }),
+    // getPlayersBySessionPosition: builder.query <IPlayers, IPlayerRequest> ({
+    //   query: (request) => `member_sessions/get_players_by_position/?session=${request.session}&position=${request.position}`,
+    //   providesTags: ['Players'],
+    // }), // Remove later
     setChallengerStatus: builder.mutation <IPlayer, IChallengeRequest> ({
       query: (request) => ({
         url: 'member_sessions/set_challenger_status/',
@@ -63,5 +62,5 @@ export const playersApi = baseApi.injectEndpoints({
   }),
 })
 
-export const { useGetPlayersBySessionPositionQuery, useSetChallengerStatusMutation, useSetMGOstatusMutation, 
+export const { useSetChallengerStatusMutation, useSetMGOstatusMutation, 
   useAddPlayerToSessionMutation, useChangePlayerPositionMutation, useResetAllCourtsMutation } = playersApi

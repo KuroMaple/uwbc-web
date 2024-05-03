@@ -39,7 +39,7 @@ const MemberCourt: React.FC <Props> = ({ position }) => {
   const {data: session} = useGetCurrentSessionQuery()
   const [courtNumber] = useState(setNumber)
 
-  const {data: playersData} = useGetPlayersBySessionPositionQuery({
+  const {data: playersData} = useGetPlayersBySessionPositionQuery({ // Replace with redux
     session: session?.sessionId ?? 0,
     position: position,
   })
