@@ -33,7 +33,6 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
   const [movePlayer] = useChangePlayerPositionMutation()
 
 
-  // TODO: Convert to API call
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
     drop: (item: itemDropType) =>

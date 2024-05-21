@@ -3,7 +3,7 @@ import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
 import { RootState } from '../../app/redux/store'
 import { useEffect, useState } from 'react'
 import MemberPlayer from './MemberPlayer'
-import { useGetPlayersBySessionPositionQuery } from '../../services/apis/players'
+// import { useGetPlayersBySessionPositionQuery } from '../../services/apis/players'
 import { useGetCurrentSessionQuery } from '../../services/apis/session'
 
 
@@ -39,10 +39,10 @@ const MemberCourt: React.FC <Props> = ({ position }) => {
   const {data: session} = useGetCurrentSessionQuery()
   const [courtNumber] = useState(setNumber)
 
-  const {data: playersData} = useGetPlayersBySessionPositionQuery({ // Replace with redux
-    session: session?.sessionId ?? 0,
-    position: position,
-  })
+  // const {data: playersData} = useGetPlayersBySessionPositionQuery({ // Replace with redux
+  //   session: session?.sessionId ?? 0,
+  //   position: position,
+  // })
   const [players, setPlayers] = useState<IPlayer[]>([])
   console.log(playersData)
   useEffect(() => {

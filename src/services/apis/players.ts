@@ -23,10 +23,10 @@ export const playersApi = baseApi.injectEndpoints({
       query: (session) => `member_sessions/get_all_players/?session=${session}`,
       providesTags: ['Players'],
     }),
-    // getPlayersBySessionPosition: builder.query <IPlayers, IPlayerRequest> ({
-    //   query: (request) => `member_sessions/get_players_by_position/?session=${request.session}&position=${request.position}`,
-    //   providesTags: ['Players'],
-    // }), // Remove later
+    getPlayersBySessionPosition: builder.query <IPlayers, IPlayerRequest> ({
+      query: (request) => `member_sessions/get_players_by_position/?session=${request.session}&position=${request.position}`,
+      providesTags: ['Players'],
+    }), // Remove later
     setChallengerStatus: builder.mutation <IPlayer, IChallengeRequest> ({
       query: (request) => ({
         url: 'member_sessions/set_challenger_status/',
@@ -63,4 +63,4 @@ export const playersApi = baseApi.injectEndpoints({
 })
 
 export const { useSetChallengerStatusMutation, useSetMGOstatusMutation, 
-  useAddPlayerToSessionMutation, useChangePlayerPositionMutation, useResetAllCourtsMutation } = playersApi
+  useAddPlayerToSessionMutation, useChangePlayerPositionMutation, useResetAllCourtsMutation, useGetPlayersBySessionPositionQuery } = playersApi

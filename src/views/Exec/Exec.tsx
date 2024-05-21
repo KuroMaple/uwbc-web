@@ -34,7 +34,7 @@ const Exec = () => {
 
   // Tutorial logic
   const [stepsEnabled, setStepsEnabled] = useState(false) // Set to true when need tutorial
-  const [currentStep, setCurrentStep] = useState(0)
+  const [currentStep, setCurrentStep] = useState(0) // Remove?
   const [renderCount, setRenderCount] = useState(0)
   const steps = [ 
     {
@@ -123,7 +123,7 @@ const Exec = () => {
             <h1 className="font-semibold text-center">UWBC Exec Tool</h1>
             <PlayerTabs />
           </div>
-          <Courts />
+          {/* <Courts /> */}
         </div>
         
         <div

@@ -27,7 +27,7 @@ const PlayerTab: React.FC<PlayerTabProps> = ({setValue, ...props}) => {
   }))
 
 
-  // TODO: Convert to API call
+
   const handleDrop = (item: itemDropType) => {
     if (item.source === Positions.Bench) {
       movePlayer({
