@@ -9,25 +9,34 @@ import TimerView from '../../common/components/Timer/TimerView'
 import { useEffect, useState } from 'react'
 import { Steps } from 'intro.js-react'
 import 'intro.js/introjs.css'
-import { useGetCurrentSessionQuery } from '../../services/apis/session'
-import { setSessionId } from '../../app/redux/gymSlice'
+import { useCreateSessionMutation, useGetCurrentSessionQuery } from '../../services/apis/session'
+import { setSessionId, syncGymState } from '../../app/redux/gymSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../app/redux/store'
+
 import SearchModal from '../../common/components/SearchModal/SearchModal'
+import { RootState } from '../../app/redux/store'
+import ICreateSessionResponse from '../../services/interfaces/ICreateSessionResponse'
+import { useGetGymStateQuery } from '../../services/apis/syncRedux'
 
 
 
 const Exec = () => {
-  // API logic
-  const {data: currentSession} = useGetCurrentSessionQuery()
-  console.log('Current session: ', currentSession) //debugging
+  // API Initialization
+  const {data: gymState} = useGetGymStateQuery() // Fetches most recent gym state
+  
+  
+
+  // Get current session id from redux
+  const currentSession = useSelector((state: RootState) => state.gym.sessionId)
   // update redux store with current session id
   const dispatch = useDispatch()
+
+  console.log(currentSession)  
   useEffect(() => {
-    if (currentSession) {
-      dispatch(setSessionId(currentSession.sessionId ?? -1))
+    if(gymState){
+      dispatch(syncGymState(gymState))
     }
-  }, [currentSession])
+  }, [gymState])
 
   // Pull modal info from redux
   const modalOpen = useSelector((state: RootState) => state.gym.addPlayerModalOpen)
@@ -80,7 +89,6 @@ const Exec = () => {
   }
 
 
-
   // To offset initial renderings that mess up steps enabled value
   useEffect(() => {
     if (renderCount < 1) {
@@ -88,7 +96,6 @@ const Exec = () => {
       setRenderCount(renderCount + 1)
     }
   }, [stepsEnabled])
-
 
 
   // Timer logic
@@ -121,7 +128,7 @@ const Exec = () => {
         <div className='flex flex-row w-main-content'>
           <div className='mb-4 flex-col '>
             <h1 className="font-semibold text-center">UWBC Exec Tool</h1>
-            <PlayerTabs />
+            {/* <PlayerTabs /> */}
           </div>
           {/* <Courts /> */}
         </div>

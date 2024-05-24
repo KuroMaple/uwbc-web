@@ -10,6 +10,8 @@ import { Member } from '../views/Member/Member'
 import ExecMenu from '../views/Exec/ExecMenu/ExecMenu'
 import './App.css'
 function App() {
+  // Sync Redux tree here with backend
+
   return (
     <>
       <Router>

@@ -9,10 +9,10 @@ import { store } from './app/redux/store'
 async function enableMocking() {
   // Worker is alwasy mocking, TO DO: add logic to only mock in dev
   
+  if(false){ // Change to true to disable mocking
+    return
+  }
   const { worker } = await import('./__mocks__/browser')
- 
-  // `worker.start()` returns a Promise that resolves
-  // once the Service Worker is up and ready to intercept requests.
 
   return worker.start()
 }

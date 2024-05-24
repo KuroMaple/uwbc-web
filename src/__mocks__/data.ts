@@ -1,7 +1,8 @@
 import { Positions } from '../common/interfaces/IPlayer'
+import { IMember } from '../services/interfaces/IMember'
 
 
-const data = {
+export const gymState = {
   sessionId: 123,
   benchPlayers: [
     {
@@ -258,4 +259,66 @@ const data = {
   },
 }
 
-export default data
+export const memberList: IMember[] = [
+  {
+    level: 1,
+    first_name: 'John',
+    last_name: 'Doe',
+    email: 'john.doe@example.com'
+  },
+  {
+    level: 2,
+    first_name: 'Jane',
+    last_name: 'Smith',
+    email: 'jane.smith@example.com'
+  },
+  {
+    level: 3,
+    first_name: 'Robert',
+    last_name: 'Brown',
+    email: 'robert.brown@example.com'
+  },
+  {
+    level: 4,
+    first_name: 'Emily',
+    last_name: 'Davis',
+    email: 'emily.davis@example.com'
+  },
+  {
+    level: 5,
+    first_name: 'Michael',
+    last_name: 'Miller',
+    email: 'michael.miller@example.com'
+  },
+  {
+    level: 6,
+    first_name: 'Jessica',
+    last_name: 'Wilson',
+    email: 'jessica.wilson@example.com'
+  },
+  {
+    level: 7,
+    first_name: 'David',
+    last_name: 'Moore',
+    email: 'david.moore@example.com'
+  },
+  {
+    level: 8,
+    first_name: 'Sarah',
+    last_name: 'Taylor',
+    email: 'sarah.taylor@example.com'
+  },
+  {
+    level: 9,
+    first_name: 'Daniel',
+    last_name: 'Anderson',
+    email: 'daniel.anderson@example.com'
+  },
+  {
+    level: 10,
+    first_name: 'Laura',
+    last_name: 'Thomas',
+    email: 'laura.thomas@example.com'
+  }
+]
+

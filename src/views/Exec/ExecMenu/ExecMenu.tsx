@@ -4,25 +4,30 @@ import ISession from '../../../services/interfaces/ISession'
 import { setSessionId } from '../../../app/redux/gymSlice'
 import { useDispatch } from 'react-redux'
 import './ExecMenu.css'
-import bgImage from '../../../assets/menuBackground.png'
+import bgImage from '../../../../public/menuBackground.png'
 import ICreateSessionResponse from '../../../services/interfaces/ICreateSessionResponse'
+
 
 const ExecMenu = () => {
   const navigate = useNavigate()
   const requestData: Partial<ISession> = {
-    term: 1,
+    term: 1, // Hardcoded for Winter 24
   }
   const [createSesionPost] = useCreateSessionMutation()
 
   const dispatch = useDispatch()
-  //Will create a session for today and redirect to exec view of current session
-  //    If session for today already exists, will redirect to exec view of current session without creating a new session
+
+  /****** createSession() *******
+  Will create a session for today and redirect to exec view of current session.
+    If session for today already exists, will redirect to exec view of current session without creating a new session.
+  ************************************/
   const createSession =  async () => {
     const payload = await createSesionPost(requestData)
     const responseData = payload as { data: ICreateSessionResponse } // Asserting that payload is always of type ICreateSessionResponse
     const sessionId = responseData.data.sessionId
-    // console.log('session Id for redux: ', sessionId) // debugging
-    dispatch(setSessionId(sessionId))// Setting Session id in redux
+
+    dispatch(setSessionId(sessionId)) // Setting the session id in the redux store
+    console.log('Session created with id:', sessionId) //debugging
     navigate('/exec')
   }
 
