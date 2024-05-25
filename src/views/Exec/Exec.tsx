@@ -128,7 +128,7 @@ const Exec = () => {
         <div className='flex flex-row w-main-content'>
           <div className='mb-4 flex-col '>
             <h1 className="font-semibold text-center">UWBC Exec Tool</h1>
-            {/* <PlayerTabs /> */}
+            <PlayerTabs />
           </div>
           {/* <Courts /> */}
         </div>

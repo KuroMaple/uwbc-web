@@ -13,13 +13,14 @@ export enum Positions {
 }
 
 export default interface IPlayer {
-  member: number
-  session: number
+  id: number
+  sessionID: number
   position: Positions
-  is_being_challenged: boolean
-  is_challenging: boolean
-  num_rotations_off: number
-  is_MGO: boolean
-  member_name: string
-  member_level: number
+  isBeingChallenged: boolean
+  isChallenging: boolean
+  numRotationsOff: number
+  isMGO: boolean
+  name: string
+  level: number
+  ticks: number
 }

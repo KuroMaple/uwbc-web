@@ -9,7 +9,7 @@ export const ItemTypes = {
 export type DnDMoveAction = {
   source: Positions, // Where the item is being moved from
   target: Positions, // Where the item is being moved to
-  itemId: string // The relevant item id
+  itemId: number // The relevant item id
 }
 
 export type CreatePlayerAction = {
@@ -20,5 +20,4 @@ export type CreatePlayerAction = {
 export type itemDropType = {
   source: Positions, // Where the item is being moved from
   itemId: number // The relevant item id
-  session: number // The relevant session id
 }

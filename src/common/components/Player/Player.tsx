@@ -1,13 +1,12 @@
 import { Box, Paper, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
-import { useSelector } from 'react-redux'
+import { useDispatch} from 'react-redux'
 import { ChipType } from '../Chip/types'
-import { useChangePlayerPositionMutation, useSetChallengerStatusMutation, useSetMGOstatusMutation } from '../../../services/apis/players'
-import { RootState } from '../../../app/redux/store'
+import { movePlayerTo, togglePlayerMGO } from '../../../app/redux/gymSlice'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -32,76 +31,49 @@ const setColor = (level: number) => {
 
 interface Props {
   player: IPlayer 
-  parent: Positions
-  isDefender?: boolean // Redlic, replace later
 }
 
-const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
+const Player: React.FC<Props> = ({ player }) => {
+  const dispatch = useDispatch() // Redux dispatch
+  const [onCourt] = useState(player.position !== Positions.Bench && player.position !== Positions.Challenge)
   
-  // API logic
-  const [setChallengerStatus] = useSetChallengerStatusMutation()
-  const [setMGOStatus] = useSetMGOstatusMutation()
-  const [movePlayer] = useChangePlayerPositionMutation()
+  // useEffect(() => {
+  //   setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
 
-  // Externally pulled player properties
-  const [name, setName] = useState(player.member_name)
-  const [id, setId] = useState(player.member)
-  const [level, setLevel] = useState(player.member_level)
-  const [position, setPosition] = useState<Positions>(player.position)
-  const [isMustGoOn, setIsMustGoOn] = useState(player.is_MGO)
-  const [isChallenger, setIsChallenger] = useState(player.is_challenging) // Edit courts from more than one device consideration 
+  //   // Not sure if this is neccesary
+  //   // if (parent === Positions.Challenge){
+  //   //   setChallengerStatus({member: id, is_challenging: true, session: session})
+  //   // }
 
-  //const [ticks, setTicks] = useState(0) // TODO
-
-  // Local player properties
-  const [onCourt, setOnCourt] = useState(false)
-
-
-  
-
-  // Redux connection
-  const session = useSelector((state: RootState) => state.gym.sessionId)
-  
-  useEffect(() => {
-    setName(player.member_name)
-    setId(player.member)
-    setLevel(player.member_level)
-    setPosition(player.position) // Setting position in gym explicitly 
-    setIsMustGoOn(player.is_MGO)
-    setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
-    setIsChallenger(player.is_challenging)
-
-    // Not sure if this is neccesary
-    if (parent === Positions.Challenge){
-      setChallengerStatus({member: id, is_challenging: true, session: session})
-    }
-
-  }, [player])
+  // }, [player])
   
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
-    item: { itemId: id, session: session, source: parent } as itemDropType, // So that when a player is dropped, we can send both the source and target to reducer
+    item: { itemId: player.id, source: player.position } as itemDropType, // So that when a player is dropped, we can send both the source and target to reducer
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
     }),
   }))
 
   // Shortens the name to first name and first letter of last name if name is too long
-  const shortenNameToFirst = (name: string) => {
-    if (name.length < 10) {
-      return name
+  const shortenNameToFirst = (playerName: string) => {
+    if(!playerName){ // Debugging
+      return 'No Name'
     }
-    const nameArr = name.split(' ')
+    if (playerName.length < 10) {
+      return playerName
+    }
+    const nameArr = playerName.split(' ')
     return nameArr[0] + ' ' + nameArr[1][0] + '.'
   }
 
   // Removes player from court and places them in bench
   const removeFromCourt = () => {
-    movePlayer({
-      member: id,
-      session: session,
-      position: Positions.Bench,
+    movePlayerTo({
+      itemId: player.id,
+      source: player.position,
+      target: Positions.Bench,
     })
   }
   
@@ -125,18 +97,21 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           height: '60px',
           padding: '3px',
           position: 'relative',
+          WebkitUserSelect: 'none', // Prevent text selection
+          MozUserSelect: 'none',
+          msUserSelect: 'none',
+          userSelect: 'none',
         }
       }
       onDoubleClick={() => {
-        if (position === Positions.Bench) { // MGO status should only be changed if player is on bench
-          setMGOStatus({member: id, is_MGO: !isMustGoOn, session: session})
-          setIsMustGoOn(!isMustGoOn)
+        if (player.position === Positions.Bench) { // MGO status should only be changed if player is on bench
+          dispatch(togglePlayerMGO(player.id))
         }
       }}
     >
 
       {/* Chip JSX Below*/}
-      {isMustGoOn && !onCourt &&  // If on court, MGO should not be displayed
+      {player.isMGO  &&  // If on court, MGO should not be displayed
       <Box sx={{
         position: 'absolute',
         top: '0px',
@@ -148,7 +123,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
         <Chip variant={ChipType.MGO}/>
       </Box> }
 
-      {isChallenger && !onCourt &&
+      {/* {player.isChallenging && !onCourt &&
         <Box sx={{
           position: 'absolute',
           height: '25px',
@@ -158,14 +133,14 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           zIndex: 2,
         }}>
           <Chip variant={ChipType.CH}/>
-        </Box>}
+        </Box>} */}
       
-      {isChallenger && onCourt &&
+      {player.isChallenging /*&& onCourt*/ &&
         <Box sx={{
           position: 'absolute',
           height: '25px',
           width: '30px',
-          bottom: '0px', // altering bottom instead of top to avoid overlap with X button
+          bottom: '0px', 
           right: '0px',
           zIndex: 4,
         }}>
@@ -190,9 +165,9 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
       }}
       >
         <Chip variant={ChipType.OC}/> 
-      </Box>}
+      </Box>} 
 
-      {isDefender && onCourt && !isChallenger && // Necessary to prevent overlap with CH chip, as IsDefender is set to true for challenge court
+      {player.isBeingChallenged /*&& onCourt && !player.isChallenging*/ && // Necessary to prevent overlap with CH chip, as IsDefender is set to true for challenge court
         <Box sx={{
           position: 'absolute',
           width: '25px',
@@ -213,15 +188,15 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           width: '100%',
           height: '100%',
           position: 'relative',
-          ...setColor(level),
+          ...setColor(player.level),
           padding: '5px',
         }}>
         <Typography sx={{ fontSize: 11, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
-          M{id}
+          M{player.id}
         </Typography>
-        {/* <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
-          {ticks}
-        </Typography> */}
+        <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
+          {player.ticks}
+        </Typography>
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
@@ -229,7 +204,7 @@ const Player: React.FC<Props> = ({ player, parent, isDefender }) => {
           height: '100%',
         }}>
           <Typography sx={{ fontSize: 15, marginTop: '10px' }} color="text.secondary" gutterBottom>
-            {shortenNameToFirst(name)}
+            {shortenNameToFirst(player.name)}
           </Typography>
 
         </Box>

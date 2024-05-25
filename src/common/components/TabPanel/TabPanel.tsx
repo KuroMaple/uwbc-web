@@ -36,7 +36,6 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
   //   drop: (item: itemDropType) =>
   //     movePlayer({
   //       member: item.itemId,
-  //       session: item.session,
   //       position: variant,
   //     }),
       
@@ -51,12 +50,12 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
       {variant === Positions.Bench && <Controls parent={variant} filterByMGO={filterByMGO} setFilterByMGO={setFilterByMGO}/>} {/* Only show controls for bench */}
       <div className='h-TAB-PANEL-RATIO justify-center items-center'>
         {filterByMGO && variant === Positions.Bench ? (
-          players.filter((player) => player.is_MGO).map((player) => (
-            <Player key={player.member} player={player} parent={variant}/>
+          players.filter((player) => player.isMGO).map((player) => (
+            <Player key={player.id} player={player} parent={variant}/>
           ))
         ) : (
           players.map((player) => (
-            <Player key={player.member} player={player} parent={variant}/>
+            <Player key={player.id} player={player} parent={variant}/>
           ))
         )}
         

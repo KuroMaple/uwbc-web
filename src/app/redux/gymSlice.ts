@@ -299,9 +299,24 @@ const gymSlice = createSlice({
       // state.court8.players = []
       // state.court8.isChallenge = false
     },
+    togglePlayerMGO:(state, action: PayloadAction<number>) => {
+      const player = state.benchPlayers.find(player => player.id === action.payload)
+      if (player) {
+        player.isMGO = !player.isMGO
+      }
+    }
   }
 })
 
-export const { setSessionId, createPlayer, movePlayerTo, setCourtChallenge, resetAllCourts, setModalOpen, syncGymState} = gymSlice.actions
+export const { 
+  setSessionId, 
+  createPlayer, 
+  movePlayerTo, 
+  setCourtChallenge, 
+  resetAllCourts, 
+  setModalOpen, 
+  syncGymState, 
+  togglePlayerMGO,
+} = gymSlice.actions
 
 export default gymSlice.reducer
