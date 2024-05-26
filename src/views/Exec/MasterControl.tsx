@@ -6,7 +6,7 @@ import TimerControls from '../../common/components/Timer/TimerControls'
 import { memo } from 'react'
 import { useResetAllCourtsMutation } from '../../services/apis/players'
 import { RootState } from '../../app/redux/store'
-import BackupIcon from '@mui/icons-material/Backup';
+import BackupIcon from '@mui/icons-material/Backup'
 
 interface Props {
   start: () => void

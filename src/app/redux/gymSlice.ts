@@ -111,17 +111,32 @@ const gymSlice = createSlice({
       }
     },
     movePlayerTo:(state, action: PayloadAction<DnDMoveAction>) => {
-
-      // remove from source array
+      // Find player 
+      let movedPlayer: IPlayer = {
+        id: 0, 
+        sessionID: 0, 
+        position: Positions.Bench, 
+        isBeingChallenged: false, 
+        isChallenging: false, 
+        numRotationsOff: 0, 
+        isMGO: false, 
+        name: '', 
+        level: 0, 
+        ticks: 0
+      }
+      // remove from source array, and populate movedPlayer
       switch (action.payload.source) {
       case (Positions.Challenge): {
-        // movedPlayer.isChallenger = true // Since source is Challenge Tab, player is a challenger // Update this in the backend to challenger status = true
-        state.challengePlayers = state.challengePlayers.filter(playerId => playerId !== action.payload.itemId)
+        movedPlayer = state.challengePlayers.find(player => player.id === action.payload.itemId)!
+        movedPlayer.isChallenging = action.payload.target !== Positions.Bench // Since source is Challenge Tab, player is a challenger 
+        state.challengePlayers = state.challengePlayers.filter(player => player.id !== action.payload.itemId)
         break
       }
 
       case (Positions.Bench): {
-        state.benchPlayers = state.benchPlayers.filter(playerId => playerId !== action.payload.itemId)
+        movedPlayer = state.benchPlayers.find(player => player.id === action.payload.itemId)!
+        console.log('removing player from bench', movedPlayer) // Debugging
+        state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload.itemId)
         break
       }
 
@@ -166,20 +181,23 @@ const gymSlice = createSlice({
       //   break
       // }
       }
+      
+      // Reset MGO status
+      movedPlayer.isMGO = false
 
-      // Add to target array
+      // Add to target array and set new position, update flags
       switch (action.payload.target) {
 
       case (Positions.Challenge): {       
-        // movedPlayer.isMustGoOn = false // Reset MGO status
-        // movedPlayer.position = Positions.Challenge
-        state.challengePlayers.push(action.payload.itemId)
+        movedPlayer.isMGO = false // Reset MGO status
+        movedPlayer.position = Positions.Challenge
+        movedPlayer.isChallenging = true
+        state.challengePlayers.push(movedPlayer)
         break
       }
       case (Positions.Bench): {
-        // movedPlayer.position = Positions.Bench
-        // movedPlayer.isChallenger = false // Reset challenger status
-        state.benchPlayers.push(action.payload.itemId)
+        movedPlayer.position = Positions.Bench
+        state.benchPlayers.push(movedPlayer)
         break
       }
       // case (Positions.Court1): {

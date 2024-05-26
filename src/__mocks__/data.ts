@@ -41,7 +41,7 @@ export const gymState = {
       isMGO: false,
       name: 'Charlie',
       level: 6,
-      ticks: 0,
+      ticks: 1,
     },
   ],
   court1: {

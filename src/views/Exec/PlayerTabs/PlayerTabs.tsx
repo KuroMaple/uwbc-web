@@ -1,4 +1,4 @@
-import { Box} from '@mui/material'
+import { Box, SxProps, Theme} from '@mui/material'
 import { useState, memo } from 'react'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
@@ -10,10 +10,19 @@ import PlayerTab from './PlayerTab'
 const PlayerTabs = () => {
   const [value, setValue] = useState('1')
   
-
-
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue)
+  }
+
+  const tabListStyles: SxProps<Theme> = {
+    color: 'yellow',
+    '& .MuiTab-root': {
+      fontSize: '16px',
+    },
+    borderColor: 'darkgray',
+    '& .MuiTabs-indicator': {
+      backgroundColor: 'fuchsia',
+    },
   }
   
   
@@ -27,7 +36,6 @@ const PlayerTabs = () => {
     borderBottomLeftRadius: '15px',
     borderBottomRightRadius: '15px',
   }
-
   
   return (
     <Box 
@@ -41,27 +49,30 @@ const PlayerTabs = () => {
       <TabContext value={value}
       >
         <Box>
-          <TabList onChange={handleChange} aria-label="Player"
+          <TabList 
+            onChange={handleChange} 
+            aria-label="Player Tabs"
+            sx={tabListStyles}
           >
             <PlayerTab
               setValue={setValue} 
               label="Bench" 
               value="1"
             />
-            {/* <PlayerTab
+            <PlayerTab
               className='player-drop-space-challenge'
               setValue={setValue}
               label="Challenge" 
               value="2" 
-            /> */}
+            />
           </TabList>
         </Box>
         <MUITabPanel value="1" sx={tabPanelStyle}>
           <TabPanel variant={Positions.Bench}/>
         </MUITabPanel>
-        {/* <MUITabPanel value="2" sx={tabPanelStyle}>
+        <MUITabPanel value="2" sx={tabPanelStyle}>
           <TabPanel variant={Positions.Challenge}/>
-        </MUITabPanel> */}
+        </MUITabPanel>
       </TabContext>
     </Box>
   )
