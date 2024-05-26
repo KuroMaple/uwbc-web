@@ -8,10 +8,10 @@ export interface GymState {
   addPlayerModalOpen: boolean,
   benchPlayers: IPlayer[],
   challengePlayers: IPlayer[],
-  // court1: {
-  //   isChallenge: boolean,
-  //   players: string[],
-  // }
+  court1: {
+    isChallengeCourt: boolean,
+    players: IPlayer[],
+  }
   // court2: {
   //   isChallenge: boolean,
   //   players: IPlayer[],
@@ -48,10 +48,10 @@ const initialState: GymState = {
   addPlayerModalOpen: false,
   benchPlayers: [],
   challengePlayers: [],
-  // court1: {
-  //   isChallenge: false,
-  //   players: [],
-  // },
+  court1: {
+    isChallengeCourt: false,
+    players: [],
+  },
   // court2: {
   //   isChallenge: false,
   //   players: [],
@@ -91,6 +91,7 @@ const gymSlice = createSlice({
       state.benchPlayers = action.payload.benchPlayers
       state.challengePlayers = action.payload.challengePlayers
       state.sessionId = action.payload.sessionId
+      state.court1 = action.payload.court1
     },
     setModalOpen:(state, action: PayloadAction<boolean>) => {
       state.addPlayerModalOpen = action.payload
@@ -135,15 +136,17 @@ const gymSlice = createSlice({
 
       case (Positions.Bench): {
         movedPlayer = state.benchPlayers.find(player => player.id === action.payload.itemId)!
-        console.log('removing player from bench', movedPlayer) // Debugging
         state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload.itemId)
         break
       }
 
-      // case (Positions.Court1): {
-      //   state.court1.players = state.court1.players.filter(playerId => playerId !== action.payload.itemId)
-      //   break
-      // }
+      case (Positions.Court1): {
+        movedPlayer = state.court1.players.find(player => player.id === action.payload.itemId)!
+        movedPlayer.isChallenging = false
+        movedPlayer.isBeingChallenged = false
+        state.court1.players = state.court1.players.filter(player => player.id !== action.payload.itemId)
+        break
+      }
 
       // case Positions.Court2: {
       //   movedPlayer = state.court2.players.find(player => player.id === action.payload.itemId)!
@@ -182,14 +185,13 @@ const gymSlice = createSlice({
       // }
       }
       
-      // Reset MGO status
+      // Reset Player MGO
       movedPlayer.isMGO = false
 
       // Add to target array and set new position, update flags
       switch (action.payload.target) {
 
       case (Positions.Challenge): {       
-        movedPlayer.isMGO = false // Reset MGO status
         movedPlayer.position = Positions.Challenge
         movedPlayer.isChallenging = true
         state.challengePlayers.push(movedPlayer)
@@ -200,12 +202,12 @@ const gymSlice = createSlice({
         state.benchPlayers.push(movedPlayer)
         break
       }
-      // case (Positions.Court1): {
-      //   // movedPlayer.isMustGoOn = false // Reset MGO status
-      //   // movedPlayer.position = Positions.Court1
-      //   state.court1.players.push(action.payload.itemId)
-      //   break
-      // }
+      case (Positions.Court1): {
+        movedPlayer.position = Positions.Court1
+        movedPlayer.isBeingChallenged = state.court1.isChallengeCourt
+        state.court1.players.push(movedPlayer)
+        break
+      }
       // case (Positions.Court2): {
       //   movedPlayer.isMustGoOn = false // Reset MGO status
       //   movedPlayer.position = Positions.Court2
@@ -253,10 +255,10 @@ const gymSlice = createSlice({
 
     setCourtChallenge:(state, action: PayloadAction<{courtNumber: number, isChallenge: boolean}>) => {
       switch (action.payload.courtNumber) {
-      // case 1: {
-      //   state.court1.isChallenge = action.payload.isChallenge
-      //   break
-      // }
+      case 1: {
+        state.court1.isChallengeCourt = action.payload.isChallenge
+        break
+      }
       // case 2: {
       //   state.court2.isChallenge = action.payload.isChallenge
       //   break

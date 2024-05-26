@@ -6,10 +6,10 @@ export interface IReduxSync {
   sessionId: number,
   benchPlayers: IPlayer[],
   challengePlayers: IPlayer[],
-  // court1: {
-  //   isChallenge: boolean,
-  //   players: string[],
-  // }
+  court1: {
+    isChallengeCourt: boolean,
+    players: IPlayer[],
+  }
   // court2: {
   //   isChallenge: boolean,
   //   players: IPlayer[],

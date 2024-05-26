@@ -1,6 +1,6 @@
 import { useDrop } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
-import  { Positions } from '../../interfaces/IPlayer'
+import  IPlayer, { Positions } from '../../interfaces/IPlayer'
 import Player from '../Player/Player'
 import Controls from '../TabPanelControls/Controls'
 import { useState } from 'react'
@@ -39,7 +39,7 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
       {variant === Positions.Bench && <Controls parent={variant} filterByMGO={filterByMGO} setFilterByMGO={setFilterByMGO}/>} {/* Only show controls for bench */}
       <div className='h-TAB-PANEL-RATIO justify-center items-center'>
         {filterByMGO && variant === Positions.Bench ? (
-          players.filter((player) => player.isMGO).map((player) => (
+          players.filter((player: IPlayer) => player.isMGO).map((player) => (
             <Player key={player.id} player={player}/>
           ))
         ) : (

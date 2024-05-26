@@ -24,14 +24,12 @@ const Exec = () => {
   // API Initialization
   const {data: gymState} = useGetGymStateQuery() // Fetches most recent gym state
   
-  
 
   // Get current session id from redux
   const currentSession = useSelector((state: RootState) => state.gym.sessionId)
   // update redux store with current session id
   const dispatch = useDispatch()
 
-  console.log(currentSession)  
   useEffect(() => {
     if(gymState){
       dispatch(syncGymState(gymState))
@@ -43,7 +41,7 @@ const Exec = () => {
 
   // Tutorial logic
   const [stepsEnabled, setStepsEnabled] = useState(false) // Set to true when need tutorial
-  const [currentStep, setCurrentStep] = useState(0) // Remove?
+  const [currentStep] = useState(0) // Remove?
   const [renderCount, setRenderCount] = useState(0)
   const steps = [ 
     {
@@ -129,7 +127,7 @@ const Exec = () => {
           <div className='mb-4 flex-col '>
             <PlayerTabs />
           </div>
-          {/* <Courts /> */}
+          <Courts />
         </div>
         
         <div

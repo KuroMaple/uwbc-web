@@ -1,6 +1,6 @@
 import Player from '../Player/Player'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
@@ -9,60 +9,62 @@ import Chip from '../Chip/Chip'
 import { ChipType } from '../Chip/types'
 import { useEffect, useState } from 'react'
 import { useChangePlayerPositionMutation, useGetPlayersBySessionPositionQuery } from '../../../services/apis/players'
+import { movePlayerTo, setCourtChallenge } from '../../../app/redux/gymSlice'
 interface Props {
   courtPosition: Positions
   courtNumber: string
 }
 const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
+  const dispatch = useDispatch()
+  // Redux pulled data
+  const players = useSelector((state: RootState) =>{
+    switch(courtPosition){
+    case Positions.Court1:
+      return state.gym.court1.players
+    default:
+      return []
+    }
+  }
+  )
 
-  const [playerTags, setPlayerTags] = useState<IPlayer[]>([])
-
-  // Pull current session from redux store
+  
   const session = useSelector((state: RootState) => state.gym.sessionId)
 
-  // Pull players on court from API
-  const { // Replace with Redux
-    data: playersData,
-  } = useGetPlayersBySessionPositionQuery({
-    session: session ?? 0,
-    position: courtPosition,
+  const isChallengeCourt = useSelector((state: RootState) => {
+    switch(courtPosition){
+    case Positions.Court1:
+      return state.gym.court1.isChallengeCourt
+    default:
+      return false
+    }
   })
 
-  // store players on court in local state
-  useEffect(() => {
-    setPlayerTags(playersData?.players ?? [])
-  }, [playersData])
-
-  // To add or remove players on court
-  const [movePlayer] = useChangePlayerPositionMutation()
-  
-
-  // Determine if court is a challenge court
-  const isChallengeCourt = () => {
-    for (let i = 0; i < playerTags.length; i++) { // Potential bug since not doing "react" way
-      if (playerTags[i].is_challenging) {
-        return true
-      }
-    }
-    return false
-  }
   
   // Limit courts to four players max
   // Only allow one challenger per court
-
   const isDroppable = (item: itemDropType) => {
     const parent = item.source
-    return (parent === Positions.Challenge && playerTags.length === 0) || 
-            (playerTags.length < 4 && parent !== Positions.Challenge)
+    return (parent === Positions.Challenge && players.length === 0) || 
+            (players.length < 4 && parent !== Positions.Challenge)
   }
 
   const removeAllPlayers = () => {
-    playerTags.forEach((player) => {
-      movePlayer({
-        member: player.member,
-        session: session ?? 0,
-        position: Positions.Bench,
-      })
+    players.forEach((player) => {
+      dispatch(
+        movePlayerTo({
+          itemId: player.id,
+          source: courtPosition, // This can(and maybe should?) be replaced with player.position
+          target: Positions.Bench,
+        })
+      )
+
+      //Reset court challenge status
+      dispatch(
+        setCourtChallenge({
+          courtNumber: parseInt(courtNumber),
+          isChallenge: false,
+        })
+      )
     })
   }
 
@@ -70,18 +72,29 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     accept: ItemTypes.PLAYER,
     canDrop: (item) => isDroppable(item),
     drop: (item: itemDropType) => {
-      movePlayer({
-        member: item.itemId,
-        session: item.session,
-        position: courtPosition,
-      })
+      dispatch(
+        movePlayerTo({
+          itemId: item.itemId,
+          source: item.source, 
+          target: courtPosition,
+        })
+      )
+
+      if(item.source === Positions.Challenge){
+        dispatch(
+          setCourtChallenge({
+            courtNumber: parseInt(courtNumber),
+            isChallenge: true,
+          })
+        )
+      }
     },
     collect: (monitor) => ({
       // Use isOver to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean
       canDrop: !!monitor.canDrop(),
     }),
-  }), [playerTags]) // Memoization happening here?
+  }), [players]) // Memoization happening here?
 
   //Alter court background based on hover
   let backgroundColor = '#d3d3d3'
@@ -92,7 +105,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   }
   return (
     <div className='flex flex-row items-center space-x-7 h-full min-w-court relative pr-3'>
-      { playerTags.length > 0  && // remove all players X button
+      { players.length > 0  && // remove all players X button
       <Box sx={{
         position: 'absolute',
         height: '30px',
@@ -112,14 +125,14 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
         <Chip variant={ChipType.OC}/> 
       </Box>}
       <div className='flex flex-col items-center'>
-        {isChallengeCourt() && <span className='text-sm'>Challenge</span>}
+        {isChallengeCourt && <span className='text-sm'>Challenge</span>}
         <span>Court</span>
         <span className="text-5xl font-bold">{courtNumber}</span>
       </div>
       
       <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
-        {playerTags.map((player) => (
-          <Player key={player.member} player={player} parent={courtPosition} isDefender={isChallengeCourt()}/> /* isDefender is set to true for challenge court, 
+        {players.map((player) => (
+          <Player key={player.id} player={player}/> /* isDefender is set to true for challenge court, 
                                                                                                     since there is explict check for challenger player chips
                                                                                                      when setting defender chips*/
         ))}
