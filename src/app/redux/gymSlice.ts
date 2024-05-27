@@ -145,6 +145,8 @@ const gymSlice = createSlice({
         movedPlayer.isChallenging = false
         movedPlayer.isBeingChallenged = false
         state.court1.players = state.court1.players.filter(player => player.id !== action.payload.itemId)
+       
+       
         break
       }
 
@@ -253,10 +255,16 @@ const gymSlice = createSlice({
       }
     },
 
-    setCourtChallenge:(state, action: PayloadAction<{courtNumber: number, isChallenge: boolean}>) => {
-      switch (action.payload.courtNumber) {
-      case 1: {
-        state.court1.isChallengeCourt = action.payload.isChallenge
+    setCourtChallenge:(state, action: PayloadAction<{courtPosition: Positions, isChallengeCourt: boolean}>) => {
+      switch (action.payload.courtPosition) {
+      case Positions.Court1: {
+        state.court1.isChallengeCourt = action.payload.isChallengeCourt
+        if(!action.payload.isChallengeCourt){
+          state.court1.players.forEach(player => {
+            player.isChallenging = false
+            player.isBeingChallenged = false
+          })
+        }
         break
       }
       // case 2: {
@@ -293,16 +301,21 @@ const gymSlice = createSlice({
       }
     },
     resetAllCourts:(state) => {
-      state.benchPlayers = [...state.benchPlayers, /*...state.court1.players, ...state.court2.players, 
+      //Reset court properties
+      state.court1.isChallengeCourt = false
+      state.court1.players.forEach(player => {
+        player.position = Positions.Bench
+        player.isChallenging = false
+        player.isBeingChallenged = false
+      })
+
+      // Move all players to bench
+      state.benchPlayers = [...state.benchPlayers, ...state.court1.players, /*...state.court2.players, 
         ...state.court3.players, ...state.court4.players, ...state.court5.players, ...state.court6.players, 
     ...state.court7.players, ...state.court8.players*/]
-      state.benchPlayers.forEach(player => {
-        //reset all player on bench
-        // player.position = Positions.Bench
-        // player.isMustGoOn = false
-        // player.isChallenger = false
-      })
-      // state.court1.players = []
+
+      // Clear Courts Array
+      state.court1.players = []
       // state.court1.isChallenge = false
       // state.court2.players = []
       // state.court2.isChallenge = false

@@ -1,12 +1,13 @@
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import TimerControls from '../../common/components/Timer/TimerControls'
 import { memo } from 'react'
-import { useResetAllCourtsMutation } from '../../services/apis/players'
 import { RootState } from '../../app/redux/store'
 import BackupIcon from '@mui/icons-material/Backup'
+import { resetAllCourts } from '../../app/redux/gymSlice'
+import { usePostGymStateMutation } from '../../services/apis/syncRedux'
 
 interface Props {
   start: () => void
@@ -34,9 +35,23 @@ const localButtonStyle = {
 }
 
 const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) => {
-
-  const session = useSelector((state: RootState) => state.gym.sessionId)
-  const [resetAllCourts] = useResetAllCourtsMutation()
+  const dispatch = useDispatch()
+  const reduxGymState = useSelector((state: RootState) => state.gym)
+  const [postGymState] = usePostGymStateMutation()
+  const gymState = {
+    sessionId: reduxGymState.sessionId,
+    benchPlayers: reduxGymState.benchPlayers,
+    challengePlayers: reduxGymState.challengePlayers,
+    court1: {
+      isChallengeCourt: reduxGymState.court1.isChallengeCourt,
+      players: reduxGymState.court1.players,
+    },
+  }
+  const handleResetAllCourts = () => {
+    dispatch(
+      resetAllCourts()
+    )
+  }
 
   
   return (
@@ -53,7 +68,7 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
 
       <IconButton
         className='reset-courts'
-        onClick={() => resetAllCourts({session: session})}
+        onClick={handleResetAllCourts}
         sx={localButtonStyle}
 
         title='Reset Courts'>
@@ -63,7 +78,8 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
       <IconButton
         className='reset-courts  hover:text-green-500'
         onClick={() => {
-          console.log('Submit Rotation button clicked')
+          console.log('Pushing State to server: ', gymState) // debugging
+          postGymState(gymState)
         }}
 
         sx={localButtonStyle}

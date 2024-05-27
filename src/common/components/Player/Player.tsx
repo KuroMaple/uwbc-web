@@ -6,7 +6,7 @@ import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch} from 'react-redux'
 import { ChipType } from '../Chip/types'
-import { movePlayerTo, togglePlayerMGO } from '../../../app/redux/gymSlice'
+import { movePlayerTo, setCourtChallenge, togglePlayerMGO } from '../../../app/redux/gymSlice'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -70,11 +70,20 @@ const Player: React.FC<Props> = ({ player }) => {
 
   // Removes player from court and places them in bench
   const removeFromCourt = () => {
-    movePlayerTo({
-      itemId: player.id,
-      source: player.position,
-      target: Positions.Bench,
-    })
+    dispatch(
+      movePlayerTo({
+        itemId: player.id,
+        source: player.position,
+        target: Positions.Bench,
+      })
+    )
+
+    if(player.isChallenging){
+      dispatch(
+        setCourtChallenge({
+          courtPosition: player.position, 
+          isChallengeCourt: false}))
+    }
   }
   
   // to remove player from vision when dragging

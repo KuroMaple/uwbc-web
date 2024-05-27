@@ -61,8 +61,8 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       //Reset court challenge status
       dispatch(
         setCourtChallenge({
-          courtNumber: parseInt(courtNumber),
-          isChallenge: false,
+          courtPosition: courtPosition,
+          isChallengeCourt: false,
         })
       )
     })
@@ -83,8 +83,8 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       if(item.source === Positions.Challenge){
         dispatch(
           setCourtChallenge({
-            courtNumber: parseInt(courtNumber),
-            isChallenge: true,
+            courtPosition: courtPosition,
+            isChallengeCourt: true,
           })
         )
       }
