@@ -1,7 +1,7 @@
 import { Box, TextField, Typography } from '@mui/material'
 import Modal from '@mui/material/Modal'
 import { useDispatch, useSelector } from 'react-redux'
-import { setModalOpen } from '../../../app/redux/gymSlice'
+import { setModalOpen } from '../../../app/redux/addPlayerModalSlice'
 import { RootState } from '../../../app/redux/store'
 import Autocomplete from '@mui/material/Autocomplete'
 import IAutoCompleteOption from '../../interfaces/IAutoCompleteOption'
@@ -32,7 +32,7 @@ const SearchModal = () => {
   const [TextFieldState, setTextFieldState] = useState('')
   // Redux operations
   const dispatch = useDispatch()
-  const modalOpen = useSelector((state: RootState) => state.gym.addPlayerModalOpen)
+  const modalOpen = useSelector((state: RootState) => state.addPlayerModal.open)
   const handleModalClose = () => dispatch(setModalOpen(false))
   const sessionID = useSelector((state: RootState) => state.gym.sessionId) // Current Session id is stored globally
 

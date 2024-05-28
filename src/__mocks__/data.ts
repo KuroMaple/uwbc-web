@@ -45,7 +45,7 @@ export const gymState = {
     },
   ],
   court1: {
-    challengePlayerId: null,
+    challengePlayerId: undefined,
     players: [
       {
         id: 4,
@@ -74,7 +74,7 @@ export const gymState = {
     ],
   },
   court2: {
-    challengePlayerId: null,
+    challengePlayerId: undefined,
     players: [
       {
         id: 6,
@@ -103,7 +103,7 @@ export const gymState = {
     ],
   },
   court3: {
-    challengePlayerId: null,
+    challengePlayerId: undefined,
     players: [
       {
         id: 8,
@@ -132,7 +132,7 @@ export const gymState = {
     ],
   },
   court4: {
-    challengePlayerId: null,
+    challengePlayerId: undefined,
     players: [
       {
         id: 10,
@@ -161,7 +161,7 @@ export const gymState = {
     ],
   },
   court5: {
-    challengePlayerId: null,
+    challengePlayerId: undefined,
     players: [
       {
         id: 12,
@@ -190,7 +190,7 @@ export const gymState = {
     ],
   },
   court6: {
-    challengePlayerId: null,
+    challengePlayerId: undefined,
     players: [
       {
         id: 14,
@@ -219,7 +219,7 @@ export const gymState = {
     ],
   },
   court7: {
-    challengePlayerId: null,
+    challengePlayerId: undefined,
     players: [
       {
         id: 16,
@@ -248,7 +248,7 @@ export const gymState = {
     ],
   },
   court8: {
-    challengePlayerId: null,
+    challengePlayerId: undefined,
     players: [
       {
         id: 18,

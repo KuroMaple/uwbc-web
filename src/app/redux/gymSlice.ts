@@ -1,15 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
 import { CreatePlayerAction, DnDMoveAction } from './DndTypes'
-import { IReduxSync } from '../../services/interfaces/IReduxSync'
 
 export interface GymState {
   sessionId: number,
-  addPlayerModalOpen: boolean,
   benchPlayers: IPlayer[],
   challengePlayers: IPlayer[],
   court1: {
-    isChallengeCourt: boolean,
+    challengePlayerId?: number,
     players: IPlayer[],
   }
   // court2: {
@@ -45,11 +43,10 @@ export interface GymState {
 
 const initialState: GymState = {
   sessionId: 0,
-  addPlayerModalOpen: false,
   benchPlayers: [],
   challengePlayers: [],
   court1: {
-    isChallengeCourt: false,
+    challengePlayerId: undefined,
     players: [],
   },
   // court2: {
@@ -87,29 +84,11 @@ const gymSlice = createSlice({
   name: 'gym',
   initialState,
   reducers: {
-    syncGymState:(state, action: PayloadAction<IReduxSync>) => {
-      state.benchPlayers = action.payload.benchPlayers
-      state.challengePlayers = action.payload.challengePlayers
-      state.sessionId = action.payload.sessionId
-      state.court1 = action.payload.court1
-    },
-    setModalOpen:(state, action: PayloadAction<boolean>) => {
-      state.addPlayerModalOpen = action.payload
+    syncGymState:(state, action: PayloadAction<GymState>) => {
+      state = action.payload
     },
     setSessionId:(state, action: PayloadAction<number>) => {
       state.sessionId = action.payload
-    },
-    createPlayer:(state, action: PayloadAction<CreatePlayerAction>) => {
-      switch (action.payload.position) {
-      case Positions.Challenge: {
-        state.challengePlayers.push(action.payload.id)
-        break
-      }
-      default: {
-        state.benchPlayers.push(action.payload.id)
-        break
-      }    
-      }
     },
     movePlayerTo:(state, action: PayloadAction<DnDMoveAction>) => {
       // Find player 
@@ -206,7 +185,7 @@ const gymSlice = createSlice({
       }
       case (Positions.Court1): {
         movedPlayer.position = Positions.Court1
-        movedPlayer.isBeingChallenged = state.court1.isChallengeCourt
+        movedPlayer.isBeingChallenged = state.court1.challengePlayerId !== undefined
         state.court1.players.push(movedPlayer)
         break
       }
@@ -255,11 +234,11 @@ const gymSlice = createSlice({
       }
     },
 
-    setCourtChallenge:(state, action: PayloadAction<{courtPosition: Positions, isChallengeCourt: boolean}>) => {
+    setCourtChallenger:(state, action: PayloadAction<{courtPosition: Positions, challengePlayerId?: number}>) => {
       switch (action.payload.courtPosition) {
       case Positions.Court1: {
-        state.court1.isChallengeCourt = action.payload.isChallengeCourt
-        if(!action.payload.isChallengeCourt){
+        state.court1.challengePlayerId = action.payload.challengePlayerId
+        if(!action.payload.challengePlayerId){
           state.court1.players.forEach(player => {
             player.isChallenging = false
             player.isBeingChallenged = false
@@ -302,7 +281,7 @@ const gymSlice = createSlice({
     },
     resetAllCourts:(state) => {
       //Reset court properties
-      state.court1.isChallengeCourt = false
+      state.court1.challengePlayerId = undefined
       state.court1.players.forEach(player => {
         player.position = Positions.Bench
         player.isChallenging = false
@@ -343,11 +322,9 @@ const gymSlice = createSlice({
 
 export const { 
   setSessionId, 
-  createPlayer, 
   movePlayerTo, 
-  setCourtChallenge, 
+  setCourtChallenger, 
   resetAllCourts, 
-  setModalOpen, 
   syncGymState, 
   togglePlayerMGO,
 } = gymSlice.actions

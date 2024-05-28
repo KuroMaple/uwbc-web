@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { setModalOpen } from '../../../app/redux/gymSlice'
+import { setModalOpen } from '../../../app/redux/addPlayerModalSlice'
 import { Positions } from '../../interfaces/IPlayer'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import IconButton from '@mui/material/IconButton'

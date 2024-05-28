@@ -6,7 +6,7 @@ import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch} from 'react-redux'
 import { ChipType } from '../Chip/types'
-import { movePlayerTo, setCourtChallenge, togglePlayerMGO } from '../../../app/redux/gymSlice'
+import { movePlayerTo, setCourtChallenger, togglePlayerMGO } from '../../../app/redux/gymSlice'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -80,9 +80,10 @@ const Player: React.FC<Props> = ({ player }) => {
 
     if(player.isChallenging){
       dispatch(
-        setCourtChallenge({
+        setCourtChallenger({
           courtPosition: player.position, 
-          isChallengeCourt: false}))
+          challengePlayerId: player.id,
+        }))
     }
   }
   

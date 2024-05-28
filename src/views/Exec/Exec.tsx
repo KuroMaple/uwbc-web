@@ -37,7 +37,7 @@ const Exec = () => {
   }, [gymState])
 
   // Pull modal info from redux
-  const modalOpen = useSelector((state: RootState) => state.gym.addPlayerModalOpen)
+  const modalOpen = useSelector((state: RootState) => state.addPlayerModal.open)
 
   // Tutorial logic
   const [stepsEnabled, setStepsEnabled] = useState(false) // Set to true when need tutorial

@@ -9,7 +9,7 @@ import Chip from '../Chip/Chip'
 import { ChipType } from '../Chip/types'
 import { useEffect, useState } from 'react'
 import { useChangePlayerPositionMutation, useGetPlayersBySessionPositionQuery } from '../../../services/apis/players'
-import { movePlayerTo, setCourtChallenge } from '../../../app/redux/gymSlice'
+import { movePlayerTo, setCourtChallenger } from '../../../app/redux/gymSlice'
 interface Props {
   courtPosition: Positions
   courtNumber: string
@@ -33,7 +33,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   const isChallengeCourt = useSelector((state: RootState) => {
     switch(courtPosition){
     case Positions.Court1:
-      return state.gym.court1.isChallengeCourt
+      return state.gym.court1.challengePlayerId !== undefined
     default:
       return false
     }
@@ -60,9 +60,9 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
       //Reset court challenge status
       dispatch(
-        setCourtChallenge({
+        setCourtChallenger({
           courtPosition: courtPosition,
-          isChallengeCourt: false,
+          challengePlayerId: undefined,
         })
       )
     })
@@ -82,9 +82,9 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
 
       if(item.source === Positions.Challenge){
         dispatch(
-          setCourtChallenge({
+          setCourtChallenger({
             courtPosition: courtPosition,
-            isChallengeCourt: true,
+            challengePlayerId: item.itemId,
           })
         )
       }
