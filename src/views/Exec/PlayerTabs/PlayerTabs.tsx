@@ -62,7 +62,7 @@ const PlayerTabs = () => {
             <PlayerTab
               className='player-drop-space-challenge'
               setValue={setValue}
-              label="Challenge" 
+              label="Challenge Queue" 
               value="2" 
             />
           </TabList>

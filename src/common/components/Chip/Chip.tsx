@@ -3,8 +3,9 @@ import { ChipType } from './types'
 
 interface Props {
   variant: ChipType
+  challengePosition?: number
 }
-const Chip: React.FC<Props> = ({ variant }) => {
+const Chip: React.FC<Props> = ({ variant, challengePosition }) => {
   if (variant === ChipType.MGO) {
     return (
       <MUIChip label="M" sx={{
@@ -45,8 +46,9 @@ const Chip: React.FC<Props> = ({ variant }) => {
   }
 
   else if (variant === ChipType.CH) {
+    const label = (challengePosition ? 'C' + challengePosition : 'CH')
     return (
-      <MUIChip label="CH" sx={{
+      <MUIChip label={label} sx={{
         color: 'white',
         backgroundColor: '#FF6969',
         width: '100%',

@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit'
 import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
-import { CreatePlayerAction, DnDMoveAction } from './DndTypes'
+import {  DnDMoveAction } from './DndTypes'
 
 export interface GymState {
   sessionId: number,
@@ -85,7 +85,10 @@ const gymSlice = createSlice({
   initialState,
   reducers: {
     syncGymState:(state, action: PayloadAction<GymState>) => {
-      state = action.payload
+      state.sessionId = action.payload.sessionId
+      state.benchPlayers = action.payload.benchPlayers
+      state.challengePlayers = action.payload.challengePlayers
+      state.court1 = action.payload.court1
     },
     setSessionId:(state, action: PayloadAction<number>) => {
       state.sessionId = action.payload

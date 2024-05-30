@@ -4,9 +4,10 @@ import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector} from 'react-redux'
 import { ChipType } from '../Chip/types'
 import { movePlayerTo, setCourtChallenger, togglePlayerMGO } from '../../../app/redux/gymSlice'
+import { RootState } from '../../../app/redux/store'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -36,7 +37,9 @@ interface Props {
 const Player: React.FC<Props> = ({ player }) => {
   const dispatch = useDispatch() // Redux dispatch
   const [onCourt] = useState(player.position !== Positions.Bench && player.position !== Positions.Challenge)
-  
+  const challengePosition = useSelector((state: RootState) => state.gym.challengePlayers.findIndex((p) => p.id === player.id) + 1)
+
+  console.log(challengePosition)
   // useEffect(() => {
   //   setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
 
@@ -82,7 +85,7 @@ const Player: React.FC<Props> = ({ player }) => {
       dispatch(
         setCourtChallenger({
           courtPosition: player.position, 
-          challengePlayerId: player.id,
+          challengePlayerId: undefined,
         }))
     }
   }
@@ -154,7 +157,7 @@ const Player: React.FC<Props> = ({ player }) => {
           right: '0px',
           zIndex: 4,
         }}>
-          <Chip variant={ChipType.CH}/>
+          <Chip variant={ChipType.CH} challengePosition={challengePosition}/>
         </Box>
       }
       
