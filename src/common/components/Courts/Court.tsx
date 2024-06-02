@@ -1,5 +1,5 @@
 import Player from '../Player/Player'
-import IPlayer, { Positions } from '../../interfaces/IPlayer'
+import  { Positions } from '../../interfaces/IPlayer'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
 import { useDrop } from 'react-dnd'
@@ -7,9 +7,8 @@ import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import { Box } from '@mui/material'
 import Chip from '../Chip/Chip'
 import { ChipType } from '../Chip/types'
-import { useEffect, useState } from 'react'
-import { useChangePlayerPositionMutation, useGetPlayersBySessionPositionQuery } from '../../../services/apis/players'
-import { movePlayerTo, setCourtChallenger } from '../../../app/redux/gymSlice'
+import { moveBenchPlayerToCourt, moveChallengerToCourt, removeFromCourt } from '../../../app/redux/gymSlice'
+
 interface Props {
   courtPosition: Positions
   courtNumber: string
@@ -20,6 +19,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   const players = useSelector((state: RootState) =>{
     switch(courtPosition){
     case Positions.Court1:
+      console.log(state.gym.court1.players)
       return state.gym.court1.players
     default:
       return []
@@ -27,8 +27,6 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   }
   )
 
-  
-  const session = useSelector((state: RootState) => state.gym.sessionId)
 
   const isChallengeCourt = useSelector((state: RootState) => {
     switch(courtPosition){
@@ -48,21 +46,39 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
             (players.length < 4 && parent !== Positions.Challenge)
   }
 
+  const handleDrop = (item: itemDropType) => {
+    // Bench to Court Move
+    if (item.source === Positions.Bench) {
+      dispatch(
+        moveBenchPlayerToCourt({
+          itemId: item.itemId,
+          source: item.source,
+          target: courtPosition,
+        })
+      )
+    }
+    else if (item.source === Positions.Challenge) { // Challenge to Court Move
+      dispatch(
+        moveChallengerToCourt({
+          itemId: item.itemId,
+          source: item.source,
+          target: courtPosition,
+        })
+      )
+    }
+    else {
+      console.log('Invalid Drop from Bench/Challenge to Court Action Error: will have snackbar for this in future')
+    }
+  }
+
   const removeAllPlayers = () => {
     players.forEach((player) => {
       dispatch(
-        movePlayerTo({
+        removeFromCourt({
           itemId: player.id,
-          source: courtPosition, // This can(and maybe should?) be replaced with player.position
+          source: courtPosition,
           target: Positions.Bench,
-        })
-      )
-
-      //Reset court challenge status
-      dispatch(
-        setCourtChallenger({
-          courtPosition: courtPosition,
-          challengePlayerId: undefined,
+        
         })
       )
     })
@@ -71,24 +87,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   const [{ isOver, canDrop}, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
     canDrop: (item) => isDroppable(item),
-    drop: (item: itemDropType) => {
-      dispatch(
-        movePlayerTo({
-          itemId: item.itemId,
-          source: item.source, 
-          target: courtPosition,
-        })
-      )
-
-      if(item.source === Positions.Challenge){
-        dispatch(
-          setCourtChallenger({
-            courtPosition: courtPosition,
-            challengePlayerId: item.itemId,
-          })
-        )
-      }
-    },
+    drop: (item: itemDropType) => handleDrop(item),
     collect: (monitor) => ({
       // Use isOver to modify behaviour when user is currently dragging
       isOver: !!monitor.isOver(), // !! converts value to boolean

@@ -6,7 +6,7 @@ import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch, useSelector} from 'react-redux'
 import { ChipType } from '../Chip/types'
-import { movePlayerTo, setCourtChallenger, togglePlayerMGO } from '../../../app/redux/gymSlice'
+import { removeFromCourt, togglePlayerMGO } from '../../../app/redux/gymSlice'
 import { RootState } from '../../../app/redux/store'
 
 const setColor = (level: number) => {
@@ -37,9 +37,8 @@ interface Props {
 const Player: React.FC<Props> = ({ player }) => {
   const dispatch = useDispatch() // Redux dispatch
   const [onCourt] = useState(player.position !== Positions.Bench && player.position !== Positions.Challenge)
-  const challengePosition = useSelector((state: RootState) => state.gym.challengePlayers.findIndex((p) => p.id === player.id) + 1)
+  const challengePosition = useSelector((state: RootState) => state.gym.challengeQueue.findIndex((p) => p === player.id) + 1)
 
-  console.log(challengePosition)
   // useEffect(() => {
   //   setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
 
@@ -72,22 +71,16 @@ const Player: React.FC<Props> = ({ player }) => {
   }
 
   // Removes player from court and places them in bench
-  const removeFromCourt = () => {
+  const removePlayerFromCourt = () => {
     dispatch(
-      movePlayerTo({
-        itemId: player.id,
-        source: player.position,
-        target: Positions.Bench,
-      })
+      removeFromCourt(
+        {
+          itemId: player.id,
+          source: player.position,
+          target: Positions.Bench,
+        }
+      )
     )
-
-    if(player.isChallenging){
-      dispatch(
-        setCourtChallenger({
-          courtPosition: player.position, 
-          challengePlayerId: undefined,
-        }))
-    }
   }
   
   // to remove player from vision when dragging
@@ -174,7 +167,7 @@ const Player: React.FC<Props> = ({ player }) => {
         },
       }}
       onClick={() => {
-        removeFromCourt()
+        removePlayerFromCourt()
       }}
       >
         <Chip variant={ChipType.OC}/> 

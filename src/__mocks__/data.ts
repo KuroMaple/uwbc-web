@@ -29,20 +29,21 @@ export const gymState = {
       level: 4,
       ticks: 0,
     },
-  ],
-  challengePlayers: [
     {
       id: 3,
       sessionID: 123,
       position: Positions.Challenge,
       isBeingChallenged: false,
-      isChallenging: true,
+      isChallenging: false,
       numRotationsOff: 0,
       isMGO: false,
       name: 'Charlie',
       level: 6,
       ticks: 1,
     },
+  ],
+  challengeQueue: [
+    3,
   ],
   court1: {
     challengePlayerId: undefined,

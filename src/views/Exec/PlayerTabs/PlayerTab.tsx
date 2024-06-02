@@ -4,8 +4,8 @@ import { TabProps } from '@mui/material'
 import { useDrop } from 'react-dnd'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import { Positions } from '../../../common/interfaces/IPlayer'
-import { movePlayerTo } from '../../../app/redux/gymSlice'
 import { useDispatch } from 'react-redux'
+import { pushToChallengeQueue, removeFromChallengeQueue } from '../../../app/redux/gymSlice'
 
 
 interface PlayerTabProps extends TabProps {
@@ -30,25 +30,37 @@ const PlayerTab: React.FC<PlayerTabProps> = ({setValue, ...props}) => {
   const handleDrop = (item: itemDropType) => {
     // Bench to Challenge Move
     if (item.source === Positions.Bench) {
+      // Phasing out chjallege queue
+      // dispatch(
+      //   movePlayerTo({
+      //     itemId: item.itemId,
+      //     source: item.source,
+      //     target: Positions.Challenge, 
+      //   }))
+
       dispatch(
-        movePlayerTo({
-          itemId: item.itemId,
-          source: item.source,
-          target: Positions.Challenge, 
-        }))
+        pushToChallengeQueue(item.itemId)
+      )
       
       setValue('2')
  
     }
-    else { // Challenge to Bench Move
+    else if (item.source === Positions.Challenge) { // Challenge to Bench Move
+      // dispatch(
+      //   movePlayerTo({
+      //     itemId: item.itemId,
+      //     source: item.source,
+      //     target: Positions.Bench, 
+      //   })
+      // )
       dispatch(
-        movePlayerTo({
-          itemId: item.itemId,
-          source: item.source,
-          target: Positions.Bench, 
-        })
+        removeFromChallengeQueue(item.itemId)
       )
+
       setValue('1')
+    }
+    else {
+      console.log('Invalid move, will have snackbar for this in future')
     }
   }
   return <MUITab ref={drop} {...props}  

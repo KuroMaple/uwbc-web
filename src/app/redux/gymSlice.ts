@@ -5,7 +5,7 @@ import {  DnDMoveAction } from './DndTypes'
 export interface GymState {
   sessionId: number,
   benchPlayers: IPlayer[],
-  challengePlayers: IPlayer[],
+  challengeQueue: number[],
   court1: {
     challengePlayerId?: number,
     players: IPlayer[],
@@ -44,7 +44,7 @@ export interface GymState {
 const initialState: GymState = {
   sessionId: 0,
   benchPlayers: [],
-  challengePlayers: [],
+  challengeQueue: [],
   court1: {
     challengePlayerId: undefined,
     players: [],
@@ -87,109 +87,34 @@ const gymSlice = createSlice({
     syncGymState:(state, action: PayloadAction<GymState>) => {
       state.sessionId = action.payload.sessionId
       state.benchPlayers = action.payload.benchPlayers
-      state.challengePlayers = action.payload.challengePlayers
+      state.challengeQueue = action.payload.challengeQueue
       state.court1 = action.payload.court1
     },
     setSessionId:(state, action: PayloadAction<number>) => {
       state.sessionId = action.payload
     },
-    movePlayerTo:(state, action: PayloadAction<DnDMoveAction>) => {
-      // Find player 
-      let movedPlayer: IPlayer = {
-        id: 0, 
-        sessionID: 0, 
-        position: Positions.Bench, 
-        isBeingChallenged: false, 
-        isChallenging: false, 
-        numRotationsOff: 0, 
-        isMGO: false, 
-        name: '', 
-        level: 0, 
-        ticks: 0
-      }
-      // remove from source array, and populate movedPlayer
-      switch (action.payload.source) {
-      case (Positions.Challenge): {
-        movedPlayer = state.challengePlayers.find(player => player.id === action.payload.itemId)!
-        movedPlayer.isChallenging = action.payload.target !== Positions.Bench // Since source is Challenge Tab, player is a challenger 
-        state.challengePlayers = state.challengePlayers.filter(player => player.id !== action.payload.itemId)
-        break
-      }
 
-      case (Positions.Bench): {
-        movedPlayer = state.benchPlayers.find(player => player.id === action.payload.itemId)!
-        state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload.itemId)
-        break
+    // Handles ONLY the Following Action(s):
+    //  Bench to Court Move
+    moveBenchPlayerToCourt:(state, action: PayloadAction<DnDMoveAction>) => {
+      const player = state.benchPlayers.find(player => player.id === action.payload.itemId)
+      if (action.payload.source !== Positions.Bench) {
+        console.log('Invalid Move Error: Cannot Move Player from anywhere outside of Bench ')
+        console.log('Will have snackbar for this in future')
+        return
       }
-
-      case (Positions.Court1): {
-        movedPlayer = state.court1.players.find(player => player.id === action.payload.itemId)!
-        movedPlayer.isChallenging = false
-        movedPlayer.isBeingChallenged = false
-        state.court1.players = state.court1.players.filter(player => player.id !== action.payload.itemId)
-       
-       
-        break
-      }
-
-      // case Positions.Court2: {
-      //   movedPlayer = state.court2.players.find(player => player.id === action.payload.itemId)!
-      //   state.court2.players = state.court2.players.filter(player => player.id !== action.payload.itemId)
-      //   break
-      // }
-      // case Positions.Court3: {
-      //   movedPlayer = state.court3.players.find(player => player.id === action.payload.itemId)!
-      //   state.court3.players = state.court3.players.filter(player => player.id !== action.payload.itemId)
-      //   break
-      // }
-      // case Positions.Court4: {
-      //   movedPlayer = state.court4.players.find(player => player.id === action.payload.itemId)!
-      //   state.court4.players = state.court4.players.filter(player => player.id !== action.payload.itemId)
-      //   break
-      // }
-      // case Positions.Court5: {
-      //   movedPlayer = state.court5.players.find(player => player.id === action.payload.itemId)!
-      //   state.court5.players = state.court5.players.filter(player => player.id !== action.payload.itemId)
-      //   break
-      // }
-      // case Positions.Court6: {
-      //   movedPlayer = state.court6.players.find(player => player.id === action.payload.itemId)!
-      //   state.court6.players = state.court6.players.filter(player => player.id !== action.payload.itemId)
-      //   break
-      // }
-      // case Positions.Court7: {
-      //   movedPlayer = state.court7.players.find(player => player.id === action.payload.itemId)!
-      //   state.court7.players = state.court7.players.filter(player => player.id !== action.payload.itemId)
-      //   break
-      // }
-      // case Positions.Court8: {
-      //   movedPlayer = state.court8.players.find(player => player.id === action.payload.itemId)!
-      //   state.court8.players = state.court8.players.filter(player => player.id !== action.payload.itemId)
-      //   break
-      // }
+      if(!player){
+        console.log('Invalid Bench to Court Move Error: Player not found in bench')
+        return
       }
       
-      // Reset Player MGO
-      movedPlayer.isMGO = false
-
       // Add to target array and set new position, update flags
       switch (action.payload.target) {
-
-      case (Positions.Challenge): {       
-        movedPlayer.position = Positions.Challenge
-        movedPlayer.isChallenging = true
-        state.challengePlayers.push(movedPlayer)
-        break
-      }
-      case (Positions.Bench): {
-        movedPlayer.position = Positions.Bench
-        state.benchPlayers.push(movedPlayer)
-        break
-      }
       case (Positions.Court1): {
-        movedPlayer.position = Positions.Court1
-        movedPlayer.isBeingChallenged = state.court1.challengePlayerId !== undefined
-        state.court1.players.push(movedPlayer)
+        player.isMGO = false
+        player.position = Positions.Court1
+        state.court1.players.push(player)
+        state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload.itemId)
         break
       }
       // case (Positions.Court2): {
@@ -236,17 +161,24 @@ const gymSlice = createSlice({
       // }
       }
     },
+    // Handles ONLY the Following Action(s):
+    //  Challenge to Court Move
+    moveChallengerToCourt:(state, action: PayloadAction<DnDMoveAction>) => {
+      if (action.payload.source !== Positions.Challenge) {
+        console.log('Invalid Move Error: Cannot Move Challenger from anywhere outside of Challenge Queue ')
+        console.log('Will have snackbar for this in future')
+        return
+      }
 
-    setCourtChallenger:(state, action: PayloadAction<{courtPosition: Positions, challengePlayerId?: number}>) => {
-      switch (action.payload.courtPosition) {
-      case Positions.Court1: {
-        state.court1.challengePlayerId = action.payload.challengePlayerId
-        if(!action.payload.challengePlayerId){
-          state.court1.players.forEach(player => {
-            player.isChallenging = false
-            player.isBeingChallenged = false
-          })
-        }
+      if(!state.challengeQueue.includes(action.payload.itemId)){
+        console.log('Invalid Challenger Move Error: Player not in challenge queue')
+        return
+      }
+
+      switch (action.payload.target) {
+      case Positions.Court1: { 
+        state.court1.challengePlayerId = action.payload.itemId
+        state.challengeQueue = state.challengeQueue.filter(id => id !== action.payload.itemId)
         break
       }
       // case 2: {
@@ -289,6 +221,8 @@ const gymSlice = createSlice({
         player.position = Positions.Bench
         player.isChallenging = false
         player.isBeingChallenged = false
+        player.isMGO = false
+        player.numRotationsOff = 0
       })
 
       // Move all players to bench
@@ -319,17 +253,107 @@ const gymSlice = createSlice({
       if (player) {
         player.isMGO = !player.isMGO
       }
+    },
+    // Handles ONLY the Following Action(s):
+    //  Bench to Challenge Move
+    pushToChallengeQueue: (state, action: PayloadAction<number>) => {
+      // Only bench players can be added to the queue
+      const player = state.benchPlayers.find(player => player.id === action.payload)
+      if (player){
+        state.challengeQueue.push(player.id)
+        player.isChallenging = true
+        player.position = Positions.Challenge // Note: must handle case where player is moved from bench to court while in challenge queue
+      }
+      else {
+        console.log('Push to Challenge Error: Player not found in bench')
+      }
+    },
+    // Handles ONLY the Following Action(s):
+    //  Challenge to Bench Move
+    removeFromChallengeQueue: (state, action: PayloadAction<number>) => {
+      
+      const player = state.benchPlayers.find(player => player.id === action.payload)
+      if(state.challengeQueue.includes(action.payload) && player){
+        player.isChallenging = false
+        player.position = Positions.Bench
+        state.challengeQueue = state.challengeQueue.filter((id) => id !== player.id) 
+      }
+      else {
+        console.log('Remove from Challenge Error: Player not found in challenge queue or Not found in bench')
+      }
+      
+    },
+    // Handles ONLY the Following Action(s):
+    //  Court to Bench Move
+    removeFromCourt:(state, action: PayloadAction<DnDMoveAction>) => {
+      if (action.payload.source === Positions.Challenge || action.payload.source === Positions.Bench) {
+        console.log('Remove from Court Error: Cannot Remove Player from anywhere outside of Court')
+        console.log('Will have snackbar for this in future')
+        return
+      }
+      
+      switch (action.payload.source) {
+      case Positions.Court1: {
+        const player = state.court1.players.find(player => player.id === action.payload.itemId) 
+        if(!player){
+          console.log('Remove from Court Error: Player not found in court')
+          return
+        }
+        if (state.court1.challengePlayerId === action.payload.itemId) {
+          state.court1.challengePlayerId = undefined
+        }
+        state.court1.players = state.court1.players.filter(currentPlayer => currentPlayer.id !== player.id)
+        player.position = Positions.Bench
+        player.isChallenging = false
+        player.isBeingChallenged = false
+        player.isMGO = false
+        player.numRotationsOff = 0
+        state.benchPlayers.push(player)
+        break
+      }
+      // case 2: {
+      //   state.court2.players = state.court2.players.filter(player => player.id !== action.payload.playerId)
+      //   break
+      // }
+      // case 3: {
+      //   state.court3.players = state.court3.players.filter(player => player.id !== action.payload.playerId)
+      //   break
+      // }
+      // case 4: {
+      //   state.court4.players = state.court4.players.filter(player => player.id !== action.payload.playerId)
+      //   break
+      // }
+      // case 5: {
+      //   state.court5.players = state.court5.players.filter(player => player.id !== action.payload.playerId)
+      //   break
+      // }
+      // case 6: {
+      //   state.court6.players = state.court6.players.filter(player => player.id !== action.payload.playerId)
+      //   break
+      // }
+      // case 7: {
+      //   state.court7.players = state.court7.players.filter(player => player.id !== action.payload.playerId)
+      //   break
+      // }
+      // case 8: {
+      //   state.court8.players = state.court8.players.filter(player => player.id !== action.payload.playerId)
+      //   break
+      // }
+      }
     }
   }
 })
 
-export const { 
-  setSessionId, 
-  movePlayerTo, 
-  setCourtChallenger, 
+export const {
+  syncGymState,  
+  setSessionId,
+  moveBenchPlayerToCourt,
+  moveChallengerToCourt, 
   resetAllCourts, 
-  syncGymState, 
   togglePlayerMGO,
+  pushToChallengeQueue,
+  removeFromChallengeQueue,
+  removeFromCourt,
 } = gymSlice.actions
 
 export default gymSlice.reducer
