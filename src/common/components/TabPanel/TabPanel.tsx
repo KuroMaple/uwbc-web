@@ -6,7 +6,7 @@ import Controls from '../TabPanelControls/Controls'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
-import { removeFromCourt } from '../../../app/redux/gymSlice'
+import { removeFromCourt, selectChallengePlayers } from '../../../app/redux/gymSlice'
 
 interface Props {
   variant: Positions
@@ -20,7 +20,7 @@ const TabPanel: React.FC<Props> = ({ variant }) => {
       return state.gym.benchPlayers
     }
     else {
-      return state.gym.benchPlayers.filter(player => player.isChallenging)
+      return selectChallengePlayers(state) // Memoized selector
     }
 
   }

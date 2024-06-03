@@ -34,7 +34,7 @@ export const gymState = {
       sessionID: 123,
       position: Positions.Challenge,
       isBeingChallenged: false,
-      isChallenging: false,
+      isChallenging: true,
       numRotationsOff: 0,
       isMGO: false,
       name: 'Charlie',

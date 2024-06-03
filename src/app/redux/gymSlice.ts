@@ -1,4 +1,4 @@
-import { PayloadAction, createSlice } from '@reduxjs/toolkit'
+import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit'
 import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
 import {  DnDMoveAction } from './DndTypes'
 
@@ -113,6 +113,9 @@ const gymSlice = createSlice({
       case (Positions.Court1): {
         player.isMGO = false
         player.position = Positions.Court1
+        if(state.court1.challengePlayerId !== undefined){
+          player.isBeingChallenged = true
+        }
         state.court1.players.push(player)
         state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload.itemId)
         break
@@ -174,11 +177,17 @@ const gymSlice = createSlice({
         console.log('Invalid Challenger Move Error: Player not in challenge queue')
         return
       }
-
+      const player = state.benchPlayers.find(player => player.id === action.payload.itemId)
+      if(!player){
+        console.log('Invalid Challenger Move Error: Player not found in bench')
+        return
+      }
       switch (action.payload.target) {
       case Positions.Court1: { 
         state.court1.challengePlayerId = action.payload.itemId
         state.challengeQueue = state.challengeQueue.filter(id => id !== action.payload.itemId)
+        state.benchPlayers = state.benchPlayers.filter(currentPlayer => currentPlayer.id !== action.payload.itemId)
+        state.court1.players.push(player)
         break
       }
       // case 2: {
@@ -355,5 +364,8 @@ export const {
   removeFromChallengeQueue,
   removeFromCourt,
 } = gymSlice.actions
+
+// Memoized Selectors
+export const selectChallengePlayers = createSelector([(state: { gym: GymState }) => state.gym.benchPlayers], (players) => players.filter(player => player.isChallenging))
 
 export default gymSlice.reducer

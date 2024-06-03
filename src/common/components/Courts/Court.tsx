@@ -19,7 +19,6 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   const players = useSelector((state: RootState) =>{
     switch(courtPosition){
     case Positions.Court1:
-      console.log(state.gym.court1.players)
       return state.gym.court1.players
     default:
       return []
