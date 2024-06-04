@@ -114,7 +114,7 @@ export const gymState = {
         isChallenging: false,
         numRotationsOff: 0,
         isMGO: false,
-        name: 'Hank',
+        name: 'Hassan',
         level: 5,
         ticks: 0,
       },

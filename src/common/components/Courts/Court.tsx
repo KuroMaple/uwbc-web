@@ -8,6 +8,7 @@ import { Box } from '@mui/material'
 import Chip from '../Chip/Chip'
 import { ChipType } from '../Chip/types'
 import { moveBenchPlayerToCourt, moveChallengerToCourt, removeFromCourt } from '../../../app/redux/gymSlice'
+import './Court.css'
 
 interface Props {
   courtPosition: Positions
@@ -45,6 +46,20 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     switch(courtPosition){
     case Positions.Court1:
       return state.gym.court1.challengePlayerId !== undefined
+    case Positions.Court2:
+      return state.gym.court2.challengePlayerId !== undefined
+    case Positions.Court3:
+      return state.gym.court3.challengePlayerId !== undefined
+    case Positions.Court4:
+      return state.gym.court4.challengePlayerId !== undefined
+    case Positions.Court5:
+      return state.gym.court5.challengePlayerId !== undefined
+    case Positions.Court6:
+      return state.gym.court6.challengePlayerId !== undefined
+    case Positions.Court7:
+      return state.gym.court7.challengePlayerId !== undefined
+    case Positions.Court8:
+      return state.gym.court8.challengePlayerId !== undefined
     default:
       return false
     }
@@ -116,14 +131,14 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     backgroundColor = '#F44336'
   }
   return (
-    <div className='flex flex-row items-center space-x-7 h-full min-w-court relative pr-3'>
+    <div className='court-container'>
       { players.length > 0  && // remove all players X button
       <Box sx={{
         position: 'absolute',
         height: '30px',
         width: '30px',
-        top: '0px',
-        right: '0px',
+        top: '10px',
+        right: '-10px',
         zIndex: 3,
         '&:hover': {
           cursor: 'pointer',
@@ -142,7 +157,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
         <span className="text-5xl font-bold">{courtNumber}</span>
       </div>
       
-      <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
+      <div className="playerContainer" style={{ backgroundColor }} ref={drop}>
         {players.map((player) => (
           <Player key={player.id} player={player} isFromChallengePanel={false}/> /* isDefender is set to true for challenge court, 
                                                                                                     since there is explict check for challenger player chips

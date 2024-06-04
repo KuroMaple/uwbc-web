@@ -1,0 +1,21 @@
+.court-container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 15px; /* replaces space-x-7 */
+  height: 100%;
+  min-width: fit-content; /* replaces min-w-court (not a standard class) */
+  position: relative;
+}
+.playerContainer{
+  justify-items: center;
+  align-items: center;
+  border-radius: 4px;
+  border: 1px solid;
+  border-style: solid;
+  border-color: black;
+  height: 150px;
+  width: 300px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
