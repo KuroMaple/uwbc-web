@@ -20,6 +20,20 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     switch(courtPosition){
     case Positions.Court1:
       return state.gym.court1.players
+    case Positions.Court2:
+      return state.gym.court2.players
+    case Positions.Court3:
+      return state.gym.court3.players
+    case Positions.Court4:
+      return state.gym.court4.players
+    case Positions.Court5:
+      return state.gym.court5.players
+    case Positions.Court6:
+      return state.gym.court6.players
+    case Positions.Court7:
+      return state.gym.court7.players
+    case Positions.Court8:
+      return state.gym.court8.players
     default:
       return []
     }
