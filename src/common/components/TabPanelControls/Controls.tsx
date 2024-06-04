@@ -1,6 +1,5 @@
 import { useDispatch } from 'react-redux'
 import { setModalOpen } from '../../../app/redux/addPlayerModalSlice'
-import { Positions } from '../../interfaces/IPlayer'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
@@ -8,7 +7,6 @@ import TuneIcon from '@mui/icons-material/Tune'
 import 'intro.js/introjs.css'
 
 interface Props {
-  parent: Positions
   filterByMGO: boolean
   setFilterByMGO: React.Dispatch<React.SetStateAction<boolean>>
 }

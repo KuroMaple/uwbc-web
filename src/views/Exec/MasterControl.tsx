@@ -41,7 +41,7 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
   const gymState = {
     sessionId: reduxGymState.sessionId,
     benchPlayers: reduxGymState.benchPlayers,
-    challengePlayers: reduxGymState.challengePlayers,
+    challengeQueue: reduxGymState.challengeQueue,
     court1: {
       challengePlayerId: reduxGymState.court1.challengePlayerId,
       players: reduxGymState.court1.players,

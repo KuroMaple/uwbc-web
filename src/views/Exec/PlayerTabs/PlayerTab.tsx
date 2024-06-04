@@ -30,13 +30,6 @@ const PlayerTab: React.FC<PlayerTabProps> = ({setValue, ...props}) => {
   const handleDrop = (item: itemDropType) => {
     // Bench to Challenge Move
     if (item.source === Positions.Bench) {
-      // Phasing out chjallege queue
-      // dispatch(
-      //   movePlayerTo({
-      //     itemId: item.itemId,
-      //     source: item.source,
-      //     target: Positions.Challenge, 
-      //   }))
 
       dispatch(
         pushToChallengeQueue(item.itemId)

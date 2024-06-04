@@ -185,8 +185,10 @@ const gymSlice = createSlice({
       switch (action.payload.target) {
       case Positions.Court1: { 
         state.court1.challengePlayerId = action.payload.itemId
-        state.challengeQueue = state.challengeQueue.filter(id => id !== action.payload.itemId)
+
+        state.challengeQueue = state.challengeQueue.filter((id) => id !== action.payload.itemId)
         state.benchPlayers = state.benchPlayers.filter(currentPlayer => currentPlayer.id !== action.payload.itemId)
+        player.position = Positions.Court1
         state.court1.players.push(player)
         break
       }
@@ -227,35 +229,12 @@ const gymSlice = createSlice({
       //Reset court properties
       state.court1.challengePlayerId = undefined
       state.court1.players.forEach(player => {
-        player.position = Positions.Bench
-        player.isChallenging = false
-        player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
+        const action = {
+          payload: {itemId: player.id, source: Positions.Court1}
+        } as PayloadAction<DnDMoveAction>
+        gymSlice.caseReducers.removeFromCourt(state, action)
       })
 
-      // Move all players to bench
-      state.benchPlayers = [...state.benchPlayers, ...state.court1.players, /*...state.court2.players, 
-        ...state.court3.players, ...state.court4.players, ...state.court5.players, ...state.court6.players, 
-    ...state.court7.players, ...state.court8.players*/]
-
-      // Clear Courts Array
-      state.court1.players = []
-      // state.court1.isChallenge = false
-      // state.court2.players = []
-      // state.court2.isChallenge = false
-      // state.court3.players = []
-      // state.court3.isChallenge = false
-      // state.court4.players = []
-      // state.court4.isChallenge = false
-      // state.court5.players = []
-      // state.court5.isChallenge = false
-      // state.court6.players = []
-      // state.court6.isChallenge = false
-      // state.court7.players = []
-      // state.court7.isChallenge = false
-      // state.court8.players = []
-      // state.court8.isChallenge = false
     },
     togglePlayerMGO:(state, action: PayloadAction<number>) => {
       const player = state.benchPlayers.find(player => player.id === action.payload)
@@ -266,12 +245,12 @@ const gymSlice = createSlice({
     // Handles ONLY the Following Action(s):
     //  Bench to Challenge Move
     pushToChallengeQueue: (state, action: PayloadAction<number>) => {
+      
       // Only bench players can be added to the queue
       const player = state.benchPlayers.find(player => player.id === action.payload)
       if (player){
         state.challengeQueue.push(player.id)
         player.isChallenging = true
-        player.position = Positions.Challenge // Note: must handle case where player is moved from bench to court while in challenge queue
       }
       else {
         console.log('Push to Challenge Error: Player not found in bench')
@@ -305,15 +284,15 @@ const gymSlice = createSlice({
       case Positions.Court1: {
         const player = state.court1.players.find(player => player.id === action.payload.itemId) 
         if(!player){
-          console.log('Remove from Court Error: Player not found in court')
+          console.log('Remove from Court Error: Player not found in court 1')
           return
         }
         if (state.court1.challengePlayerId === action.payload.itemId) {
           state.court1.challengePlayerId = undefined
+          player.isChallenging = false
         }
         state.court1.players = state.court1.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
-        player.isChallenging = false
         player.isBeingChallenged = false
         player.isMGO = false
         player.numRotationsOff = 0
@@ -366,6 +345,20 @@ export const {
 } = gymSlice.actions
 
 // Memoized Selectors
-export const selectChallengePlayers = createSelector([(state: { gym: GymState }) => state.gym.benchPlayers], (players) => players.filter(player => player.isChallenging))
+export const selectBenchPlayers = (state: { gym: GymState }) => state.gym.benchPlayers
+const selectChallengeQueue = (state: { gym: GymState }) => state.gym.challengeQueue
+export const selectChallengePlayers = createSelector(
+  [selectBenchPlayers, selectChallengeQueue], 
+  (benchPlayers, challengeQueue) => {
+
+    const sortedPlayers: IPlayer[] = []
+    for (const id of challengeQueue) {
+      const player = benchPlayers.find(player => player.id === id)
+      if (player) {
+        sortedPlayers.push(player)
+      }
+    }
+    return sortedPlayers
+  })
 
 export default gymSlice.reducer

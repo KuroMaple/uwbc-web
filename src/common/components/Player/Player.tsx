@@ -32,27 +32,32 @@ const setColor = (level: number) => {
 
 interface Props {
   player: IPlayer 
+  isFromChallengePanel: boolean
 }
 
-const Player: React.FC<Props> = ({ player }) => {
+const Player: React.FC<Props> = ({ player, isFromChallengePanel }) => {
   const dispatch = useDispatch() // Redux dispatch
   const [onCourt] = useState(player.position !== Positions.Bench && player.position !== Positions.Challenge)
   const challengePosition = useSelector((state: RootState) => state.gym.challengeQueue.findIndex((p) => p === player.id) + 1)
-
-  // useEffect(() => {
-  //   setOnCourt(parent !== Positions.Bench && parent !== Positions.Challenge)
-
-  //   // Not sure if this is neccesary
-  //   // if (parent === Positions.Challenge){
-  //   //   setChallengerStatus({member: id, is_challenging: true, session: session})
-  //   // }
-
-  // }, [player])
+  const handleMakeItem = () : itemDropType => {
+    if(player.position === Positions.Bench && isFromChallengePanel){
+      return {
+        itemId: player.id,
+        source: Positions.Challenge
+      }
+    }
+    else{
+      return {
+        itemId: player.id,
+        source: player.position
+      }
+    }
+  }
   
   // React Drag n Drop Logic
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.PLAYER,
-    item: { itemId: player.id, source: player.position } as itemDropType, // So that when a player is dropped, we can send both the source and target to reducer
+    item: handleMakeItem, // So that when a player is dropped, we can send both the source and target to reducer
     collect: (monitor) => ({
       isDragging: !!monitor.isDragging(), // !! converts the result to a boolean
     }),

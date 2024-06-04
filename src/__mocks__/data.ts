@@ -32,9 +32,9 @@ export const gymState = {
     {
       id: 3,
       sessionID: 123,
-      position: Positions.Challenge,
+      position: Positions.Bench,
       isBeingChallenged: false,
-      isChallenging: true,
+      isChallenging: false,
       numRotationsOff: 0,
       isMGO: false,
       name: 'Charlie',
@@ -43,7 +43,7 @@ export const gymState = {
     },
   ],
   challengeQueue: [
-    3,
+    
   ],
   court1: {
     challengePlayerId: undefined,

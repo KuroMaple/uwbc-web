@@ -130,7 +130,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
       
       <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2" style={{ backgroundColor }} ref={drop}>
         {players.map((player) => (
-          <Player key={player.id} player={player}/> /* isDefender is set to true for challenge court, 
+          <Player key={player.id} player={player} isFromChallengePanel={false}/> /* isDefender is set to true for challenge court, 
                                                                                                     since there is explict check for challenger player chips
                                                                                                      when setting defender chips*/
         ))}

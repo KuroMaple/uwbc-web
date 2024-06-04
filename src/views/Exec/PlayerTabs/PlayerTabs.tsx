@@ -3,9 +3,9 @@ import { useState, memo } from 'react'
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import MUITabPanel from '@mui/lab/TabPanel'
-import TabPanel from '../../../common/components/TabPanel/TabPanel'
-import { Positions } from '../../../common/interfaces/IPlayer'
 import PlayerTab from './PlayerTab'
+import BenchPanel from '../../../common/components/TabPanel/BenchPanel'
+import ChallengePanel from '../../../common/components/TabPanel/ChallengePanel'
 
 const PlayerTabs = () => {
   const [value, setValue] = useState('1')
@@ -68,10 +68,10 @@ const PlayerTabs = () => {
           </TabList>
         </Box>
         <MUITabPanel value="1" sx={tabPanelStyle}>
-          <TabPanel variant={Positions.Bench}/>
+          <BenchPanel />
         </MUITabPanel>
         <MUITabPanel value="2" sx={tabPanelStyle}>
-          <TabPanel variant={Positions.Challenge}/>
+          <ChallengePanel />
         </MUITabPanel>
       </TabContext>
     </Box>
