@@ -9,13 +9,10 @@ import TimerView from '../../common/components/Timer/TimerView'
 import { useEffect, useState } from 'react'
 import { Steps } from 'intro.js-react'
 import 'intro.js/introjs.css'
-import { useCreateSessionMutation, useGetCurrentSessionQuery } from '../../services/apis/session'
-import { setSessionId, syncGymState } from '../../app/redux/gymSlice'
+import { syncGymState } from '../../app/redux/gymSlice'
 import { useDispatch, useSelector } from 'react-redux'
-
 import SearchModal from '../../common/components/SearchModal/SearchModal'
 import { RootState } from '../../app/redux/store'
-import ICreateSessionResponse from '../../services/interfaces/ICreateSessionResponse'
 import { useGetGymStateQuery } from '../../services/apis/syncRedux'
 
 
@@ -25,8 +22,6 @@ const Exec = () => {
   const {data: gymState} = useGetGymStateQuery() // Fetches most recent gym state
   
 
-  // Get current session id from redux
-  const currentSession = useSelector((state: RootState) => state.gym.sessionId)
   // update redux store with current session id
   const dispatch = useDispatch()
 

@@ -1,5 +1,5 @@
 import { Box, Paper, Typography } from '@mui/material'
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Chip from '../../common/components/Chip/Chip'
 import { ChipType } from '../../common/components/Chip/types'
 import IPlayer from '../../common/interfaces/IPlayer'
@@ -27,24 +27,10 @@ const setColor = (level: number) => {
 
 interface Props {
   player: IPlayer
-  isDefender?: boolean
 }
 
-const Player: React.FC<Props> = ({ player, isDefender }) => {
+const MemberPlayer: React.FC<Props> = ({ player }) => {
   
-  // Externally pulled player properties
-  const [name, setName] = useState(player.member_name)
-  const [id, setId] = useState(player.member)
-  const [level, setLevel] = useState(player.member_level)
-  const [isChallenger, setIsChallenger] = useState(player.is_challenging)
-
-  
-  useEffect(() => {
-    setName(player.member_name)
-    setId(player.member)
-    setLevel(player.member_level)
-    setIsChallenger(player.is_challenging)
-  }, [player])
   
   // Shortens the name to first name and first letter of last name if name is too long
   const shortenNameToFirst = (name: string) => {
@@ -69,7 +55,7 @@ const Player: React.FC<Props> = ({ player, isDefender }) => {
       }
     >
       
-      {isChallenger &&
+      {player.isChallenging &&
         <Box sx={{
           position: 'absolute',
           height: '25px',
@@ -82,7 +68,7 @@ const Player: React.FC<Props> = ({ player, isDefender }) => {
         </Box>
       }
 
-      {isDefender && !isChallenger && // Necessary to prevent overlap with CH chip, as IsDefender is set to true for challenge court
+      {player.isBeingChallenged && // Necessary to prevent overlap with CH chip, as IsDefender is set to true for challenge court
         <Box sx={{
           position: 'absolute',
           width: '25px',
@@ -103,23 +89,20 @@ const Player: React.FC<Props> = ({ player, isDefender }) => {
           width: '100%',
           height: '100%',
           position: 'relative',
-          ...setColor(level),
+          ...setColor(player.level),
           padding: '5px',
         }}>
         <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', }} color="text.secondary" gutterBottom>
-          {id}
+          {player.id}
         </Typography>
-        {/* <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
-          {ticks}
-        </Typography> */}
         <Box sx={{
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
           height: '100%',
         }}>
-          <Typography sx={{ fontSize: 15, marginTop: '10px' }} color="text.secondary" gutterBottom>
-            {shortenNameToFirst(name)}
+          <Typography sx={{ fontSize: 15 }} color="text.secondary" >
+            {shortenNameToFirst(player.name)}
           </Typography>
 
         </Box>
@@ -129,4 +112,4 @@ const Player: React.FC<Props> = ({ player, isDefender }) => {
   )
 }
 
-export default Player
+export default MemberPlayer

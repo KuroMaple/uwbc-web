@@ -1,0 +1,11 @@
+.member-view__container {
+  display: flex;
+  flex-direction: column;
+  max-width: 320px; /* Assuming "sm" in max-w-sm refers to small screens */
+  align-items: center;
+  border: 1px solid black;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  height: 100%;
+  margin: 1rem 1rem 1rem 4rem;
+}

@@ -1,0 +1,19 @@
+.member-court__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.court-number__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.players-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid black;
+  border-radius: 10px; /* Rounded corners with rounded-md */
+  width: 100%;
+}

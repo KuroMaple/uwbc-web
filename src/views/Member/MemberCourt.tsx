@@ -1,10 +1,9 @@
 import { useSelector } from 'react-redux'
-import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
+import { Positions } from '../../common/interfaces/IPlayer'
 import { RootState } from '../../app/redux/store'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import MemberPlayer from './MemberPlayer'
-// import { useGetPlayersBySessionPositionQuery } from '../../services/apis/players'
-import { useGetCurrentSessionQuery } from '../../services/apis/session'
+import './MemberCourt.css'
 
 
 interface Props {
@@ -36,46 +35,80 @@ const MemberCourt: React.FC <Props> = ({ position }) => {
     }
   }
 
-  const {data: session} = useGetCurrentSessionQuery()
   const [courtNumber] = useState(setNumber)
 
-  // const {data: playersData} = useGetPlayersBySessionPositionQuery({ // Replace with redux
-  //   session: session?.sessionId ?? 0,
-  //   position: position,
-  // })
-  const [players, setPlayers] = useState<IPlayer[]>([])
-  console.log(playersData)
-  useEffect(() => {
-    setPlayers(playersData?.players ?? [])
-  }, [playersData])
-  
+
+  const players = useSelector((state: RootState) => {
+    switch (position) {
+    case Positions.Court1:
+      return state.gym.court1.players
+    case Positions.Court2:
+      return state.gym.court2.players
+    case Positions.Court3:
+      return state.gym.court3.players
+    case Positions.Court4:
+      return state.gym.court4.players
+    case Positions.Court5:
+      return state.gym.court5.players
+    case Positions.Court6:
+      return state.gym.court6.players
+    case Positions.Court7:
+      return state.gym.court7.players
+    case Positions.Court8:
+      return state.gym.court8.players
+    default:
+      return []
+    }
+  })
+
+  const isChallengeCourt = useSelector((state: RootState) => {
+    switch (position) {
+    case Positions.Court1:
+      return state.gym.court1.challengePlayerId !== undefined
+    case Positions.Court2:
+      return state.gym.court2.challengePlayerId !== undefined
+    case Positions.Court3: 
+      return state.gym.court3.challengePlayerId !== undefined
+    case Positions.Court4:
+      return state.gym.court4.challengePlayerId !== undefined
+    case Positions.Court5:
+      return state.gym.court5.challengePlayerId !== undefined
+    case Positions.Court6:
+      return state.gym.court6.challengePlayerId !== undefined
+    case Positions.Court7:
+      return state.gym.court7.challengePlayerId !== undefined
+    case Positions.Court8:
+      return state.gym.court8.challengePlayerId !== undefined
+    default:
+      return false  
+    }
+  })
+
 
   // Determine if court is a challenge court
-  const isChallengeCourt = () => {
-    for (let i = 0; i < players.length; i++) { // Potential bug since not doing "react" way
-      if (players[i].is_challenging) {
-        return true
-      }
-    }
-    return false
-  }
+  // const isChallengeCourt = () => {
+  //   for (let i = 0; i < players.length; i++) { // Potential bug since not doing "react" way
+  //     if (players[i].is_challenging) {
+  //       return true
+  //     }
+  //   }
+  //   return false
+  // }
 
   return (
     <div
-      className='flex flex-col items-center'
+      className='member-court__container'
     >
 
-      <div className='flex flex-col items-center'>
-        {isChallengeCourt() && <span className='text-sm'>Challenge</span>}
+      <div className='court-number__container'>
+        {isChallengeCourt && <span className='text-sm'>Challenge</span>}
         <span>Court</span>
         <span className="text-3xl font-bold">{courtNumber}</span>
       </div>
 
-      <div className="justify-items-center items-center rounded-md border border-solid border-black h-5/6 w-full grid grid-cols-2">
+      <div className="players-container">
         {players.map((player) => (
-          <MemberPlayer key={player.member} player={player} isDefender={isChallengeCourt()}/> /* isDefender is set to true for challenge court, 
-                                                                                                    since there is explict check for challenger player chips
-                                                                                                     when setting defender chips*/
+          <MemberPlayer key={player.id} player={player}/> 
         ))}
       </div>
     </div>

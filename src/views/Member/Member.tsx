@@ -1,12 +1,27 @@
+import { useDispatch } from 'react-redux'
 import { Positions } from '../../common/interfaces/IPlayer'
+import { useGetGymStateQuery } from '../../services/apis/syncRedux'
 import MemberCourt from './MemberCourt'
+import { useEffect } from 'react'
+import { syncGymState } from '../../app/redux/gymSlice'
 import MobileAd from './MobileAd'
+import './Member.css'
 
 
 export const Member = () => {
+  const {data: gymState} = useGetGymStateQuery() // Fetches most recent gym state
+  // update redux store with current session id
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    if(gymState){
+      dispatch(syncGymState(gymState))
+    }
+  }, [gymState])
+
   return (
     <div
-      className='flex flex-col max-w-sm items-center border border-black p-4 rounded-lg h-full m-4 ml-16'
+      className='member-view__container'
     >
       <span
         className='text-2xl font-bold'
