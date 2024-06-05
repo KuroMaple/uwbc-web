@@ -4,6 +4,7 @@ import { IMember } from '../services/interfaces/IMember'
 
 export const gymState = {
   sessionId: 123,
+  playerCount: 21,
   benchPlayers: [
     {
       id: 1,

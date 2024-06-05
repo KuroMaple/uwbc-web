@@ -8,7 +8,7 @@ import IAutoCompleteOption from '../../interfaces/IAutoCompleteOption'
 import { useAddPlayerToSessionMutation } from '../../../services/apis/players'
 import { useGetActiveMembersNotInSessionQuery } from '../../../services/apis/members'
 import { useState } from 'react'
-
+import './SearchModal.css'
 
 
 const style = {

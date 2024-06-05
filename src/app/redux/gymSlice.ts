@@ -4,6 +4,7 @@ import {  DnDMoveAction } from './DndTypes'
 
 export interface GymState {
   sessionId: number,
+  playerCount: number,
   benchPlayers: IPlayer[],
   challengeQueue: number[],
   court1: {
@@ -43,6 +44,7 @@ export interface GymState {
 
 const initialState: GymState = {
   sessionId: 0,
+  playerCount: 0,
   benchPlayers: [],
   challengeQueue: [],
   court1: {
@@ -86,6 +88,7 @@ const gymSlice = createSlice({
   reducers: {
     syncGymState:(state, action: PayloadAction<GymState>) => {
       state.sessionId = action.payload.sessionId
+      state.playerCount = action.payload.playerCount
       state.benchPlayers = action.payload.benchPlayers
       state.challengeQueue = action.payload.challengeQueue
       state.court1 = action.payload.court1
@@ -547,7 +550,13 @@ const gymSlice = createSlice({
         break
       }
       }
-    }
+    },
+    incrementPlayerCount: (state) => {
+      state.playerCount++
+    },
+    decrementPlayerCount: (state) => {
+      state.playerCount--
+    },
   }
 })
 
@@ -561,6 +570,8 @@ export const {
   pushToChallengeQueue,
   removeFromChallengeQueue,
   removeFromCourt,
+  incrementPlayerCount,
+  decrementPlayerCount,
 } = gymSlice.actions
 
 // Memoized Selectors

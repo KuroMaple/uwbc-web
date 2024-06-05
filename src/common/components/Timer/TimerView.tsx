@@ -49,7 +49,7 @@ const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
       style={{
         fontSize: '50px',
         backgroundColor: isZero ? '#F44336' : '',
-        height: '15%',
+        height: '100%',
         width: '100%',
         borderRadius: '10px',
         display: 'flex',

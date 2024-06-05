@@ -14,7 +14,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import SearchModal from '../../common/components/SearchModal/SearchModal'
 import { RootState } from '../../app/redux/store'
 import { useGetGymStateQuery } from '../../services/apis/syncRedux'
-
+import PlayerCounter from '../../common/components/PlayerCounter/PlayerCounter'
+import './Exec.css'
 
 
 const Exec = () => {
@@ -132,8 +133,11 @@ const Exec = () => {
           >
             <MasterControls start={start} pause={pause} restart={restart} isRunning={isRunning} />
           </div>
+          <div className='util-container'>
+            <PlayerCounter />
+            <TimerView minutes={minutes} seconds={seconds} />
+          </div>
           
-          <TimerView minutes={minutes} seconds={seconds} />
         </div>
         
       </DndProvider>
