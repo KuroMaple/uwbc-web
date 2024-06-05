@@ -1,5 +1,5 @@
-import { Box, TextField, Typography } from '@mui/material'
-import Modal from '@mui/material/Modal'
+import { Box, SxProps, TextField, Typography } from '@mui/material'
+import MuiModal from '@mui/material/Modal'
 import { useDispatch, useSelector } from 'react-redux'
 import { setModalOpen } from '../../../app/redux/addPlayerModalSlice'
 import { RootState } from '../../../app/redux/store'
@@ -9,14 +9,17 @@ import { useAddPlayerToSessionMutation } from '../../../services/apis/players'
 import { useGetActiveMembersNotInSessionQuery } from '../../../services/apis/members'
 import { useState } from 'react'
 import './SearchModal.css'
+import Button from '../Button/Button'
+import { Close } from '@mui/icons-material'
 
 
-const style = {
+const modalContentStyles: SxProps = {
+  transform: 'translate(-50%, -50%)',
   position: 'absolute' as const,
   top: '50%',
   left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
+  width: '400px',
+  height: '200px',
   bgcolor: 'background.paper',
   border: '2px solid #000',
   boxShadow: 24,
@@ -56,48 +59,57 @@ const SearchModal = () => {
   }
 
   return (
-    <div>
-      <Modal
-        open={modalOpen}
-        onClose={handleModalClose}
+    <MuiModal
+      open={modalOpen}
+      onClose={handleModalClose}
+      
+    >
+      <Box
+        sx={modalContentStyles}
       >
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
+        <Typography id="modal-modal-title" variant="h6" component="h2">
             Search for member below:
-          </Typography>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={playerOptions ?? []}
-            sx={{ width: 300 }}
-            renderInput={(params) => 
-              <TextField 
-                {...params} 
-                label="Member Name" 
-                value={TextFieldState}
-                onChange={(event) => {
-                  setTextFieldState(event.target.value)
-                }}
-              />}
+        </Typography>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={playerOptions ?? []}
+          sx={{ width: 300 }}
+          renderInput={(params) => 
+            <TextField 
+              {...params} 
+              label="Member Name" 
+              value={TextFieldState}
+              onChange={(event) => {
+                setTextFieldState(event.target.value)
+              }}
+            />}
 
-            value={inputState}
-            onChange={(event, value) => {
-              addPlayerToSession(value)
-              event.preventDefault()
-              setTextFieldState('')
-              setInputState(null)
-            }}
+          value={inputState}
+          onChange={(event, value) => {
+            addPlayerToSession(value)
+            event.preventDefault()
+            setTextFieldState('')
+            setInputState(null)
+          }}
 
-            onSelect= { () => {
-              setTextFieldState('')
-              setInputState(null)            
-            }}
+          onSelect= { () => {
+            setTextFieldState('')
+            setInputState(null)            
+          }}
 
             
+        />
+        <div className='absolute top-[8px] right-2'>
+          <Button
+            variant='icon'
+            icon={<Close />}
+            onClick={handleModalClose}
           />
-        </Box>
-      </Modal>
-    </div>
+        </div>
+      </Box>
+    </MuiModal>
+
   )
 }
 

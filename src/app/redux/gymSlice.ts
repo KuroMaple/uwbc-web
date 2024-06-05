@@ -414,6 +414,7 @@ const gymSlice = createSlice({
         if (state.court1.challengePlayerId === action.payload.itemId) {
           state.court1.challengePlayerId = undefined
           player.isChallenging = false
+          state.court1.players.forEach(player => player.isBeingChallenged = false)
         }
         state.court1.players = state.court1.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
@@ -432,6 +433,7 @@ const gymSlice = createSlice({
         if (state.court2.challengePlayerId === action.payload.itemId) {
           state.court2.challengePlayerId = undefined
           player.isChallenging = false
+          state.court2.players.forEach(player => player.isBeingChallenged = false)
         }
         state.court2.players = state.court2.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
@@ -450,6 +452,7 @@ const gymSlice = createSlice({
         if (state.court3.challengePlayerId === action.payload.itemId) {
           state.court3.challengePlayerId = undefined
           player.isChallenging = false
+          state.court3.players.forEach(player => player.isBeingChallenged = false)
         }
         state.court3.players = state.court3.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
@@ -468,6 +471,7 @@ const gymSlice = createSlice({
         if (state.court4.challengePlayerId === action.payload.itemId) {
           state.court4.challengePlayerId = undefined
           player.isChallenging = false
+          state.court4.players.forEach(player => player.isBeingChallenged = false)
         }
         state.court4.players = state.court4.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
@@ -486,6 +490,7 @@ const gymSlice = createSlice({
         if (state.court5.challengePlayerId === action.payload.itemId) {
           state.court5.challengePlayerId = undefined
           player.isChallenging = false
+          state.court5.players.forEach(player => player.isBeingChallenged = false)
         }
         state.court5.players = state.court5.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
@@ -504,6 +509,7 @@ const gymSlice = createSlice({
         if (state.court6.challengePlayerId === action.payload.itemId) {
           state.court6.challengePlayerId = undefined
           player.isChallenging = false
+          state.court6.players.forEach(player => player.isBeingChallenged = false)
         }
         state.court6.players = state.court6.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
@@ -522,6 +528,7 @@ const gymSlice = createSlice({
         if (state.court7.challengePlayerId === action.payload.itemId) {
           state.court7.challengePlayerId = undefined
           player.isChallenging = false
+          state.court7.players.forEach(player => player.isBeingChallenged = false)
         }
         state.court7.players = state.court7.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
@@ -540,6 +547,7 @@ const gymSlice = createSlice({
         if (state.court8.challengePlayerId === action.payload.itemId) {
           state.court8.challengePlayerId = undefined
           player.isChallenging = false
+          state.court8.players.forEach(player => player.isBeingChallenged = false)
         }
         state.court8.players = state.court8.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench

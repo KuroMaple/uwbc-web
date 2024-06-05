@@ -134,19 +134,8 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel }) => {
         <Chip variant={ChipType.MGO}/>
       </Box> }
 
-      {/* {player.isChallenging && !onCourt &&
-        <Box sx={{
-          position: 'absolute',
-          height: '25px',
-          width: '30px',
-          top: '0px',
-          right: '0px',
-          zIndex: 2,
-        }}>
-          <Chip variant={ChipType.CH}/>
-        </Box>} */}
       
-      {player.isChallenging /*&& onCourt*/ &&
+      {player.isChallenging && !player.isBeingChallenged &&
         <Box sx={{
           position: 'absolute',
           height: '25px',
@@ -185,7 +174,7 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel }) => {
           height: '20px',
           bottom: '0px',
           right: '0px',
-          zIndex: 3,
+          zIndex: 5,
         }}
         >
           <Chip variant={ChipType.DEF}/> 
