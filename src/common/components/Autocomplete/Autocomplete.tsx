@@ -17,12 +17,6 @@ const Root = styled('div')(
 `
 )
 
-const Label = styled('label')`
-  padding: 0 0 4px;
-  line-height: 1.5;
-  display: block;
-`
-
 const InputWrapper = styled('div')(
   ({ theme }) => `
   width: 300px;
@@ -161,13 +155,13 @@ const Listbox = styled('ul')(
 
 type Props = {
   options: IAutoCompleteOption[]
-  onSubmit?: () => void
+  handleSubmit: () => void
+  setValue: React.Dispatch<React.SetStateAction<IAutoCompleteOption[]>>
 }
 
-const Autocomplete = ({ options } : Props) => {
+const Autocomplete = ({ options, handleSubmit, setValue } : Props) => {
   const {
     getRootProps,
-    getInputLabelProps,
     getInputProps,
     getTagProps,
     getListboxProps,
@@ -182,22 +176,30 @@ const Autocomplete = ({ options } : Props) => {
     multiple: true,
     options: options,
     getOptionLabel: (option) => option.label,
+    onChange: (event, newValue) => {
+      setValue(newValue)
+    }
   })
   return (
     <Root>
       <div {...getRootProps}>
-        <Label {...getInputLabelProps()}>
-        Autocomplete
-        </Label>
-        <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
-          {value.map((option: IAutoCompleteOption, index: number) => {
-            const { key, ...tagProps } = getTagProps({ index })
-            return <StyledTag key={key} {...tagProps} label={option.label} />
-          })}
+        <form onSubmit={
+          (e) => {
+            e.preventDefault()
+            handleSubmit()
+          }
+        
+        }>
+          <InputWrapper ref={setAnchorEl} className={focused ? 'focused' : ''}>
+            {value.map((option: IAutoCompleteOption, index: number) => {
+              const { key, ...tagProps } = getTagProps({ index })
+              return <StyledTag key={key} {...tagProps} label={option.name} />
+            })}
           
-          <input {...getInputProps()}/>
+            <input {...getInputProps()} />
           
-        </InputWrapper>
+          </InputWrapper>
+        </form>
       </div>
       {groupedOptions.length > 0 ? (
         <Listbox {...getListboxProps()}>
@@ -212,6 +214,7 @@ const Autocomplete = ({ options } : Props) => {
           })}
         </Listbox>
       ) : null}
+      
     </Root>
   )
 }

@@ -18,9 +18,9 @@ const modalContentStyles: SxProps = {
   width: '400px',
   height: '500px',
   bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
+  boxShadow: 20,
   p: 4,
+  borderRadius: '8px',
 }
 
 const Modal = ({ children }: Props) => {
@@ -34,10 +34,9 @@ const Modal = ({ children }: Props) => {
     <MuiModal
       open={modalOpen}
       onClose={handleModalClose}
-      
     >
       <Box
-        sx={modalContentStyles}
+        sx={{...modalContentStyles}}
       >
         {children}
         <div className='absolute top-[8px] right-2'>

@@ -14,6 +14,8 @@ export const membersApi = baseApi.injectEndpoints({
       transformResponse: (members: IMember[]) => {
         return members.map((member) => {
           return {
+            name: member.first_name + ' ' + member.last_name,
+            email: member.email,
             label: member.first_name + ' ' + member.last_name + ' ' + member.email,
           }
         })
