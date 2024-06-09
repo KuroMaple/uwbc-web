@@ -4,14 +4,17 @@ import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune'
+import DeleteIcon from '@mui/icons-material/Delete'
 import 'intro.js/introjs.css'
 
-interface Props {
+type Props = {
   filterByMGO: boolean
   setFilterByMGO: React.Dispatch<React.SetStateAction<boolean>>
+  deleteMode: boolean
+  setDeleteMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Controls: React.FC<Props> = ({ filterByMGO, setFilterByMGO }) => {
+const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : Props) => {
 
   const dispatch = useDispatch()
   const handleModalOpen = () => dispatch(setModalOpen(true))
@@ -25,7 +28,6 @@ const Controls: React.FC<Props> = ({ filterByMGO, setFilterByMGO }) => {
         title='Add Player'
         id='add-player'>
         <AddToPhotosIcon/>
-
       </IconButton>
       <IconButton
         id='filter-by-mgo'
@@ -39,7 +41,18 @@ const Controls: React.FC<Props> = ({ filterByMGO, setFilterByMGO }) => {
         }}>
         <TuneIcon/>
       </IconButton>
-      
+      <IconButton
+        onClick={() => setDeleteMode(!deleteMode)}
+        sx={{
+          backgroundColor: deleteMode ? '#e30000' : 'inherit',
+          color: deleteMode ? '#FFFFFF' : '',
+          ':hover': {
+            backgroundColor: deleteMode ? '#e30000' : '#EAEAEA',
+          },
+        }}
+      >
+        <DeleteIcon />
+      </IconButton>
     </Stack>
   )
 }

@@ -6,7 +6,7 @@ import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
 import Chip from '../Chip/Chip'
 import { useDispatch, useSelector} from 'react-redux'
 import { ChipType } from '../Chip/types'
-import { removeFromCourt, togglePlayerMGO } from '../../../app/redux/gymSlice'
+import { deletePlayerFromBench, removeFromCourt, togglePlayerMGO } from '../../../app/redux/gymSlice'
 import { RootState } from '../../../app/redux/store'
 
 const setColor = (level: number) => {
@@ -30,12 +30,13 @@ const setColor = (level: number) => {
   }
 }
 
-interface Props {
+type Props = {
   player: IPlayer 
   isFromChallengePanel: boolean
+  deleteMode?: boolean
 }
 
-const Player: React.FC<Props> = ({ player, isFromChallengePanel }) => {
+const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode } : Props) => {
   const dispatch = useDispatch() // Redux dispatch
   const [onCourt] = useState(player.position !== Positions.Bench && player.position !== Positions.Challenge)
   const challengePosition = useSelector((state: RootState) => state.gym.challengeQueue.findIndex((p) => p === player.id) + 1)
@@ -122,6 +123,27 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel }) => {
     >
 
       {/* Chip JSX Below*/}
+      {deleteMode && 
+      <Box sx={{
+        position: 'absolute',
+        top: '0px',
+        right: '0px',
+        zIndex: 2,
+        width: '20px',
+        height: '20px',
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      }}
+      onClick={() => {
+        dispatch(deletePlayerFromBench(
+          player.id
+        ))
+      }}
+      >
+        <Chip variant={ChipType.DEL}/>
+      </Box>
+      }
       {player.isMGO  &&  // If on court, MGO should not be displayed
       <Box sx={{
         position: 'absolute',

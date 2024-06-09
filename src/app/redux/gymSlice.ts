@@ -565,6 +565,10 @@ const gymSlice = createSlice({
     decrementPlayerCount: (state) => {
       state.playerCount--
     },
+    deletePlayerFromBench: (state, action: PayloadAction<number>) => {
+      state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload)
+      gymSlice.caseReducers.decrementPlayerCount(state)
+    },
   }
 })
 
@@ -580,6 +584,7 @@ export const {
   removeFromCourt,
   incrementPlayerCount,
   decrementPlayerCount,
+  deletePlayerFromBench,
 } = gymSlice.actions
 
 // Memoized Selectors

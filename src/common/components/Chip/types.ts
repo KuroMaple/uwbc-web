@@ -4,4 +4,5 @@ export enum ChipType {
   CH = 'Challenger',
   DEF = 'Defender',
   BR = 'Break',
+  DEL = 'Delete',
 }

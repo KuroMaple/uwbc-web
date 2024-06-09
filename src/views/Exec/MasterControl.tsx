@@ -40,13 +40,44 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
   const [postGymState] = usePostGymStateMutation()
   const gymState = {
     sessionId: reduxGymState.sessionId,
+    playerCount: reduxGymState.playerCount,
     benchPlayers: reduxGymState.benchPlayers,
     challengeQueue: reduxGymState.challengeQueue,
     court1: {
       challengePlayerId: reduxGymState.court1.challengePlayerId,
       players: reduxGymState.court1.players,
     },
+    court2: {
+      challengePlayerId: reduxGymState.court2.challengePlayerId,
+      players: reduxGymState.court2.players,
+    },
+    court3: {
+      challengePlayerId: reduxGymState.court3.challengePlayerId,
+      players: reduxGymState.court3.players,
+    },
+    court4: {
+      challengePlayerId: reduxGymState.court4.challengePlayerId,
+      players: reduxGymState.court4.players,
+    },
+    court5: {
+      challengePlayerId: reduxGymState.court5.challengePlayerId,
+      players: reduxGymState.court5.players,
+    },
+    court6: {
+      challengePlayerId: reduxGymState.court6.challengePlayerId,
+      players: reduxGymState.court6.players,
+    },
+    court7: {
+      challengePlayerId: reduxGymState.court7.challengePlayerId,
+      players: reduxGymState.court7.players,
+    },
+    court8: {
+      challengePlayerId: reduxGymState.court8.challengePlayerId,
+      players: reduxGymState.court8.players,
+    }
   }
+
+    
   const handleResetAllCourts = () => {
     dispatch(
       resetAllCourts()
@@ -59,7 +90,7 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
       direction='column'
       spacing={2}
       sx={{
-        bgcolor: 'fuchsia',
+        bgcolor: '#c227ff',
         marginLeft: '10px',
         borderRadius: '10px',
         padding: '5px',

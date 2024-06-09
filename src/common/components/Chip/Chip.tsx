@@ -81,6 +81,28 @@ const Chip: React.FC<Props> = ({ variant, challengePosition }) => {
       }}/>
     )
   }
+  else if (variant === ChipType.DEL) {
+    return (
+      <MUIChip label="x" sx={{
+        color: 'white',
+        backgroundColor: '#e30000',
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'top',
+        paddingBottom: '2px',
+        '& .MuiChip-label': {
+          padding: 0,  // Remove padding for the label
+        },
+        transition: 'transform 0.1s ease-in-out', // Add a transition for smooth effect
+        '&:hover': {
+          transform: 'scale(1.2)', // Enlarge the button on hover
+        },
+      }}/>
+    )
+  }
   // variant === ChipType.BR
   else {
     return (
