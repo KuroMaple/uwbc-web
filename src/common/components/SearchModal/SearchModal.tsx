@@ -9,7 +9,7 @@ import Typography from '@mui/material/Typography/Typography'
 import IAutoCompleteOption from '../../interfaces/IAutoCompleteOption'
 import { useState } from 'react'
 import './SearchModal.css'
-import { setModalOpen } from '../../../app/redux/addPlayerModalSlice'
+import { setModalOpen, setSnackOpen } from '../../../app/redux/appUtilSlice'
 import { incrementPlayerCount } from '../../../app/redux/gymSlice'
 
 
@@ -34,6 +34,13 @@ const SearchModal = () => {
       addPlayer({session: sessionID, email: member.email})
       incrementPlayer()
     })
+    dispatch(
+      setSnackOpen({
+        message: 'Players added to session',
+        severity: 'success',
+        open: true
+      })
+    )
     handleModalClose()
   }
 

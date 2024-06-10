@@ -1,7 +1,7 @@
 import MuiModal from '@mui/material/Modal'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from '../../../app/redux/store'
-import { setModalOpen } from '../../../app/redux/addPlayerModalSlice'
+import { setModalOpen } from '../../../app/redux/appUtilSlice'
 import Button from '../Button/Button'
 import { Close } from '@mui/icons-material'
 import { Box, SxProps } from '@mui/material'
@@ -27,7 +27,7 @@ const Modal = ({ children }: Props) => {
 
   // Redux operations
   const dispatch = useDispatch()
-  const modalOpen = useSelector((state: RootState) => state.addPlayerModal.open)
+  const modalOpen = useSelector((state: RootState) => state.appUtil.modalOpen)
   const handleModalClose = () => dispatch(setModalOpen(false))
 
   return (

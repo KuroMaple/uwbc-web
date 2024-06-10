@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { setModalOpen } from '../../../app/redux/addPlayerModalSlice'
+import { setModalOpen, setSnackOpen } from '../../../app/redux/appUtilSlice'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
@@ -32,7 +32,21 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : P
       <IconButton
         id='filter-by-mgo'
         title='Filter by MGO'
-        onClick={() => setFilterByMGO(!filterByMGO)}
+        onClick={() => {
+          if(!filterByMGO){
+            dispatch(
+              setSnackOpen(
+                {
+                  open: true,
+                  message: 'Filter by MGO activated',
+                  severity: 'info'
+                }
+              )
+            )
+          }
+         
+          setFilterByMGO(!filterByMGO)
+        }}
         sx={{
           backgroundColor: filterByMGO ? '#27C376' : 'inherit',
           ':hover': {
@@ -42,7 +56,21 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : P
         <TuneIcon/>
       </IconButton>
       <IconButton
-        onClick={() => setDeleteMode(!deleteMode)}
+        onClick={() => {
+          if(!deleteMode){
+            dispatch(
+              setSnackOpen(
+                {
+                  open: true,
+                  message: 'Delete mode activated',
+                  severity: 'error'
+                }
+              )
+            )
+          }
+
+          setDeleteMode(!deleteMode)
+        }}
         sx={{
           backgroundColor: deleteMode ? '#e30000' : 'inherit',
           color: deleteMode ? '#FFFFFF' : '',

@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { setupListeners } from '@reduxjs/toolkit/query'
 import baseApi from '../../services/apis/baseApi'
 import gymReducer from './gymSlice'
-import addPlayerModalReducer from './addPlayerModalSlice'
+import appUtilReducer from './appUtilSlice'
 
 export const store = configureStore({
   reducer: {
@@ -10,7 +10,7 @@ export const store = configureStore({
     [baseApi.reducerPath]: baseApi.reducer,
     //Reducer for courts and player info
     gym: gymReducer,
-    addPlayerModal: addPlayerModalReducer,
+    appUtil: appUtilReducer,
   },
 
   // Adding the api middleware enables caching, invalidation, polling,

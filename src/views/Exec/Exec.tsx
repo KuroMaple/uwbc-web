@@ -16,6 +16,8 @@ import { RootState } from '../../app/redux/store'
 import { useGetGymStateQuery } from '../../services/apis/syncRedux'
 import PlayerCounter from '../../common/components/PlayerCounter/PlayerCounter'
 import './Exec.css'
+import Snackbar from '../../common/components/Snackbar/Snackbar'
+import Alert from '../../common/components/Alert/Alert'
 
 
 const Exec = () => {
@@ -33,7 +35,7 @@ const Exec = () => {
   }, [gymState])
 
   // Pull modal info from redux
-  const modalOpen = useSelector((state: RootState) => state.addPlayerModal.open)
+  const modalOpen = useSelector((state: RootState) => state.appUtil.modalOpen)
 
   // Tutorial logic
   const [stepsEnabled, setStepsEnabled] = useState(false) // Set to true when need tutorial
@@ -139,8 +141,9 @@ const Exec = () => {
           </div>
           
         </div>
-        
       </DndProvider>
+      <Snackbar />
+      <Alert />
     </div>
   )
 }

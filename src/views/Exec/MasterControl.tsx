@@ -8,6 +8,7 @@ import { RootState } from '../../app/redux/store'
 import BackupIcon from '@mui/icons-material/Backup'
 import { resetAllCourts } from '../../app/redux/gymSlice'
 import { usePostGymStateMutation } from '../../services/apis/syncRedux'
+import { setAlertProperties, setIsAlertOpen, setSnackOpen } from '../../app/redux/appUtilSlice'
 
 interface Props {
   start: () => void
@@ -79,9 +80,24 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
 
     
   const handleResetAllCourts = () => {
-    dispatch(
-      resetAllCourts()
-    )
+    dispatch(setAlertProperties({
+      open: true,
+      title: 'Reset All Courts?',
+      message: 'Removes all players from courts. This is irreversible',
+      actions: [
+        {
+          label: 'Cancel',
+          onClick: () => dispatch(setIsAlertOpen(false))
+        },
+        {
+          label: 'Reset',
+          onClick: () => {
+            dispatch(resetAllCourts())
+            dispatch(setIsAlertOpen(false))
+          }
+        }
+      ],
+    }))
   }
 
   
@@ -109,8 +125,14 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
       <IconButton
         className='reset-courts  hover:text-green-500'
         onClick={() => {
-          console.log('Pushing State to server: ', gymState) // debugging
           postGymState(gymState)
+          dispatch(
+            setSnackOpen({
+              open: true,
+              message: 'Courts Uploaded',
+              severity: 'success',
+            })
+          )
         }}
 
         sx={localButtonStyle}
