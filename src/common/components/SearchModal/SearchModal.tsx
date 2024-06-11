@@ -30,13 +30,14 @@ const SearchModal = () => {
 
   const addPlayersToSession = () => {
     console.log('Adding players to session: ', membersToAdd) // Debugging
+    const playerCount = membersToAdd.length
     membersToAdd.forEach((member) => {
       addPlayer({session: sessionID, email: member.email})
       incrementPlayer()
     })
     dispatch(
       setSnackOpen({
-        message: 'Players added to session',
+        message: ` ${playerCount} player(s) added to session`,
         severity: 'success',
         open: true
       })
