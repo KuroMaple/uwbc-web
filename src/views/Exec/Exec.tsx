@@ -17,7 +17,6 @@ import { useGetGymStateQuery } from '../../services/apis/syncRedux'
 import PlayerCounter from '../../common/components/PlayerCounter/PlayerCounter'
 import './Exec.css'
 import Snackbar from '../../common/components/Snackbar/Snackbar'
-import Alert from '../../common/components/Alert/Alert'
 
 
 const Exec = () => {
@@ -143,7 +142,7 @@ const Exec = () => {
         </div>
       </DndProvider>
       <Snackbar />
-      <Alert />
+
     </div>
   )
 }

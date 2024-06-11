@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { setSnackOpen } from '../../../app/redux/appUtilSlice'
 
 interface Props {
   minutes: number
@@ -8,13 +10,19 @@ interface Props {
 const TimerView: React.FC<Props> = ({ minutes, seconds }) => {
 
   const [isZero, setIsZero] = useState(false)
-
+  const dispatch  = useDispatch()
   
 
 
   useEffect(() => {
     if (minutes === 0 && seconds === 0) {
-      
+      dispatch(
+        setSnackOpen({
+          message: 'Time is up! Court Change!',
+          severity: 'warning',
+          open: true
+        })
+      )
       let count = 0
 
       const flashEffect = () => {

@@ -3,12 +3,12 @@ import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import TimerControls from '../../common/components/Timer/TimerControls'
-import { memo } from 'react'
+import { memo, useState } from 'react'
 import { RootState } from '../../app/redux/store'
 import BackupIcon from '@mui/icons-material/Backup'
-import { resetAllCourts } from '../../app/redux/gymSlice'
 import { usePostGymStateMutation } from '../../services/apis/syncRedux'
-import { setAlertProperties, setIsAlertOpen, setSnackOpen } from '../../app/redux/appUtilSlice'
+import { setSnackOpen } from '../../app/redux/appUtilSlice'
+import ResetCourtAlert from '../../common/components/Alert/ResetCourtAlert'
 
 interface Props {
   start: () => void
@@ -77,27 +77,10 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
       players: reduxGymState.court8.players,
     }
   }
-
+  const [alertOpen, setAlertOpen] = useState(false)
     
   const handleResetAllCourts = () => {
-    dispatch(setAlertProperties({
-      open: true,
-      title: 'Reset All Courts?',
-      message: 'Removes all players from courts. This is irreversible',
-      actions: [
-        {
-          label: 'Cancel',
-          onClick: () => dispatch(setIsAlertOpen(false))
-        },
-        {
-          label: 'Reset',
-          onClick: () => {
-            dispatch(resetAllCourts())
-            dispatch(setIsAlertOpen(false))
-          }
-        }
-      ],
-    }))
+    setAlertOpen(true)
   }
 
   
@@ -145,7 +128,7 @@ const MasterControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =
 
       <TimerControls start={start} pause={pause} restart={restart} isRunning={isRunning} />
       
-      
+      <ResetCourtAlert alertOpen={alertOpen} setAlertOpen={setAlertOpen} />
     </Stack>
   )
 }

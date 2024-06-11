@@ -10,6 +10,7 @@ import { ChipType } from '../Chip/types'
 import { moveBenchPlayerToCourt, moveChallengerToCourt, removeFromCourt } from '../../../app/redux/gymSlice'
 import './Court.css'
 
+
 interface Props {
   courtPosition: Positions
   courtNumber: string
@@ -70,8 +71,14 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   // Only allow one challenger per court
   const isDroppable = (item: itemDropType) => {
     const parent = item.source
+    if (parent === courtPosition) {
+      return true
+    }
+    if (parent !== Positions.Bench && parent !== Positions.Challenge) {
+      return false
+    }
     return (parent === Positions.Challenge && players.length === 0) || 
-            (players.length < 4 && parent !== Positions.Challenge)
+            (players.length < 4 && parent !== Positions.Challenge) 
   }
 
   const handleDrop = (item: itemDropType) => {
@@ -94,9 +101,6 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
         })
       )
     }
-    else {
-      console.log('Invalid Drop from Bench/Challenge to Court Action Error: will have snackbar for this in future')
-    }
   }
 
   const removeAllPlayers = () => {
@@ -112,7 +116,7 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
     })
   }
 
-  const [{ isOver, canDrop}, drop] = useDrop(() => ({
+  const [{ isOver, canDrop,}, drop] = useDrop(() => ({
     accept: ItemTypes.PLAYER,
     canDrop: (item) => isDroppable(item),
     drop: (item: itemDropType) => handleDrop(item),
