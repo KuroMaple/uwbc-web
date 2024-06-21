@@ -1,4 +1,4 @@
-import { Positions } from '../common/interfaces/IPlayer'
+import IPlayer, { Positions } from '../common/interfaces/IPlayer'
 import { IMember } from '../services/interfaces/IMember'
 
 
@@ -304,8 +304,6 @@ export const gymState = {
   },
 }
 
-
-
 export const memberList: IMember[] = [
   {
     level: 1,
@@ -367,5 +365,32 @@ export const memberList: IMember[] = [
     last_name: 'Thomas',
     email: 'laura.thomas@example.com'
   }
+]
+
+export const addMembers: IPlayer[] = [
+  {
+    id: 22,
+    sessionID: 123,
+    position: Positions.Bench,
+    isBeingChallenged: false,
+    isChallenging: false,
+    numRotationsOff: 2,
+    isMGO: false,
+    name: 'Added Player 1',
+    level: 5,
+    ticks: 0,
+  },
+  {
+    id: 23,
+    sessionID: 123,
+    position: Positions.Bench,
+    isBeingChallenged: false,
+    isChallenging: false,
+    numRotationsOff: 1,
+    isMGO: false,
+    name: 'Added Player 2',
+    level: 4,
+    ticks: 0,
+  },
 ]
 

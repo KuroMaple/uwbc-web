@@ -559,16 +559,22 @@ const gymSlice = createSlice({
       }
       }
     },
-    incrementPlayerCount: (state) => {
-      state.playerCount++
+    incrementPlayerCount: (state, action: PayloadAction<number>) => {
+      state.playerCount += action.payload
     },
-    decrementPlayerCount: (state) => {
-      state.playerCount--
+    decrementPlayerCount: (state, action:PayloadAction<number>) => {
+      state.playerCount -= action.payload
     },
     deletePlayerFromBench: (state, action: PayloadAction<number>) => {
       state.benchPlayers = state.benchPlayers.filter(player => player.id !== action.payload)
-      gymSlice.caseReducers.decrementPlayerCount(state)
+      gymSlice.caseReducers.decrementPlayerCount(state, {payload: 1, type: 'decrementPlayerCount'})
     },
+    syncBenchPlayers : (state, action: PayloadAction<IPlayer[]>) => {
+      const currentPlayerIds = state.benchPlayers.map(player => player.id)
+      const newPlayerIds = action.payload.filter(player => !currentPlayerIds.includes(player.id))
+        .map(player => player.id)
+      state.benchPlayers = state.benchPlayers.concat(action.payload.filter(player => newPlayerIds.includes(player.id)))
+    }
   }
 })
 
@@ -585,6 +591,7 @@ export const {
   incrementPlayerCount,
   decrementPlayerCount,
   deletePlayerFromBench,
+  syncBenchPlayers
 } = gymSlice.actions
 
 // Memoized Selectors
@@ -603,5 +610,7 @@ export const selectChallengePlayers = createSelector(
     }
     return sortedPlayers
   })
+
+export const selectGymState = (state: { gym: GymState }) => state.gym
 
 export default gymSlice.reducer

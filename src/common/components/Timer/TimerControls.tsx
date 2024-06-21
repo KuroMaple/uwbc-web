@@ -51,12 +51,14 @@ const TimerControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =>
       {isRunning ? (
         <IconButton
           sx={IconButtonStyle}
-          onClick={pause}>
+          onClick={pause}
+          title='Pause Timer'>
           <PauseIcon />
         </IconButton>) : (
         <IconButton
           sx={IconButtonStyle}
-          onClick={start}>
+          onClick={start}
+          title='Play Timer'>
           <PlayArrowIcon />
         </IconButton>)}
       
@@ -66,7 +68,8 @@ const TimerControls: React.FC<Props> = ({ start, pause, restart, isRunning }) =>
           const time = new Date()
           time.setSeconds(time.getSeconds() + 780) // 13 minutes timer
           restart(time, false)
-        }}>
+        }}
+        title='Restart Timer'>
         <StopIcon />
       </IconButton>
     </Stack>
