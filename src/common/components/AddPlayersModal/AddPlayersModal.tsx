@@ -1,14 +1,13 @@
 import { RootState } from '../../../app/redux/store'
 import { useAddPlayersToSessionMutation } from '../../../services/apis/players'
 import { useGetActiveMembersNotInSessionQuery } from '../../../services/apis/members'
-import './SearchModal.css'
+import './AddPlayersModal.css'
 import Modal from '../Modal/Modal'
 import { useDispatch, useSelector } from 'react-redux'
 import Autocomplete from '../Autocomplete/Autocomplete'
 import Typography from '@mui/material/Typography/Typography'
 import IAutoCompleteOption from '../../interfaces/IAutoCompleteOption'
 import { useState } from 'react'
-import './SearchModal.css'
 import { setModalOpen, setSnackOpen } from '../../../app/redux/appUtilSlice'
 import { incrementPlayerCount, syncBenchPlayers } from '../../../app/redux/gymSlice'
 import IAddPlayersResponse from '../../../services/interfaces/IAddPlayersResponse'
@@ -19,7 +18,7 @@ import { SerializedError } from '@reduxjs/toolkit'
 
 
 
-const SearchModal = () => {
+const AddPlayersModal = () => {
   const [membersToAdd, setMembersToAdd] = useState<IAutoCompleteOption[]>([])
   const sessionId = useSelector((state: RootState) => state.gym.sessionId) // Current Session id is stored globally
   
@@ -96,7 +95,7 @@ const SearchModal = () => {
 
   return (
     <Modal>
-      <div className='search-modal__container'>
+      <div className='add-players-modal__container'>
         <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBottom: '20px', borderBottom: 'solid 2px', borderColor: '#4A4A4A', color: '#4A4A4A'}}>
           Add Members to Session
         </Typography>
@@ -121,4 +120,4 @@ const SearchModal = () => {
   )
 }
 
-export default SearchModal
+export default AddPlayersModal
