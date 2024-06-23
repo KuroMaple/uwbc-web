@@ -46,21 +46,21 @@ const Court: React.FC<Props> = ({ courtPosition, courtNumber }) => {
   const isChallengeCourt = useSelector((state: RootState) => {
     switch(courtPosition){
     case Positions.Court1:
-      return state.gym.court1.challengePlayerId !== undefined
+      return state.gym.court1.challengePlayerId !== null
     case Positions.Court2:
-      return state.gym.court2.challengePlayerId !== undefined
+      return state.gym.court2.challengePlayerId !== null
     case Positions.Court3:
-      return state.gym.court3.challengePlayerId !== undefined
+      return state.gym.court3.challengePlayerId !== null
     case Positions.Court4:
-      return state.gym.court4.challengePlayerId !== undefined
+      return state.gym.court4.challengePlayerId !== null
     case Positions.Court5:
-      return state.gym.court5.challengePlayerId !== undefined
+      return state.gym.court5.challengePlayerId !== null
     case Positions.Court6:
-      return state.gym.court6.challengePlayerId !== undefined
+      return state.gym.court6.challengePlayerId !== null
     case Positions.Court7:
-      return state.gym.court7.challengePlayerId !== undefined
+      return state.gym.court7.challengePlayerId !== null
     case Positions.Court8:
-      return state.gym.court8.challengePlayerId !== undefined
+      return state.gym.court8.challengePlayerId !== null
     default:
       return false
     }

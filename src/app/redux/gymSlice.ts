@@ -8,35 +8,35 @@ export interface GymState {
   benchPlayers: IPlayer[],
   challengeQueue: number[],
   court1: {
-    challengePlayerId?: number,
+    challengePlayerId: number | null,
     players: IPlayer[],
   },
   court2: {
-    challengePlayerId?: number,
+    challengePlayerId: number | null,
     players: IPlayer[],
   },
   court3: {
-    challengePlayerId?: number,
+    challengePlayerId: number | null,
     players: IPlayer[],
   },
   court4: {
-    challengePlayerId?: number,
+    challengePlayerId: number | null,
     players: IPlayer[],
   },
   court5: {
-    challengePlayerId?: number,
+    challengePlayerId: number | null,
     players: IPlayer[],
   },
   court6: {
-    challengePlayerId?: number,
+    challengePlayerId: number | null,
     players: IPlayer[],
   },
   court7: {
-    challengePlayerId?: number,
+    challengePlayerId: number | null,
     players: IPlayer[],
   },
   court8: {
-    challengePlayerId?: number,
+    challengePlayerId: number | null,
     players: IPlayer[],
   },
 
@@ -48,35 +48,35 @@ const initialState: GymState = {
   benchPlayers: [],
   challengeQueue: [],
   court1: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [],
   },
   court2: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [],
   },
   court3: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [],
   },
   court4: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [],
   },
   court5: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [],
   },
   court6: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [],
   },
   court7: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [],
   },
   court8: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [],
   },
 }
@@ -123,7 +123,7 @@ const gymSlice = createSlice({
       case (Positions.Court1): {
         player.isMGO = false
         player.position = Positions.Court1
-        if(state.court1.challengePlayerId !== undefined){
+        if(state.court1.challengePlayerId !== null){
           player.isBeingChallenged = true
         }
         state.court1.players.push(player)
@@ -133,7 +133,7 @@ const gymSlice = createSlice({
       case (Positions.Court2): {
         player.isMGO = false
         player.position = Positions.Court2
-        if(state.court2.challengePlayerId !== undefined){
+        if(state.court2.challengePlayerId !== null){
           player.isBeingChallenged = true
         }
         state.court2.players.push(player)
@@ -143,7 +143,7 @@ const gymSlice = createSlice({
       case (Positions.Court3): {
         player.isMGO = false
         player.position = Positions.Court3
-        if(state.court3.challengePlayerId !== undefined){
+        if(state.court3.challengePlayerId !== null){
           player.isBeingChallenged = true
         }
         state.court3.players.push(player)
@@ -153,7 +153,7 @@ const gymSlice = createSlice({
       case (Positions.Court4): {
         player.isMGO = false
         player.position = Positions.Court4
-        if(state.court4.challengePlayerId !== undefined){
+        if(state.court4.challengePlayerId !== null){
           player.isBeingChallenged = true
         }
         state.court4.players.push(player)
@@ -163,7 +163,7 @@ const gymSlice = createSlice({
       case (Positions.Court5): {
         player.isMGO = false
         player.position = Positions.Court5
-        if(state.court5.challengePlayerId !== undefined){
+        if(state.court5.challengePlayerId !== null){
           player.isBeingChallenged = true
         }
         state.court5.players.push(player)
@@ -173,7 +173,7 @@ const gymSlice = createSlice({
       case (Positions.Court6): {
         player.isMGO = false
         player.position = Positions.Court6
-        if(state.court6.challengePlayerId !== undefined){
+        if(state.court6.challengePlayerId !== null){
           player.isBeingChallenged = true
         }
         state.court6.players.push(player)
@@ -183,7 +183,7 @@ const gymSlice = createSlice({
       case (Positions.Court7): {
         player.isMGO = false
         player.position = Positions.Court7
-        if(state.court7.challengePlayerId !== undefined){
+        if(state.court7.challengePlayerId !== null){
           player.isBeingChallenged = true
         }
         state.court7.players.push(player)
@@ -193,7 +193,7 @@ const gymSlice = createSlice({
       case (Positions.Court8): {
         player.isMGO = false
         player.position = Positions.Court8
-        if(state.court8.challengePlayerId !== undefined){
+        if(state.court8.challengePlayerId !== null){
           player.isBeingChallenged = true
         }
         state.court8.players.push(player)
@@ -412,7 +412,7 @@ const gymSlice = createSlice({
           return
         }
         if (state.court1.challengePlayerId === action.payload.itemId) {
-          state.court1.challengePlayerId = undefined
+          state.court1.challengePlayerId = null
           player.isChallenging = false
           state.court1.players.forEach(player => player.isBeingChallenged = false)
         }
@@ -431,7 +431,7 @@ const gymSlice = createSlice({
           return
         }
         if (state.court2.challengePlayerId === action.payload.itemId) {
-          state.court2.challengePlayerId = undefined
+          state.court2.challengePlayerId = null
           player.isChallenging = false
           state.court2.players.forEach(player => player.isBeingChallenged = false)
         }
@@ -450,7 +450,7 @@ const gymSlice = createSlice({
           return
         }
         if (state.court3.challengePlayerId === action.payload.itemId) {
-          state.court3.challengePlayerId = undefined
+          state.court3.challengePlayerId = null
           player.isChallenging = false
           state.court3.players.forEach(player => player.isBeingChallenged = false)
         }
@@ -469,7 +469,7 @@ const gymSlice = createSlice({
           return
         }
         if (state.court4.challengePlayerId === action.payload.itemId) {
-          state.court4.challengePlayerId = undefined
+          state.court4.challengePlayerId = null
           player.isChallenging = false
           state.court4.players.forEach(player => player.isBeingChallenged = false)
         }
@@ -488,7 +488,7 @@ const gymSlice = createSlice({
           return
         }
         if (state.court5.challengePlayerId === action.payload.itemId) {
-          state.court5.challengePlayerId = undefined
+          state.court5.challengePlayerId = null
           player.isChallenging = false
           state.court5.players.forEach(player => player.isBeingChallenged = false)
         }
@@ -507,7 +507,7 @@ const gymSlice = createSlice({
           return
         }
         if (state.court6.challengePlayerId === action.payload.itemId) {
-          state.court6.challengePlayerId = undefined
+          state.court6.challengePlayerId = null
           player.isChallenging = false
           state.court6.players.forEach(player => player.isBeingChallenged = false)
         }
@@ -526,7 +526,7 @@ const gymSlice = createSlice({
           return
         }
         if (state.court7.challengePlayerId === action.payload.itemId) {
-          state.court7.challengePlayerId = undefined
+          state.court7.challengePlayerId = null
           player.isChallenging = false
           state.court7.players.forEach(player => player.isBeingChallenged = false)
         }
@@ -545,7 +545,7 @@ const gymSlice = createSlice({
           return
         }
         if (state.court8.challengePlayerId === action.payload.itemId) {
-          state.court8.challengePlayerId = undefined
+          state.court8.challengePlayerId = null
           player.isChallenging = false
           state.court8.players.forEach(player => player.isBeingChallenged = false)
         }
