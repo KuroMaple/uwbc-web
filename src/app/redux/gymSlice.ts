@@ -1,6 +1,6 @@
 import { PayloadAction, createSelector, createSlice } from '@reduxjs/toolkit'
 import IPlayer, { Positions } from '../../common/interfaces/IPlayer'
-import {  DnDMoveAction } from './DndTypes'
+import { DnDMoveAction } from './DndTypes'
 
 export interface GymState {
   sessionId: number,
@@ -121,7 +121,6 @@ const gymSlice = createSlice({
       // Add to target array and set new position, update flags
       switch (action.payload.target) {
       case (Positions.Court1): {
-        player.isMGO = false
         player.position = Positions.Court1
         if(state.court1.challengePlayerId !== null){
           player.isBeingChallenged = true
@@ -131,7 +130,6 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court2): {
-        player.isMGO = false
         player.position = Positions.Court2
         if(state.court2.challengePlayerId !== null){
           player.isBeingChallenged = true
@@ -141,7 +139,6 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court3): {
-        player.isMGO = false
         player.position = Positions.Court3
         if(state.court3.challengePlayerId !== null){
           player.isBeingChallenged = true
@@ -151,7 +148,6 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court4): {
-        player.isMGO = false
         player.position = Positions.Court4
         if(state.court4.challengePlayerId !== null){
           player.isBeingChallenged = true
@@ -161,7 +157,6 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court5): {
-        player.isMGO = false
         player.position = Positions.Court5
         if(state.court5.challengePlayerId !== null){
           player.isBeingChallenged = true
@@ -171,7 +166,6 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court6): {
-        player.isMGO = false
         player.position = Positions.Court6
         if(state.court6.challengePlayerId !== null){
           player.isBeingChallenged = true
@@ -181,7 +175,6 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court7): {
-        player.isMGO = false
         player.position = Positions.Court7
         if(state.court7.challengePlayerId !== null){
           player.isBeingChallenged = true
@@ -191,7 +184,6 @@ const gymSlice = createSlice({
         break
       }
       case (Positions.Court8): {
-        player.isMGO = false
         player.position = Positions.Court8
         if(state.court8.challengePlayerId !== null){
           player.isBeingChallenged = true
@@ -419,8 +411,6 @@ const gymSlice = createSlice({
         state.court1.players = state.court1.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
         player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
         state.benchPlayers.push(player)
         break
       }
@@ -438,8 +428,6 @@ const gymSlice = createSlice({
         state.court2.players = state.court2.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
         player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
         state.benchPlayers.push(player)
         break
       }
@@ -457,8 +445,6 @@ const gymSlice = createSlice({
         state.court3.players = state.court3.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
         player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
         state.benchPlayers.push(player)
         break
       }
@@ -476,8 +462,6 @@ const gymSlice = createSlice({
         state.court4.players = state.court4.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
         player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
         state.benchPlayers.push(player)
         break
       }
@@ -495,8 +479,6 @@ const gymSlice = createSlice({
         state.court5.players = state.court5.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
         player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
         state.benchPlayers.push(player)
         break
       }
@@ -514,8 +496,6 @@ const gymSlice = createSlice({
         state.court6.players = state.court6.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
         player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
         state.benchPlayers.push(player)
         break
       }
@@ -533,8 +513,6 @@ const gymSlice = createSlice({
         state.court7.players = state.court7.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
         player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
         state.benchPlayers.push(player)
         break
       }
@@ -552,8 +530,6 @@ const gymSlice = createSlice({
         state.court8.players = state.court8.players.filter(currentPlayer => currentPlayer.id !== player.id)
         player.position = Positions.Bench
         player.isBeingChallenged = false
-        player.isMGO = false
-        player.numRotationsOff = 0
         state.benchPlayers.push(player)
         break
       }

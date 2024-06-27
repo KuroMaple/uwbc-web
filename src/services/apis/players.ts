@@ -6,8 +6,8 @@ export const playersApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     addPlayersToSession: builder.mutation <IAddPlayerResponse, IAddPlayerRequest> ({
       query: (request) => ({
-        url: 'member_sessions/bulkadd_players_to_session/',
-        method: 'PATCH',
+        url: 'member_sessions/add_players_to_session/',
+        method: 'POST',
         body: request,
       }),
       invalidatesTags: ['Players', 'Members'],
