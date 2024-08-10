@@ -1,5 +1,6 @@
 import { http, HttpResponse } from 'msw'
-import {gymState, memberList} from './data'
+import IAddPlayersRequest from '../services/interfaces/IAddPlayersRequest'
+import { addMembers, gymState, memberList } from './data'
 
 
 export const handlers = [
@@ -16,16 +17,21 @@ export const handlers = [
   }),
 
   // POST request should have a body
-  http.post('http://127.0.0.1:8000/api/add_players_to_rotation', ({ request }) => {
+  http.post('http://127.0.0.1:8000/api/add_players_to_rotation', () => {
     // Not doing anything with request, just returning the same data
     // 201 player added status
     return HttpResponse.json(gymState, {status: 201})
   }),
 
   http.get('http://127.0.0.1:8000/api/members/get_active_members_not_in_session/?session=123', () => {
-    console.log('Fetching member List for session: ', 123)
     return HttpResponse.json(memberList, {status: 200})
-  })
+  }),
+
+  http.post('http://127.0.0.1:8000/api/member_sessions/add_players_to_session/', async ({ request }) => {
+    const requestBody = await request.json() as IAddPlayersRequest // To simulate backend, we access the request body
+    const newBenchPlayers = requestBody.currentBenchPlayers.concat(addMembers)
+    return HttpResponse.json({benchPlayers: newBenchPlayers}, {status: 200})
+  }),
 
 
 ]

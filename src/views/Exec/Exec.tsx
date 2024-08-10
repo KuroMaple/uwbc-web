@@ -11,7 +11,7 @@ import { Steps } from 'intro.js-react'
 import 'intro.js/introjs.css'
 import { syncGymState } from '../../app/redux/gymSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import SearchModal from '../../common/components/SearchModal/SearchModal'
+import AddPlayersModal from '../../common/components/AddPlayersModal/AddPlayersModal'
 import { RootState } from '../../app/redux/store'
 import { useGetGymStateQuery } from '../../services/apis/syncRedux'
 import PlayerCounter from '../../common/components/PlayerCounter/PlayerCounter'
@@ -111,7 +111,7 @@ const Exec = () => {
   
   return (
     <div className="flex flex-row h-screen p-2">
-      {modalOpen && <SearchModal />}
+      {modalOpen && <AddPlayersModal />}
       <Steps
         enabled={stepsEnabled}
         steps={steps}

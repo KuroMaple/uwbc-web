@@ -1,4 +1,4 @@
-import { Positions } from '../common/interfaces/IPlayer'
+import IPlayer, { Positions } from '../common/interfaces/IPlayer'
 import { IMember } from '../services/interfaces/IMember'
 
 
@@ -47,7 +47,7 @@ export const gymState = {
     
   ],
   court1: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [
       {
         id: 4,
@@ -100,7 +100,7 @@ export const gymState = {
     ],
   },
   court2: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [
       {
         id: 6,
@@ -129,7 +129,7 @@ export const gymState = {
     ],
   },
   court3: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [
       {
         id: 8,
@@ -158,7 +158,7 @@ export const gymState = {
     ],
   },
   court4: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [
       {
         id: 10,
@@ -187,7 +187,7 @@ export const gymState = {
     ],
   },
   court5: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [
       {
         id: 12,
@@ -216,7 +216,7 @@ export const gymState = {
     ],
   },
   court6: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [
       {
         id: 14,
@@ -245,7 +245,7 @@ export const gymState = {
     ],
   },
   court7: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [
       {
         id: 16,
@@ -274,7 +274,7 @@ export const gymState = {
     ],
   },
   court8: {
-    challengePlayerId: undefined,
+    challengePlayerId: null,
     players: [
       {
         id: 18,
@@ -303,8 +303,6 @@ export const gymState = {
     ],
   },
 }
-
-
 
 export const memberList: IMember[] = [
   {
@@ -367,5 +365,32 @@ export const memberList: IMember[] = [
     last_name: 'Thomas',
     email: 'laura.thomas@example.com'
   }
+]
+
+export const addMembers: IPlayer[] = [
+  {
+    id: 22,
+    sessionID: 123,
+    position: Positions.Bench,
+    isBeingChallenged: false,
+    isChallenging: false,
+    numRotationsOff: 2,
+    isMGO: false,
+    name: 'Added Player 1',
+    level: 5,
+    ticks: 0,
+  },
+  {
+    id: 23,
+    sessionID: 123,
+    position: Positions.Bench,
+    isBeingChallenged: false,
+    isChallenging: false,
+    numRotationsOff: 1,
+    isMGO: false,
+    name: 'Added Player 2',
+    level: 4,
+    ticks: 0,
+  },
 ]
 

@@ -1,13 +1,13 @@
 import { Box, Paper, Typography } from '@mui/material'
 import React, { useState } from 'react'
-import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import { useDrag } from 'react-dnd'
+import { useDispatch, useSelector } from 'react-redux'
 import { ItemTypes, itemDropType } from '../../../app/redux/DndTypes'
-import Chip from '../Chip/Chip'
-import { useDispatch, useSelector} from 'react-redux'
-import { ChipType } from '../Chip/types'
 import { deletePlayerFromBench, removeFromCourt, togglePlayerMGO } from '../../../app/redux/gymSlice'
 import { RootState } from '../../../app/redux/store'
+import IPlayer, { Positions } from '../../interfaces/IPlayer'
+import Chip from '../Chip/Chip'
+import { ChipType } from '../Chip/types'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -217,7 +217,7 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode } : 
           M{player.id}
         </Typography>
         <Typography sx={{ fontSize: 12, fontWeight: 'bold', position: 'absolute', left: '5px', bottom: '0px' }} color="text.secondary" gutterBottom>
-          {player.ticks}
+          {player.numRotationsOff}
         </Typography>
         <Box sx={{
           display: 'flex',
