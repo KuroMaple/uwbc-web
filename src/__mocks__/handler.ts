@@ -12,7 +12,7 @@ export const handlers = [
   http.post('http://127.0.0.1:8000/api/sessions/', () => {
     return HttpResponse.json({sessionId: 123})
   }),
-  http.get('http://127.0.0.1:8000/api/session/get_players_from_most_recent_session', () => {    
+  http.get('http://127.0.0.1:8000/api/member_sessions/get_players_from_most_recent_session', () => {    
     return HttpResponse.json(gymState)
   }),
 

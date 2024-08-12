@@ -5,6 +5,8 @@ import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
 import TuneIcon from '@mui/icons-material/Tune'
 import DeleteIcon from '@mui/icons-material/Delete'
+import AttachFileIcon from '@mui/icons-material/AttachFile'
+import CheckIcon from '@mui/icons-material/Check'
 import 'intro.js/introjs.css'
 
 type Props = {
@@ -12,9 +14,11 @@ type Props = {
   setFilterByMGO: React.Dispatch<React.SetStateAction<boolean>>
   deleteMode: boolean
   setDeleteMode: React.Dispatch<React.SetStateAction<boolean>>
+  linkMode: boolean
+  setLinkMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : Props) => {
+const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode, linkMode, setLinkMode } : Props) => {
 
   const dispatch = useDispatch()
   const handleModalOpen = () => dispatch(setModalOpen(true))
@@ -25,7 +29,7 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : P
     <Stack direction='row'>
       <IconButton
         onClick={handleModalOpen}
-        title='Add Player'
+        title='Add Players'
         id='add-player'>
         <AddToPhotosIcon/>
       </IconButton>
@@ -56,6 +60,7 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : P
         <TuneIcon/>
       </IconButton>
       <IconButton
+        title='Delete Mode'
         onClick={() => {
           if(!deleteMode){
             dispatch(
@@ -70,6 +75,7 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : P
           }
 
           setDeleteMode(!deleteMode)
+          setLinkMode(false) // Deactivate other modes
         }}
         sx={{
           backgroundColor: deleteMode ? '#e30000' : 'inherit',
@@ -80,6 +86,46 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : P
         }}
       >
         <DeleteIcon />
+      </IconButton>
+      <IconButton
+        title='Link Players'
+        onClick={() => {
+          if(deleteMode){
+            dispatch(
+              setSnackOpen(
+                {
+                  open: true,
+                  message: 'Can\'t open link mode while delete mode is active',
+                  severity: 'error'
+                }
+              ) 
+            )
+          }
+          else if(!linkMode){
+            dispatch(
+              setSnackOpen(
+                {
+                  open: true,
+                  message: 'Link mode activated',
+                  severity: 'info'
+                }
+              )
+            )
+            setLinkMode(!linkMode)
+          }
+
+          
+        }}
+        sx={{
+          backgroundColor: linkMode ? '#009fe3' : 'inherit',
+          color: linkMode ? '#FFFFFF' : '',
+          ':hover': {
+            backgroundColor: linkMode ? '#009fe3' : '#EAEAEA',
+          },
+        }}
+      >
+        <AttachFileIcon />
+        {/* <CheckIcon /> */}
       </IconButton>
     </Stack>
   )

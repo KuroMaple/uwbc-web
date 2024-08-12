@@ -8,6 +8,7 @@ import { RootState } from '../../../app/redux/store'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import Chip from '../Chip/Chip'
 import { ChipType } from '../Chip/types'
+import Checkbox from '../Checkbox/Checkbox'
 
 const setColor = (level: number) => {
   switch (level) {
@@ -34,9 +35,10 @@ type Props = {
   player: IPlayer 
   isFromChallengePanel: boolean
   deleteMode?: boolean
+  linkMode?: boolean
 }
 
-const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode } : Props) => {
+const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, linkMode } : Props) => {
   const dispatch = useDispatch() // Redux dispatch
   const [onCourt] = useState(player.position !== Positions.Bench && player.position !== Positions.Challenge)
   const challengePosition = useSelector((state: RootState) => state.gym.challengeQueue.findIndex((p) => p === player.id) + 1)
@@ -203,6 +205,27 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode } : 
         </Box>
       }
 
+      {linkMode &&
+        <Box sx={{
+          position: 'absolute',
+          top: '0px',
+          right: '0px',
+          zIndex: 2,
+
+          '&:hover': {
+            cursor: 'pointer',
+          },
+        }}
+        onClick={() => {
+          // dispatch(deletePlayerFromBench(
+          //   player.id
+          // ))
+          console.log('Player Link Checked / Unchecked') // UPDATE THIS
+        }}
+        >
+          <Checkbox />
+        </Box> 
+      }
 
       {/* Player Tag JSX Below*/}
       <Paper
