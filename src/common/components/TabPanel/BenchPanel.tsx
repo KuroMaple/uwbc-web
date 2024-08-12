@@ -12,7 +12,7 @@ const BenchPanel = () => {
   //States
   const [filterByMGO, setFilterByMGO] = useState(false)
   const [deleteMode, setDeleteMode] = useState(false)
-  const [linkMode, setLinkMode] = useState(false)
+  const [tagMode, setTagMode] = useState(false)
   const dispatch = useDispatch()
   const players = useSelector((state: RootState) => state.gym.benchPlayers)
 
@@ -41,16 +41,16 @@ const BenchPanel = () => {
   return (
     <div id='bench-players-tab' ref={drop} className="flex flex-col items-center justify-center h-full" >
       <Controls filterByMGO={filterByMGO} setFilterByMGO={setFilterByMGO} setDeleteMode={setDeleteMode} 
-        deleteMode={deleteMode} linkMode={linkMode} setLinkMode={setLinkMode}/>
+        deleteMode={deleteMode} tagMode={tagMode} setTagMode={setTagMode}/>
 
       <div className='h-TAB-PANEL-RATIO justify-center items-center'>
         {filterByMGO ? (
           players.filter((player: IPlayer) => player.isMGO).map((player) => (
-            <Player key={player.id} player={player} isFromChallengePanel={false} deleteMode={deleteMode} linkMode={linkMode} />
+            <Player key={player.id} player={player} isFromChallengePanel={false} deleteMode={deleteMode} tagMode={tagMode} />
           ))
         ) : (
           players.map((player) => (
-            <Player key={player.id} player={player} isFromChallengePanel={false} deleteMode={deleteMode} linkMode={linkMode} />
+            <Player key={player.id} player={player} isFromChallengePanel={false} deleteMode={deleteMode} tagMode={tagMode} />
           ))
         )}
         

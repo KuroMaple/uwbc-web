@@ -35,10 +35,10 @@ type Props = {
   player: IPlayer 
   isFromChallengePanel: boolean
   deleteMode?: boolean
-  linkMode?: boolean
+  tagMode?: boolean
 }
 
-const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, linkMode } : Props) => {
+const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, tagMode } : Props) => {
   const dispatch = useDispatch() // Redux dispatch
   const [onCourt] = useState(player.position !== Positions.Bench && player.position !== Positions.Challenge)
   const challengePosition = useSelector((state: RootState) => state.gym.challengeQueue.findIndex((p) => p === player.id) + 1)
@@ -205,7 +205,7 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, lin
         </Box>
       }
 
-      {linkMode &&
+      {tagMode &&
         <Box sx={{
           position: 'absolute',
           top: '0px',

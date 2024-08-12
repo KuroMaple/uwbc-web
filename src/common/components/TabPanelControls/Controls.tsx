@@ -14,11 +14,11 @@ type Props = {
   setFilterByMGO: React.Dispatch<React.SetStateAction<boolean>>
   deleteMode: boolean
   setDeleteMode: React.Dispatch<React.SetStateAction<boolean>>
-  linkMode: boolean
-  setLinkMode: React.Dispatch<React.SetStateAction<boolean>>
+  tagMode: boolean
+  setTagMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode, linkMode, setLinkMode } : Props) => {
+const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode, tagMode, setTagMode } : Props) => {
 
   const dispatch = useDispatch()
   const handleModalOpen = () => dispatch(setModalOpen(true))
@@ -75,7 +75,7 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode, link
           }
 
           setDeleteMode(!deleteMode)
-          setLinkMode(false) // Deactivate other modes
+          setTagMode(false) // Deactivate other modes
         }}
         sx={{
           backgroundColor: deleteMode ? '#e30000' : 'inherit',
@@ -88,39 +88,40 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode, link
         <DeleteIcon />
       </IconButton>
       <IconButton
-        title='Link Players'
+        title='Tag Players'
         onClick={() => {
           if(deleteMode){
             dispatch(
               setSnackOpen(
                 {
                   open: true,
-                  message: 'Can\'t open link mode while delete mode is active',
+                  message: 'Can\'t open Tag mode while delete mode is active',
                   severity: 'error'
                 }
               ) 
             )
+            return
           }
-          else if(!linkMode){
+          else if(!tagMode){
             dispatch(
               setSnackOpen(
                 {
                   open: true,
-                  message: 'Link mode activated',
+                  message: 'Tag mode activated',
                   severity: 'info'
                 }
               )
             )
-            setLinkMode(!linkMode)
           }
-
+          
+          setTagMode(!tagMode)
           
         }}
         sx={{
-          backgroundColor: linkMode ? '#009fe3' : 'inherit',
-          color: linkMode ? '#FFFFFF' : '',
+          backgroundColor: tagMode ? '#009fe3' : 'inherit',
+          color: tagMode ? '#FFFFFF' : '',
           ':hover': {
-            backgroundColor: linkMode ? '#009fe3' : '#EAEAEA',
+            backgroundColor: tagMode ? '#009fe3' : '#EAEAEA',
           },
         }}
       >
