@@ -1,0 +1,15 @@
+.tag-players-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.tag-players-list {
+  height: 80%;
+  display: grid;
+  grid-template-columns: repeat(3, 120px);
+  grid-auto-rows: 80px; 
+  column-gap: 10px;
+  row-gap: 15px;
+  overflow-y: auto;
+}

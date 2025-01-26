@@ -8,9 +8,10 @@ import { RootState } from '../../../app/redux/store'
 import IPlayer, { Positions } from '../../interfaces/IPlayer'
 import Chip from '../Chip/Chip'
 import { ChipType } from '../Chip/types'
-import Checkbox from '../Checkbox/Checkbox'
 
-const setColor = (level: number) => {
+
+// Set color of player tag based on level, exported for simplicity
+export const setColor = (level: number) => {
   switch (level) {
   case 1:
     return { backgroundColor: '#89EFB8' } // Lime green
@@ -35,10 +36,23 @@ type Props = {
   player: IPlayer 
   isFromChallengePanel: boolean
   deleteMode?: boolean
-  tagMode?: boolean
 }
 
-const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, tagMode } : Props) => {
+
+
+// Shortens the name to first name and first letter of last name if name is too long
+export const shortenNameToFirst = (playerName: string) => {
+  if(!playerName){ // Debugging
+    return 'No Name'
+  }
+  if (playerName.length < 10) {
+    return playerName
+  }
+  const nameArr = playerName.split(' ')
+  return nameArr[0] + ' ' + nameArr[1][0] + '.'
+}
+
+const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode } : Props) => {
   const dispatch = useDispatch() // Redux dispatch
   const [onCourt] = useState(player.position !== Positions.Bench && player.position !== Positions.Challenge)
   const challengePosition = useSelector((state: RootState) => state.gym.challengeQueue.findIndex((p) => p === player.id) + 1)
@@ -66,17 +80,6 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, tag
     }),
   }))
 
-  // Shortens the name to first name and first letter of last name if name is too long
-  const shortenNameToFirst = (playerName: string) => {
-    if(!playerName){ // Debugging
-      return 'No Name'
-    }
-    if (playerName.length < 10) {
-      return playerName
-    }
-    const nameArr = playerName.split(' ')
-    return nameArr[0] + ' ' + nameArr[1][0] + '.'
-  }
 
   // Removes player from court and places them in bench
   const removePlayerFromCourt = () => {
@@ -90,9 +93,10 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, tag
       )
     )
   }
-  
+
   // to remove player from vision when dragging
   if(isDragging){
+
     return <Box 
       sx={{
         width: '100%',
@@ -101,6 +105,7 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, tag
       }}
       ref={drag}/>
   }
+
 
   return (
     <Box
@@ -118,7 +123,7 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, tag
         }
       }
       onDoubleClick={() => {
-        if (player.position === Positions.Bench) { // MGO status should only be changed if player is on bench
+        if (player.position === Positions.Bench ) { // MGO status should only be changed if player is on bench
           dispatch(togglePlayerMGO(player.id))
         }
       }}
@@ -205,27 +210,6 @@ const Player: React.FC<Props> = ({ player, isFromChallengePanel, deleteMode, tag
         </Box>
       }
 
-      {tagMode &&
-        <Box sx={{
-          position: 'absolute',
-          top: '0px',
-          right: '0px',
-          zIndex: 2,
-
-          '&:hover': {
-            cursor: 'pointer',
-          },
-        }}
-        onClick={() => {
-          // dispatch(deletePlayerFromBench(
-          //   player.id
-          // ))
-          console.log('Player Link Checked / Unchecked') // UPDATE THIS
-        }}
-        >
-          <Checkbox />
-        </Box> 
-      }
 
       {/* Player Tag JSX Below*/}
       <Paper

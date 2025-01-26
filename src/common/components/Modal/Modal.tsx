@@ -15,7 +15,7 @@ const modalContentStyles: SxProps = {
   position: 'absolute' as const,
   top: '50%',
   left: '50%',
-  width: '400px',
+  width: '500px',
   height: '500px',
   bgcolor: 'background.paper',
   boxShadow: 20,

@@ -11,12 +11,12 @@ import { Steps } from 'intro.js-react'
 import 'intro.js/introjs.css'
 import { syncGymState } from '../../app/redux/gymSlice'
 import { useDispatch, useSelector } from 'react-redux'
-import AddPlayersModal from '../../common/components/AddPlayersModal/AddPlayersModal'
 import { RootState } from '../../app/redux/store'
 import { useGetGymStateQuery } from '../../services/apis/syncRedux'
 import PlayerCounter from '../../common/components/PlayerCounter/PlayerCounter'
 import './Exec.css'
 import Snackbar from '../../common/components/Snackbar/Snackbar'
+import ModalMapper from '../../common/components/ModalMapper/ModalMapper'
 
 
 const Exec = () => {
@@ -111,7 +111,7 @@ const Exec = () => {
   
   return (
     <div className="flex flex-row h-screen p-2">
-      {modalOpen && <AddPlayersModal />}
+      {modalOpen && <ModalMapper />}
       <Steps
         enabled={stepsEnabled}
         steps={steps}

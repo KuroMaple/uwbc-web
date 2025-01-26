@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux'
-import { setModalOpen, setSnackOpen } from '../../../app/redux/appUtilSlice'
+import { setModalMapId, setModalOpen, setSnackOpen } from '../../../app/redux/appUtilSlice'
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos'
 import IconButton from '@mui/material/IconButton'
 import { Stack } from '@mui/material'
@@ -14,21 +14,21 @@ type Props = {
   setFilterByMGO: React.Dispatch<React.SetStateAction<boolean>>
   deleteMode: boolean
   setDeleteMode: React.Dispatch<React.SetStateAction<boolean>>
-  tagMode: boolean
-  setTagMode: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode, tagMode, setTagMode } : Props) => {
+const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode } : Props) => {
 
   const dispatch = useDispatch()
-  const handleModalOpen = () => dispatch(setModalOpen(true))
-    
+  const handleModalOpen = (modalId: string) => {
+    dispatch(setModalMapId(modalId))
+    dispatch(setModalOpen(true))
+  }
   
   return (
     
     <Stack direction='row'>
       <IconButton
-        onClick={handleModalOpen}
+        onClick={() => handleModalOpen('AddPlayers')}
         title='Add Players'
         id='add-player'>
         <AddToPhotosIcon/>
@@ -75,7 +75,6 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode, tagM
           }
 
           setDeleteMode(!deleteMode)
-          setTagMode(false) // Deactivate other modes
         }}
         sx={{
           backgroundColor: deleteMode ? '#e30000' : 'inherit',
@@ -89,41 +88,14 @@ const Controls = ({ filterByMGO, setFilterByMGO, deleteMode, setDeleteMode, tagM
       </IconButton>
       <IconButton
         title='Tag Players'
-        onClick={() => {
-          if(deleteMode){
-            dispatch(
-              setSnackOpen(
-                {
-                  open: true,
-                  message: 'Can\'t open Tag mode while delete mode is active',
-                  severity: 'error'
-                }
-              ) 
-            )
-            return
-          }
-          else if(!tagMode){
-            dispatch(
-              setSnackOpen(
-                {
-                  open: true,
-                  message: 'Tag mode activated',
-                  severity: 'info'
-                }
-              )
-            )
-          }
-          
-          setTagMode(!tagMode)
-          
-        }}
-        sx={{
-          backgroundColor: tagMode ? '#009fe3' : 'inherit',
-          color: tagMode ? '#FFFFFF' : '',
-          ':hover': {
-            backgroundColor: tagMode ? '#009fe3' : '#EAEAEA',
-          },
-        }}
+        onClick={() => handleModalOpen('TagPlayers')}
+        // sx={{
+        //   backgroundColor: tagMode ? '#009fe3' : 'inherit',
+        //   color: tagMode ? '#FFFFFF' : '',
+        //   ':hover': {
+        //     backgroundColor: tagMode ? '#009fe3' : '#EAEAEA',
+        //   },
+        // }}
       >
         <AttachFileIcon />
         {/* <CheckIcon /> */}

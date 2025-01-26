@@ -24,3 +24,8 @@ export default interface IPlayer {
   level: number
   ticks: number
 }
+
+interface Group {
+  groupID: number
+  players: IPlayer[]
+}
