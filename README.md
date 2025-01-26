@@ -35,7 +35,8 @@ During each session, a team of club executives traditionally uses **physical pla
 ### Screenshots & Demos
 
 #### 1. **Court Management System**  
-_Showcases basic functionality of the app
+
+_Showcases basic functionality of the app_
 ![Court Management Demo Placeholder](https://i.imgur.com/5fMw4WO.gif)
 
 #### 2. **Interactive Tutorial**  
