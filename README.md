@@ -37,10 +37,10 @@ During each session, a team of club executives traditionally uses **physical pla
 #### 1. **Court Management System**  
 
 _Showcases basic functionality of the app_
-![Court Management Demo Placeholder](https://i.imgur.com/5fMw4WO.gif)
+![Court Management Demo Placeholder](/src/assets/uwbcWebFeatureDemo.gif)
 
 #### 2. **Interactive Tutorial**  
 _Guides users through the setup and main features of the app._  
-![Tutorial Placeholder](https://i.imgur.com/VGNmHZ0.gif)
+![Tutorial Placeholder](/src/assets/uwbcWebTutorialDemo.gif)
 
 ---
