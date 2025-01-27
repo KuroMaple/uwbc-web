@@ -1,11 +1,8 @@
 # UWBC Web App
 
 
-### Technology Stack
-
-- **Frontend:** React + TypeScript
-- **Styling:** Tailwind CSS + MUI Styling
-- **Backend:** Django REST Framework
+### Technologies Used
+![React](https://img.shields.io/badge/React-%2320232a.svg?&style=for-the-badge&logo=react&logoColor=61DAFB)![HTML5](https://img.shields.io/badge/HTML5-%23E34F26.svg?&style=for-the-badge&logo=html5&logoColor=white)![Python](https://img.shields.io/badge/Python-%232376D6.svg?&style=for-the-badge&logo=python&logoColor=white)![Django Rest Framework](https://img.shields.io/badge/Django%20Rest%20Framework-%23092E20.svg?&style=for-the-badge&logo=django&logoColor=white)![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-%2305B2A3.svg?&style=for-the-badge&logo=tailwindcss&logoColor=white)
 
 ## What's This?
 
